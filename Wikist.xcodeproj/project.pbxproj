@@ -1,0 +1,1502 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		841BA784262B22740083E19C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841BA783262B22740083E19C /* StoreKit.framework */; };
+		841BA786262B22820083E19C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841BA785262B22820083E19C /* StoreKit.framework */; };
+		841BA788262B22A80083E19C /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA787262B22A80083E19C /* Support.swift */; };
+		841BA789262B22A80083E19C /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA787262B22A80083E19C /* Support.swift */; };
+		841BA797262BD2C50083E19C /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA796262BD2C50083E19C /* SKProduct.swift */; };
+		841BA798262BD2C50083E19C /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA796262BD2C50083E19C /* SKProduct.swift */; };
+		843BF4112622BAAF0065D9FF /* WikistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FE2622BAAE0065D9FF /* WikistApp.swift */; };
+		843BF4122622BAAF0065D9FF /* WikistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FE2622BAAE0065D9FF /* WikistApp.swift */; };
+		843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FF2622BAAE0065D9FF /* ContentView.swift */; };
+		843BF4142622BAAF0065D9FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FF2622BAAE0065D9FF /* ContentView.swift */; };
+		843BF4152622BAAF0065D9FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843BF4002622BAAF0065D9FF /* Assets.xcassets */; };
+		843BF4162622BAAF0065D9FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843BF4002622BAAF0065D9FF /* Assets.xcassets */; };
+		843BF4232622BE070065D9FF /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4222622BE070065D9FF /* ContributionsMatrix.swift */; };
+		843BF4242622BE070065D9FF /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4222622BE070065D9FF /* ContributionsMatrix.swift */; };
+		843BF42A2622C2D70065D9FF /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4292622C2D70065D9FF /* UserList.swift */; };
+		843BF42B2622C2D70065D9FF /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4292622C2D70065D9FF /* UserList.swift */; };
+		843BF42F2622C3020065D9FF /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF42E2622C3020065D9FF /* UserListRow.swift */; };
+		843BF4302622C3020065D9FF /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF42E2622C3020065D9FF /* UserListRow.swift */; };
+		8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE35262BDF97003A3C47 /* WikistCommands.swift */; };
+		8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE4A262C08B0003A3C47 /* TipView.swift */; };
+		84AC6A4A26272B68000F2635 /* AppIconDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A4826272B68000F2635 /* AppIconDark@2x.png */; };
+		84AC6A4B26272B68000F2635 /* AppIconDark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A4926272B68000F2635 /* AppIconDark@3x.png */; };
+		84AC6A5326272C66000F2635 /* AppIconDark_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A5226272C66000F2635 /* AppIconDark_83.5@2x.png */; };
+		84AC6A7F262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
+		84AC6A80262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
+		84AC6A81262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
+		84AC6A82262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
+		84AC6A83262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
+		84AC6A84262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
+		84E030482622EA700054A01C /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030472622EA700054A01C /* AddView.swift */; };
+		84E030492622EA700054A01C /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030472622EA700054A01C /* AddView.swift */; };
+		84E0305E26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
+		84E0305F26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
+		84E030682623504F0054A01C /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
+		84E030692623504F0054A01C /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
+		84E0306C2623504F0054A01C /* WikiSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030642623504F0054A01C /* WikiSite.swift */; };
+		84E0306D2623504F0054A01C /* WikiSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030642623504F0054A01C /* WikiSite.swift */; };
+		84E030702623504F0054A01C /* WikiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030662623504F0054A01C /* WikiUser.swift */; };
+		84E030712623504F0054A01C /* WikiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030662623504F0054A01C /* WikiUser.swift */; };
+		84E0308A262355690054A01C /* Dia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03089262355690054A01C /* Dia.swift */; };
+		84E0308B262355690054A01C /* Dia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03089262355690054A01C /* Dia.swift */; };
+		84E03092262355AD0054A01C /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03091262355AD0054A01C /* FileManager.swift */; };
+		84E03093262355AD0054A01C /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03091262355AD0054A01C /* FileManager.swift */; };
+		84E0309C262358400054A01C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0309B262358400054A01C /* Date.swift */; };
+		84E0309D262358400054A01C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0309B262358400054A01C /* Date.swift */; };
+		84E030A3262358690054A01C /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030A2262358690054A01C /* Calendar.swift */; };
+		84E030A4262358690054A01C /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030A2262358690054A01C /* Calendar.swift */; };
+		84E030AC262372B00054A01C /* WikiSiteRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030AB262372B00054A01C /* WikiSiteRAW.swift */; };
+		84E030AD262372B00054A01C /* WikiSiteRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030AB262372B00054A01C /* WikiSiteRAW.swift */; };
+		84E030B1262375F00054A01C /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
+		84E030B2262375F00054A01C /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
+		84E030BF262380E20054A01C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030BE262380E20054A01C /* UserDetails.swift */; };
+		84E030C0262380E20054A01C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030BE262380E20054A01C /* UserDetails.swift */; };
+		84E030CB26242C360054A01C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030CA26242C360054A01C /* CardView.swift */; };
+		84E030CC26242C360054A01C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030CA26242C360054A01C /* CardView.swift */; };
+		84E030D42625AC530054A01C /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
+		84E030D52625AC530054A01C /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
+		84E030D92625BD3B0054A01C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
+		84E030DA2625BD3B0054A01C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
+		84E030E12625C3CF0054A01C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030E02625C3CF0054A01C /* CloudKit.framework */; };
+		84E030ED2625CD2B0054A01C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030EC2625CD2B0054A01C /* WidgetKit.framework */; };
+		84E030EF2625CD2B0054A01C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030EE2625CD2B0054A01C /* SwiftUI.framework */; };
+		84E030F22625CD2B0054A01C /* WikistWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030F12625CD2B0054A01C /* WikistWidgetBundle.swift */; };
+		84E030F82625CD2E0054A01C /* Widget Extension iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84E030EB2625CD2B0054A01C /* Widget Extension iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		84E031082625CE380054A01C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030EC2625CD2B0054A01C /* WidgetKit.framework */; };
+		84E031092625CE380054A01C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030EE2625CD2B0054A01C /* SwiftUI.framework */; };
+		84E031132625CE3B0054A01C /* Widget Extension macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84E031072625CE380054A01C /* Widget Extension macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		84E031272625CECC0054A01C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030E02625C3CF0054A01C /* CloudKit.framework */; };
+		84E0312D2625CEF20054A01C /* WikistWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030F12625CD2B0054A01C /* WikistWidgetBundle.swift */; };
+		84E031452625CF920054A01C /* ContributionsMatrixWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0313A2625CF600054A01C /* ContributionsMatrixWidget.swift */; };
+		84E031462625CF920054A01C /* ContributionsMatrixWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0313A2625CF600054A01C /* ContributionsMatrixWidget.swift */; };
+		84E0314F2625D13C0054A01C /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
+		84E031542625D13C0054A01C /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
+		84E031552625D13E0054A01C /* WikiSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030642623504F0054A01C /* WikiSite.swift */; };
+		84E0315A2625D13F0054A01C /* WikiSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030642623504F0054A01C /* WikiSite.swift */; };
+		84E0315F2625D1410054A01C /* WikiSiteRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030AB262372B00054A01C /* WikiSiteRAW.swift */; };
+		84E031642625D1410054A01C /* WikiSiteRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030AB262372B00054A01C /* WikiSiteRAW.swift */; };
+		84E031652625D1430054A01C /* WikiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030662623504F0054A01C /* WikiUser.swift */; };
+		84E0316A2625D1440054A01C /* WikiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030662623504F0054A01C /* WikiUser.swift */; };
+		84E0316B2625D1460054A01C /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
+		84E031702625D1460054A01C /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
+		84E031712625D1480054A01C /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
+		84E031762625D1490054A01C /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
+		84E0317B2625D14E0054A01C /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030A2262358690054A01C /* Calendar.swift */; };
+		84E031802625D14F0054A01C /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030A2262358690054A01C /* Calendar.swift */; };
+		84E031812625D1510054A01C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0309B262358400054A01C /* Date.swift */; };
+		84E031862625D1510054A01C /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0309B262358400054A01C /* Date.swift */; };
+		84E031872625D1530054A01C /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03091262355AD0054A01C /* FileManager.swift */; };
+		84E0318C2625D1530054A01C /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03091262355AD0054A01C /* FileManager.swift */; };
+		84E0318D2625D1550054A01C /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
+		84E031922625D1560054A01C /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
+		84E031932625D1570054A01C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
+		84E031982625D1580054A01C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
+		84E0319D2625D15D0054A01C /* Dia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03089262355690054A01C /* Dia.swift */; };
+		84E031A22625D15E0054A01C /* Dia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03089262355690054A01C /* Dia.swift */; };
+		84E031A72625D1640054A01C /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4222622BE070065D9FF /* ContributionsMatrix.swift */; };
+		84E031AC2625D1640054A01C /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4222622BE070065D9FF /* ContributionsMatrix.swift */; };
+		84E031BA2625E3080054A01C /* Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 84E031B92625E3080054A01C /* Widget.intentdefinition */; };
+		84E031BB2625E3080054A01C /* Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 84E031B92625E3080054A01C /* Widget.intentdefinition */; };
+		84E031C42625E79D0054A01C /* Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 84E031B92625E3080054A01C /* Widget.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		84E031C92625E79E0054A01C /* Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 84E031B92625E3080054A01C /* Widget.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
+		84EA11552625FD21002B7636 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA10C72625F75E002B7636 /* Intents.framework */; };
+		84EA115C2625FD21002B7636 /* WidgetConfiguration iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84EA11542625FD21002B7636 /* WidgetConfiguration iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		84EA11BC2625FE0D002B7636 /* Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 84E031B92625E3080054A01C /* Widget.intentdefinition */; };
+		84EA11D62626004D002B7636 /* Dia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03089262355690054A01C /* Dia.swift */; };
+		84EA11E426260052002B7636 /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
+		84EA11EC26260054002B7636 /* WikiSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030642623504F0054A01C /* WikiSite.swift */; };
+		84EA11F426260057002B7636 /* WikiSiteRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030AB262372B00054A01C /* WikiSiteRAW.swift */; };
+		84EA11FC26260059002B7636 /* WikiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030662623504F0054A01C /* WikiUser.swift */; };
+		84EA12042626005C002B7636 /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
+		84EA120C2626005F002B7636 /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
+		84EA1224262600B3002B7636 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030A2262358690054A01C /* Calendar.swift */; };
+		84EA122C262600B5002B7636 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03091262355AD0054A01C /* FileManager.swift */; };
+		84EA1234262600B7002B7636 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0309B262358400054A01C /* Date.swift */; };
+		84EA123C262600BA002B7636 /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
+		84EA1244262600BC002B7636 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
+		84EA134B2626974E002B7636 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA10C72625F75E002B7636 /* Intents.framework */; };
+		84EA13522626974E002B7636 /* WidgetConfiguration macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 84EA134A2626974E002B7636 /* WidgetConfiguration macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		84EA135D26269794002B7636 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA135C26269794002B7636 /* IntentHandler.swift */; };
+		84EA136A262697A4002B7636 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA135C26269794002B7636 /* IntentHandler.swift */; };
+		84EA137D262697D0002B7636 /* Widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 84E031B92625E3080054A01C /* Widget.intentdefinition */; };
+		84EA1384262697E3002B7636 /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
+		84EA138B262697E5002B7636 /* WikiSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030642623504F0054A01C /* WikiSite.swift */; };
+		84EA1392262697E7002B7636 /* WikiSiteRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030AB262372B00054A01C /* WikiSiteRAW.swift */; };
+		84EA1399262697EB002B7636 /* WikiUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030662623504F0054A01C /* WikiUser.swift */; };
+		84EA13A0262697EC002B7636 /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
+		84EA13A7262697EF002B7636 /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
+		84EA13AE262697F9002B7636 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030A2262358690054A01C /* Calendar.swift */; };
+		84EA13B5262697FB002B7636 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E0309B262358400054A01C /* Date.swift */; };
+		84EA13BC262697FD002B7636 /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
+		84EA13C3262697FF002B7636 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03091262355AD0054A01C /* FileManager.swift */; };
+		84EA13CA26269801002B7636 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
+		84EA13D826269835002B7636 /* Dia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E03089262355690054A01C /* Dia.swift */; };
+		84EA141B2626A423002B7636 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E030E02625C3CF0054A01C /* CloudKit.framework */; };
+		84EA14492626CD90002B7636 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA14482626CD90002B7636 /* PreferencesView.swift */; };
+		84EA14572626CF1E002B7636 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843BF4002622BAAF0065D9FF /* Assets.xcassets */; };
+		84EA145E2626CF1E002B7636 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843BF4002622BAAF0065D9FF /* Assets.xcassets */; };
+		84EA145F2626CF1F002B7636 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843BF4002622BAAF0065D9FF /* Assets.xcassets */; };
+		84EA14662626CF1F002B7636 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843BF4002622BAAF0065D9FF /* Assets.xcassets */; };
+		84F547652626F733002BE496 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F547642626F733002BE496 /* CloudKit.framework */; };
+		84F547662626F751002BE496 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F547642626F733002BE496 /* CloudKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84E030F62625CD2E0054A01C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84E030EA2625CD2B0054A01C;
+			remoteInfo = WidgetExtension;
+		};
+		84E031112625CE3B0054A01C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84E031062625CE380054A01C;
+			remoteInfo = WidgetExtension;
+		};
+		84EA115A2625FD21002B7636 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84EA11532625FD21002B7636;
+			remoteInfo = WidgetConfiguration;
+		};
+		84EA13502626974E002B7636 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84EA13492626974E002B7636;
+			remoteInfo = WidgetConfiguration;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84E030FC2625CD2E0054A01C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				84E030F82625CD2E0054A01C /* Widget Extension iOS.appex in Embed App Extensions */,
+				84EA115C2625FD21002B7636 /* WidgetConfiguration iOS.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E031172625CE3B0054A01C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				84E031132625CE3B0054A01C /* Widget Extension macOS.appex in Embed App Extensions */,
+				84EA13522626974E002B7636 /* WidgetConfiguration macOS.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		841BA783262B22740083E19C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		841BA785262B22820083E19C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		841BA787262B22A80083E19C /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
+		841BA796262BD2C50083E19C /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
+		843BF3FE2622BAAE0065D9FF /* WikistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistApp.swift; sourceTree = "<group>"; };
+		843BF3FF2622BAAE0065D9FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		843BF4002622BAAF0065D9FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		843BF4052622BAAF0065D9FF /* Wikist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wikist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		843BF4082622BAAF0065D9FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		843BF40D2622BAAF0065D9FF /* Wikist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wikist.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		843BF40F2622BAAF0065D9FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		843BF4102622BAAF0065D9FF /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		843BF4222622BE070065D9FF /* ContributionsMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsMatrix.swift; sourceTree = "<group>"; };
+		843BF4292622C2D70065D9FF /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
+		843BF42E2622C3020065D9FF /* UserListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRow.swift; sourceTree = "<group>"; };
+		8448332D262C1AFB00839DC2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		84483346262C1B6600839DC2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		84483348262C1B9800839DC2 /* pre-build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "pre-build.sh"; sourceTree = "<group>"; };
+		8464CE35262BDF97003A3C47 /* WikistCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistCommands.swift; sourceTree = "<group>"; };
+		8464CE4A262C08B0003A3C47 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
+		84AC6A4826272B68000F2635 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
+		84AC6A4926272B68000F2635 /* AppIconDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@3x.png"; sourceTree = "<group>"; };
+		84AC6A5226272C66000F2635 /* AppIconDark_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark_83.5@2x.png"; sourceTree = "<group>"; };
+		84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyContributionRAW.swift; sourceTree = "<group>"; };
+		84E030472622EA700054A01C /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
+		84E0305D26234E6D0054A01C /* Wikist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Wikist.xcdatamodel; sourceTree = "<group>"; };
+		84E030622623504F0054A01C /* DailyContribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyContribution.swift; sourceTree = "<group>"; };
+		84E030642623504F0054A01C /* WikiSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiSite.swift; sourceTree = "<group>"; };
+		84E030662623504F0054A01C /* WikiUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiUser.swift; sourceTree = "<group>"; };
+		84E03089262355690054A01C /* Dia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dia.swift; sourceTree = "<group>"; };
+		84E03091262355AD0054A01C /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		84E03098262355FD0054A01C /* Wikist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wikist.entitlements; sourceTree = "<group>"; };
+		84E0309B262358400054A01C /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		84E030A2262358690054A01C /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		84E030AB262372B00054A01C /* WikiSiteRAW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiSiteRAW.swift; sourceTree = "<group>"; };
+		84E030B0262375F00054A01C /* WikiUserRAW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiUserRAW.swift; sourceTree = "<group>"; };
+		84E030BE262380E20054A01C /* UserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
+		84E030CA26242C360054A01C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
+		84E030D82625BD3B0054A01C /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		84E030E02625C3CF0054A01C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		84E030EB2625CD2B0054A01C /* Widget Extension iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Widget Extension iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84E030EC2625CD2B0054A01C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		84E030EE2625CD2B0054A01C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		84E030F12625CD2B0054A01C /* WikistWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistWidgetBundle.swift; sourceTree = "<group>"; };
+		84E030F52625CD2E0054A01C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84E031002625CD740054A01C /* Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
+		84E031072625CE380054A01C /* Widget Extension macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Widget Extension macOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84E0310F2625CE3B0054A01C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84E031102625CE3B0054A01C /* Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
+		84E0313A2625CF600054A01C /* ContributionsMatrixWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsMatrixWidget.swift; sourceTree = "<group>"; };
+		84E031B92625E3080054A01C /* Widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Widget.intentdefinition; sourceTree = "<group>"; };
+		84EA10C72625F75E002B7636 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		84EA11542625FD21002B7636 /* WidgetConfiguration iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "WidgetConfiguration iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84EA11592625FD21002B7636 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84EA121A2626006A002B7636 /* WidgetConfiguration iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WidgetConfiguration iOS.entitlements"; sourceTree = "<group>"; };
+		84EA121B26260078002B7636 /* WidgetConfiguration macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WidgetConfiguration macOS.entitlements"; sourceTree = "<group>"; };
+		84EA134A2626974E002B7636 /* WidgetConfiguration macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "WidgetConfiguration macOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84EA134F2626974E002B7636 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84EA135C26269794002B7636 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		84EA14482626CD90002B7636 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		84F547642626F733002BE496 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		843BF4022622BAAF0065D9FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				841BA784262B22740083E19C /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		843BF40A2622BAAF0065D9FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E030E12625C3CF0054A01C /* CloudKit.framework in Frameworks */,
+				841BA786262B22820083E19C /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E030E82625CD2B0054A01C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84F547662626F751002BE496 /* CloudKit.framework in Frameworks */,
+				84E030EF2625CD2B0054A01C /* SwiftUI.framework in Frameworks */,
+				84E030ED2625CD2B0054A01C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E031042625CE380054A01C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E031272625CECC0054A01C /* CloudKit.framework in Frameworks */,
+				84E031092625CE380054A01C /* SwiftUI.framework in Frameworks */,
+				84E031082625CE380054A01C /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EA11512625FD21002B7636 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA11552625FD21002B7636 /* Intents.framework in Frameworks */,
+				84F547652626F733002BE496 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EA13472626974E002B7636 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA134B2626974E002B7636 /* Intents.framework in Frameworks */,
+				84EA141B2626A423002B7636 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		843BF3F82622BAAE0065D9FF = {
+			isa = PBXGroup;
+			children = (
+				84483346262C1B6600839DC2 /* LICENSE */,
+				8448332D262C1AFB00839DC2 /* README.md */,
+				84E030DD2625C39A0054A01C /* Frameworks */,
+				843BF4072622BAAF0065D9FF /* iOS */,
+				843BF40E2622BAAF0065D9FF /* macOS */,
+				843BF4062622BAAF0065D9FF /* Products */,
+				84483347262C1B7B00839DC2 /* Scripts */,
+				843BF3FD2622BAAE0065D9FF /* Shared */,
+				84E030E42625C98C0054A01C /* Widget */,
+			);
+			sourceTree = "<group>";
+		};
+		843BF3FD2622BAAE0065D9FF /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				843BF3FE2622BAAE0065D9FF /* WikistApp.swift */,
+				843BF4002622BAAF0065D9FF /* Assets.xcassets */,
+				84AC6A41262728D4000F2635 /* AppIcons */,
+				84E030382622D4D80054A01C /* Data */,
+				84E030902623559D0054A01C /* Extensions */,
+				84E03088262355570054A01C /* Services */,
+				843BF4212622BDDA0065D9FF /* Views */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		843BF4062622BAAF0065D9FF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				843BF4052622BAAF0065D9FF /* Wikist.app */,
+				843BF40D2622BAAF0065D9FF /* Wikist.app */,
+				84E030EB2625CD2B0054A01C /* Widget Extension iOS.appex */,
+				84E031072625CE380054A01C /* Widget Extension macOS.appex */,
+				84EA11542625FD21002B7636 /* WidgetConfiguration iOS.appex */,
+				84EA134A2626974E002B7636 /* WidgetConfiguration macOS.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		843BF4072622BAAF0065D9FF /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				84E03098262355FD0054A01C /* Wikist.entitlements */,
+				843BF4082622BAAF0065D9FF /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		843BF40E2622BAAF0065D9FF /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				843BF4102622BAAF0065D9FF /* macOS.entitlements */,
+				843BF40F2622BAAF0065D9FF /* Info.plist */,
+				8464CE35262BDF97003A3C47 /* WikistCommands.swift */,
+				8464CE49262C089D003A3C47 /* Views */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		843BF4212622BDDA0065D9FF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84E030472622EA700054A01C /* AddView.swift */,
+				843BF3FF2622BAAE0065D9FF /* ContentView.swift */,
+				843BF4222622BE070065D9FF /* ContributionsMatrix.swift */,
+				84EA14482626CD90002B7636 /* PreferencesView.swift */,
+				84E030BE262380E20054A01C /* UserDetails.swift */,
+				843BF4292622C2D70065D9FF /* UserList.swift */,
+				843BF42E2622C3020065D9FF /* UserListRow.swift */,
+				84E030C926242C130054A01C /* Basic */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84483347262C1B7B00839DC2 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				84483348262C1B9800839DC2 /* pre-build.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		8464CE49262C089D003A3C47 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8464CE4A262C08B0003A3C47 /* TipView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84AC6A41262728D4000F2635 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				84AC6A4826272B68000F2635 /* AppIconDark@2x.png */,
+				84AC6A4926272B68000F2635 /* AppIconDark@3x.png */,
+				84AC6A5226272C66000F2635 /* AppIconDark_83.5@2x.png */,
+			);
+			path = AppIcons;
+			sourceTree = "<group>";
+		};
+		84E030382622D4D80054A01C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				84E030622623504F0054A01C /* DailyContribution.swift */,
+				84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */,
+				84E030642623504F0054A01C /* WikiSite.swift */,
+				84E030AB262372B00054A01C /* WikiSiteRAW.swift */,
+				84E030662623504F0054A01C /* WikiUser.swift */,
+				84E030B0262375F00054A01C /* WikiUserRAW.swift */,
+				84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		84E03088262355570054A01C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				84E03089262355690054A01C /* Dia.swift */,
+				841BA787262B22A80083E19C /* Support.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		84E030902623559D0054A01C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				84E030A2262358690054A01C /* Calendar.swift */,
+				84E0309B262358400054A01C /* Date.swift */,
+				84E03091262355AD0054A01C /* FileManager.swift */,
+				84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */,
+				841BA796262BD2C50083E19C /* SKProduct.swift */,
+				84E030D82625BD3B0054A01C /* URL.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		84E030C926242C130054A01C /* Basic */ = {
+			isa = PBXGroup;
+			children = (
+				84E030CA26242C360054A01C /* CardView.swift */,
+			);
+			path = Basic;
+			sourceTree = "<group>";
+		};
+		84E030DD2625C39A0054A01C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				841BA785262B22820083E19C /* StoreKit.framework */,
+				841BA783262B22740083E19C /* StoreKit.framework */,
+				84E030E02625C3CF0054A01C /* CloudKit.framework */,
+				84F547642626F733002BE496 /* CloudKit.framework */,
+				84E030EC2625CD2B0054A01C /* WidgetKit.framework */,
+				84E030EE2625CD2B0054A01C /* SwiftUI.framework */,
+				84EA10C72625F75E002B7636 /* Intents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		84E030E42625C98C0054A01C /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				84EA11652625FD3B002B7636 /* Intents */,
+				84E031022625CDF30054A01C /* iOS */,
+				84E031262625CEA70054A01C /* macOS */,
+				84E031282625CEE30054A01C /* Shared */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		84E031022625CDF30054A01C /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				84E031002625CD740054A01C /* Widget.entitlements */,
+				84E030F52625CD2E0054A01C /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		84E031262625CEA70054A01C /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				84E031102625CE3B0054A01C /* Widget.entitlements */,
+				84E0310F2625CE3B0054A01C /* Info.plist */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		84E031282625CEE30054A01C /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				84E0313A2625CF600054A01C /* ContributionsMatrixWidget.swift */,
+				84E030F12625CD2B0054A01C /* WikistWidgetBundle.swift */,
+				84E031B92625E3080054A01C /* Widget.intentdefinition */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		84EA11562625FD21002B7636 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				84EA121A2626006A002B7636 /* WidgetConfiguration iOS.entitlements */,
+				84EA11592625FD21002B7636 /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		84EA11652625FD3B002B7636 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				84EA11562625FD21002B7636 /* iOS */,
+				84EA11762625FDB6002B7636 /* macOS */,
+				84EA11922625FDE3002B7636 /* Shared */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		84EA11762625FDB6002B7636 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				84EA121B26260078002B7636 /* WidgetConfiguration macOS.entitlements */,
+				84EA134F2626974E002B7636 /* Info.plist */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		84EA11922625FDE3002B7636 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				84EA135C26269794002B7636 /* IntentHandler.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		843BF4042622BAAF0065D9FF /* iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 843BF4192622BAAF0065D9FF /* Build configuration list for PBXNativeTarget "iOS" */;
+			buildPhases = (
+				843BF4012622BAAF0065D9FF /* Sources */,
+				843BF4022622BAAF0065D9FF /* Frameworks */,
+				843BF4032622BAAF0065D9FF /* Resources */,
+				84E030FC2625CD2E0054A01C /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84E030F72625CD2E0054A01C /* PBXTargetDependency */,
+				84EA115B2625FD21002B7636 /* PBXTargetDependency */,
+			);
+			name = iOS;
+			productName = "Wikist (iOS)";
+			productReference = 843BF4052622BAAF0065D9FF /* Wikist.app */;
+			productType = "com.apple.product-type.application";
+		};
+		843BF40C2622BAAF0065D9FF /* macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 843BF41C2622BAAF0065D9FF /* Build configuration list for PBXNativeTarget "macOS" */;
+			buildPhases = (
+				843BF4092622BAAF0065D9FF /* Sources */,
+				843BF40A2622BAAF0065D9FF /* Frameworks */,
+				843BF40B2622BAAF0065D9FF /* Resources */,
+				84E031172625CE3B0054A01C /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84E031122625CE3B0054A01C /* PBXTargetDependency */,
+				84EA13512626974E002B7636 /* PBXTargetDependency */,
+			);
+			name = macOS;
+			productName = "Wikist (macOS)";
+			productReference = 843BF40D2622BAAF0065D9FF /* Wikist.app */;
+			productType = "com.apple.product-type.application";
+		};
+		84E030EA2625CD2B0054A01C /* Widget Extension iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84E030F92625CD2E0054A01C /* Build configuration list for PBXNativeTarget "Widget Extension iOS" */;
+			buildPhases = (
+				84E030E72625CD2B0054A01C /* Sources */,
+				84E030E82625CD2B0054A01C /* Frameworks */,
+				84E030E92625CD2B0054A01C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Widget Extension iOS";
+			productName = WidgetExtension;
+			productReference = 84E030EB2625CD2B0054A01C /* Widget Extension iOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		84E031062625CE380054A01C /* Widget Extension macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84E031142625CE3B0054A01C /* Build configuration list for PBXNativeTarget "Widget Extension macOS" */;
+			buildPhases = (
+				84E031032625CE380054A01C /* Sources */,
+				84E031042625CE380054A01C /* Frameworks */,
+				84E031052625CE380054A01C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Widget Extension macOS";
+			productName = WidgetExtension;
+			productReference = 84E031072625CE380054A01C /* Widget Extension macOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		84EA11532625FD21002B7636 /* WidgetConfiguration iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84EA115D2625FD21002B7636 /* Build configuration list for PBXNativeTarget "WidgetConfiguration iOS" */;
+			buildPhases = (
+				84EA11502625FD21002B7636 /* Sources */,
+				84EA11512625FD21002B7636 /* Frameworks */,
+				84EA11522625FD21002B7636 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WidgetConfiguration iOS";
+			productName = WidgetConfiguration;
+			productReference = 84EA11542625FD21002B7636 /* WidgetConfiguration iOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		84EA13492626974E002B7636 /* WidgetConfiguration macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84EA13532626974E002B7636 /* Build configuration list for PBXNativeTarget "WidgetConfiguration macOS" */;
+			buildPhases = (
+				84EA13462626974E002B7636 /* Sources */,
+				84EA13472626974E002B7636 /* Frameworks */,
+				84EA13482626974E002B7636 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WidgetConfiguration macOS";
+			productName = WidgetConfiguration;
+			productReference = 84EA134A2626974E002B7636 /* WidgetConfiguration macOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		843BF3F92622BAAE0065D9FF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					843BF4042622BAAF0065D9FF = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					843BF40C2622BAAF0065D9FF = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					84E030EA2625CD2B0054A01C = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					84E031062625CE380054A01C = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					84EA11532625FD21002B7636 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					84EA13492626974E002B7636 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 843BF3FC2622BAAE0065D9FF /* Build configuration list for PBXProject "Wikist" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 843BF3F82622BAAE0065D9FF;
+			productRefGroup = 843BF4062622BAAF0065D9FF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				843BF4042622BAAF0065D9FF /* iOS */,
+				843BF40C2622BAAF0065D9FF /* macOS */,
+				84E030EA2625CD2B0054A01C /* Widget Extension iOS */,
+				84E031062625CE380054A01C /* Widget Extension macOS */,
+				84EA11532625FD21002B7636 /* WidgetConfiguration iOS */,
+				84EA13492626974E002B7636 /* WidgetConfiguration macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		843BF4032622BAAF0065D9FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				843BF4152622BAAF0065D9FF /* Assets.xcassets in Resources */,
+				84AC6A5326272C66000F2635 /* AppIconDark_83.5@2x.png in Resources */,
+				84AC6A4B26272B68000F2635 /* AppIconDark@3x.png in Resources */,
+				84AC6A4A26272B68000F2635 /* AppIconDark@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		843BF40B2622BAAF0065D9FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				843BF4162622BAAF0065D9FF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E030E92625CD2B0054A01C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA14572626CF1E002B7636 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E031052625CE380054A01C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA145E2626CF1E002B7636 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EA11522625FD21002B7636 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA145F2626CF1F002B7636 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EA13482626974E002B7636 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA14662626CF1F002B7636 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		843BF4012622BAAF0065D9FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E030AC262372B00054A01C /* WikiSiteRAW.swift in Sources */,
+				84E030482622EA700054A01C /* AddView.swift in Sources */,
+				84E031C42625E79D0054A01C /* Widget.intentdefinition in Sources */,
+				843BF4232622BE070065D9FF /* ContributionsMatrix.swift in Sources */,
+				84E0306C2623504F0054A01C /* WikiSite.swift in Sources */,
+				841BA788262B22A80083E19C /* Support.swift in Sources */,
+				84E03092262355AD0054A01C /* FileManager.swift in Sources */,
+				84E0305E26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */,
+				843BF42A2622C2D70065D9FF /* UserList.swift in Sources */,
+				841BA797262BD2C50083E19C /* SKProduct.swift in Sources */,
+				84E030682623504F0054A01C /* DailyContribution.swift in Sources */,
+				843BF42F2622C3020065D9FF /* UserListRow.swift in Sources */,
+				84E030CB26242C360054A01C /* CardView.swift in Sources */,
+				84E030B1262375F00054A01C /* WikiUserRAW.swift in Sources */,
+				843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */,
+				84E030702623504F0054A01C /* WikiUser.swift in Sources */,
+				84E030D42625AC530054A01C /* ISO8601DateFormatter.swift in Sources */,
+				843BF4112622BAAF0065D9FF /* WikistApp.swift in Sources */,
+				84E030D92625BD3B0054A01C /* URL.swift in Sources */,
+				84E0309C262358400054A01C /* Date.swift in Sources */,
+				84E0308A262355690054A01C /* Dia.swift in Sources */,
+				84E030BF262380E20054A01C /* UserDetails.swift in Sources */,
+				84E030A3262358690054A01C /* Calendar.swift in Sources */,
+				84AC6A7F262885F9000F2635 /* DailyContributionRAW.swift in Sources */,
+				84EA14492626CD90002B7636 /* PreferencesView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		843BF4092622BAAF0065D9FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E030AD262372B00054A01C /* WikiSiteRAW.swift in Sources */,
+				841BA798262BD2C50083E19C /* SKProduct.swift in Sources */,
+				84E030492622EA700054A01C /* AddView.swift in Sources */,
+				84E031C92625E79E0054A01C /* Widget.intentdefinition in Sources */,
+				843BF4242622BE070065D9FF /* ContributionsMatrix.swift in Sources */,
+				84E0306D2623504F0054A01C /* WikiSite.swift in Sources */,
+				84E03093262355AD0054A01C /* FileManager.swift in Sources */,
+				84E0305F26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */,
+				843BF42B2622C2D70065D9FF /* UserList.swift in Sources */,
+				84E030692623504F0054A01C /* DailyContribution.swift in Sources */,
+				8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */,
+				841BA789262B22A80083E19C /* Support.swift in Sources */,
+				843BF4302622C3020065D9FF /* UserListRow.swift in Sources */,
+				84E030CC26242C360054A01C /* CardView.swift in Sources */,
+				8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */,
+				84E030B2262375F00054A01C /* WikiUserRAW.swift in Sources */,
+				843BF4142622BAAF0065D9FF /* ContentView.swift in Sources */,
+				84E030712623504F0054A01C /* WikiUser.swift in Sources */,
+				84E030D52625AC530054A01C /* ISO8601DateFormatter.swift in Sources */,
+				843BF4122622BAAF0065D9FF /* WikistApp.swift in Sources */,
+				84E030DA2625BD3B0054A01C /* URL.swift in Sources */,
+				84E0309D262358400054A01C /* Date.swift in Sources */,
+				84E0308B262355690054A01C /* Dia.swift in Sources */,
+				84E030C0262380E20054A01C /* UserDetails.swift in Sources */,
+				84AC6A80262885F9000F2635 /* DailyContributionRAW.swift in Sources */,
+				84E030A4262358690054A01C /* Calendar.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E030E72625CD2B0054A01C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E0315F2625D1410054A01C /* WikiSiteRAW.swift in Sources */,
+				84E0318D2625D1550054A01C /* ISO8601DateFormatter.swift in Sources */,
+				84E031812625D1510054A01C /* Date.swift in Sources */,
+				84E0317B2625D14E0054A01C /* Calendar.swift in Sources */,
+				84E0314F2625D13C0054A01C /* DailyContribution.swift in Sources */,
+				84E031932625D1570054A01C /* URL.swift in Sources */,
+				84E031A72625D1640054A01C /* ContributionsMatrix.swift in Sources */,
+				84E031652625D1430054A01C /* WikiUser.swift in Sources */,
+				84E0316B2625D1460054A01C /* WikiUserRAW.swift in Sources */,
+				84E030F22625CD2B0054A01C /* WikistWidgetBundle.swift in Sources */,
+				84E031872625D1530054A01C /* FileManager.swift in Sources */,
+				84E0319D2625D15D0054A01C /* Dia.swift in Sources */,
+				84E031552625D13E0054A01C /* WikiSite.swift in Sources */,
+				84E031712625D1480054A01C /* Wikist.xcdatamodeld in Sources */,
+				84E031452625CF920054A01C /* ContributionsMatrixWidget.swift in Sources */,
+				84AC6A81262885F9000F2635 /* DailyContributionRAW.swift in Sources */,
+				84E031BA2625E3080054A01C /* Widget.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E031032625CE380054A01C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E031642625D1410054A01C /* WikiSiteRAW.swift in Sources */,
+				84E031922625D1560054A01C /* ISO8601DateFormatter.swift in Sources */,
+				84E031862625D1510054A01C /* Date.swift in Sources */,
+				84E031802625D14F0054A01C /* Calendar.swift in Sources */,
+				84E031542625D13C0054A01C /* DailyContribution.swift in Sources */,
+				84E031982625D1580054A01C /* URL.swift in Sources */,
+				84E031AC2625D1640054A01C /* ContributionsMatrix.swift in Sources */,
+				84E0316A2625D1440054A01C /* WikiUser.swift in Sources */,
+				84E031702625D1460054A01C /* WikiUserRAW.swift in Sources */,
+				84E0312D2625CEF20054A01C /* WikistWidgetBundle.swift in Sources */,
+				84E0318C2625D1530054A01C /* FileManager.swift in Sources */,
+				84E031A22625D15E0054A01C /* Dia.swift in Sources */,
+				84E0315A2625D13F0054A01C /* WikiSite.swift in Sources */,
+				84E031762625D1490054A01C /* Wikist.xcdatamodeld in Sources */,
+				84E031462625CF920054A01C /* ContributionsMatrixWidget.swift in Sources */,
+				84AC6A82262885F9000F2635 /* DailyContributionRAW.swift in Sources */,
+				84E031BB2625E3080054A01C /* Widget.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EA11502625FD21002B7636 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA11BC2625FE0D002B7636 /* Widget.intentdefinition in Sources */,
+				84EA12042626005C002B7636 /* WikiUserRAW.swift in Sources */,
+				84EA120C2626005F002B7636 /* Wikist.xcdatamodeld in Sources */,
+				84EA1244262600BC002B7636 /* URL.swift in Sources */,
+				84EA11E426260052002B7636 /* DailyContribution.swift in Sources */,
+				84EA11FC26260059002B7636 /* WikiUser.swift in Sources */,
+				84EA11F426260057002B7636 /* WikiSiteRAW.swift in Sources */,
+				84EA1234262600B7002B7636 /* Date.swift in Sources */,
+				84EA122C262600B5002B7636 /* FileManager.swift in Sources */,
+				84EA135D26269794002B7636 /* IntentHandler.swift in Sources */,
+				84EA11D62626004D002B7636 /* Dia.swift in Sources */,
+				84EA11EC26260054002B7636 /* WikiSite.swift in Sources */,
+				84AC6A83262885F9000F2635 /* DailyContributionRAW.swift in Sources */,
+				84EA1224262600B3002B7636 /* Calendar.swift in Sources */,
+				84EA123C262600BA002B7636 /* ISO8601DateFormatter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84EA13462626974E002B7636 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84EA136A262697A4002B7636 /* IntentHandler.swift in Sources */,
+				84EA13BC262697FD002B7636 /* ISO8601DateFormatter.swift in Sources */,
+				84EA13A0262697EC002B7636 /* WikiUserRAW.swift in Sources */,
+				84EA13CA26269801002B7636 /* URL.swift in Sources */,
+				84EA13A7262697EF002B7636 /* Wikist.xcdatamodeld in Sources */,
+				84EA1384262697E3002B7636 /* DailyContribution.swift in Sources */,
+				84EA1399262697EB002B7636 /* WikiUser.swift in Sources */,
+				84EA13D826269835002B7636 /* Dia.swift in Sources */,
+				84EA1392262697E7002B7636 /* WikiSiteRAW.swift in Sources */,
+				84EA13C3262697FF002B7636 /* FileManager.swift in Sources */,
+				84EA137D262697D0002B7636 /* Widget.intentdefinition in Sources */,
+				84EA13B5262697FB002B7636 /* Date.swift in Sources */,
+				84AC6A84262885F9000F2635 /* DailyContributionRAW.swift in Sources */,
+				84EA138B262697E5002B7636 /* WikiSite.swift in Sources */,
+				84EA13AE262697F9002B7636 /* Calendar.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84E030F72625CD2E0054A01C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84E030EA2625CD2B0054A01C /* Widget Extension iOS */;
+			targetProxy = 84E030F62625CD2E0054A01C /* PBXContainerItemProxy */;
+		};
+		84E031122625CE3B0054A01C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84E031062625CE380054A01C /* Widget Extension macOS */;
+			targetProxy = 84E031112625CE3B0054A01C /* PBXContainerItemProxy */;
+		};
+		84EA115B2625FD21002B7636 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84EA11532625FD21002B7636 /* WidgetConfiguration iOS */;
+			targetProxy = 84EA115A2625FD21002B7636 /* PBXContainerItemProxy */;
+		};
+		84EA13512626974E002B7636 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84EA13492626974E002B7636 /* WidgetConfiguration macOS */;
+			targetProxy = 84EA13502626974E002B7636 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		843BF4172622BAAF0065D9FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		843BF4182622BAAF0065D9FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		843BF41A2622BAAF0065D9FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/WIkist.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist;
+				PRODUCT_NAME = Wikist;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		843BF41B2622BAAF0065D9FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/WIkist.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist;
+				PRODUCT_NAME = Wikist;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		843BF41D2622BAAF0065D9FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist;
+				PRODUCT_NAME = Wikist;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		843BF41E2622BAAF0065D9FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist;
+				PRODUCT_NAME = Wikist;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		84E030FA2625CD2E0054A01C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/iOS/Widget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				INFOPLIST_FILE = Widget/iOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84E030FB2625CD2E0054A01C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/iOS/Widget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				INFOPLIST_FILE = Widget/iOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		84E031152625CE3B0054A01C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/macOS/Widget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Widget/macOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		84E031162625CE3B0054A01C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = Widget/macOS/Widget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Widget/macOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		84EA115E2625FD21002B7636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Widget/Intents/iOS/WidgetConfiguration iOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				INFOPLIST_FILE = Widget/Intents/iOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.WidgetConfiguration;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84EA115F2625FD21002B7636 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Widget/Intents/iOS/WidgetConfiguration iOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				INFOPLIST_FILE = Widget/Intents/iOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.WidgetConfiguration;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		84EA13542626974E002B7636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Widget/Intents/macOS/WidgetConfiguration macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Widget/Intents/macOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.WidgetConfiguration;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		84EA13552626974E002B7636 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Widget/Intents/macOS/WidgetConfiguration macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = GIT_COMMIT_COUNT;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Widget/Intents/macOS/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Shared/info_plist_preprocessor.h;
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.lucka.Wikist.WidgetConfiguration;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		843BF3FC2622BAAE0065D9FF /* Build configuration list for PBXProject "Wikist" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				843BF4172622BAAF0065D9FF /* Debug */,
+				843BF4182622BAAF0065D9FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		843BF4192622BAAF0065D9FF /* Build configuration list for PBXNativeTarget "iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				843BF41A2622BAAF0065D9FF /* Debug */,
+				843BF41B2622BAAF0065D9FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		843BF41C2622BAAF0065D9FF /* Build configuration list for PBXNativeTarget "macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				843BF41D2622BAAF0065D9FF /* Debug */,
+				843BF41E2622BAAF0065D9FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84E030F92625CD2E0054A01C /* Build configuration list for PBXNativeTarget "Widget Extension iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84E030FA2625CD2E0054A01C /* Debug */,
+				84E030FB2625CD2E0054A01C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84E031142625CE3B0054A01C /* Build configuration list for PBXNativeTarget "Widget Extension macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84E031152625CE3B0054A01C /* Debug */,
+				84E031162625CE3B0054A01C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84EA115D2625FD21002B7636 /* Build configuration list for PBXNativeTarget "WidgetConfiguration iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84EA115E2625FD21002B7636 /* Debug */,
+				84EA115F2625FD21002B7636 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84EA13532626974E002B7636 /* Build configuration list for PBXNativeTarget "WidgetConfiguration macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84EA13542626974E002B7636 /* Debug */,
+				84EA13552626974E002B7636 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				84E0305D26234E6D0054A01C /* Wikist.xcdatamodel */,
+			);
+			currentVersion = 84E0305D26234E6D0054A01C /* Wikist.xcdatamodel */;
+			path = Wikist.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 843BF3F92622BAAE0065D9FF /* Project object */;
+}

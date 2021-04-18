@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="DailyContribution" representedClassName="DailyContribution" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WikiUser" inverseName="contributions" inverseEntity="WikiUser"/>
+    </entity>
+    <entity name="WikiSite" representedClassName="WikiSite" syncable="YES">
+        <attribute name="articlePath" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="homepage" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="logo" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="server" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="title" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="url" optional="YES" attributeType="String" defaultValueString=""/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WikiUser" inverseName="site" inverseEntity="WikiUser"/>
+    </entity>
+    <entity name="WikiUser" representedClassName="WikiUser" syncable="YES">
+        <attribute name="edits" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="registration" optional="YES" attributeType="Date" defaultDateTimeInterval="-662803200" usesScalarValueType="NO"/>
+        <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" defaultValueString=""/>
+        <relationship name="contributions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyContribution" inverseName="user" inverseEntity="DailyContribution"/>
+        <relationship name="site" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WikiSite" inverseName="users" inverseEntity="WikiSite"/>
+    </entity>
+    <elements>
+        <element name="WikiSite" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="WikiUser" positionX="-54" positionY="-9" width="128" height="119"/>
+        <element name="DailyContribution" positionX="-36" positionY="9" width="128" height="74"/>
+    </elements>
+</model>
