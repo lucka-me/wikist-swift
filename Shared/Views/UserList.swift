@@ -32,6 +32,12 @@ struct UserList: View {
                 link(user) {
                     UserListRow(user)
                 }
+                .contextMenu {
+                    Button("Delete") {
+                        Dia.shared.delete(user)
+                        Dia.shared.save()
+                    }
+                }
                 #else
                 ZStack {
                     UserListRow(user)
@@ -58,7 +64,7 @@ struct UserList: View {
     
     private var listStyle: some ListStyle {
         #if os(macOS)
-        return InsetListStyle()
+        return SidebarListStyle()
         #else
         return InsetGroupedListStyle()
         #endif
