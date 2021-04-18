@@ -31,7 +31,6 @@
 "view.add.alert.urlInvalid" = "URL is invalid.";
 "view.add.alert.usernameEmpty"  = "Username is empty.";
 "view.add.alert.noSite" = "No site info.";
-"view.add.alert.noUser" = "No user info.";
 "view.add.alert.querySiteFailed"    = "Unable to query the site info.";
 "view.add.alert.queryUserFailed"    = "Unable to query the user info.";
 "view.add.alert.queryContributionsFailed"   = "Unable to query the contributions.";

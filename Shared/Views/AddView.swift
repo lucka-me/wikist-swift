@@ -215,8 +215,7 @@ fileprivate class AddViewModel: ObservableObject {
         raw.queryInfo { succeed in
             DispatchQueue.main.async {
                 if succeed {
-                    self.user = raw
-                    self.queryContributions()
+                    self.queryContributions(raw)
                 } else {
                     self.alert("view.add.alert.queryUserFailed")
                     self.status = .inputUsername
@@ -225,13 +224,10 @@ fileprivate class AddViewModel: ObservableObject {
         }
     }
     
-    func queryContributions() {
-        guard let solidRAW = user else {
-            self.status = .inputUsername
-            return
-        }
+    func queryContributions(_ user: WikiUserRAW) {
+        self.user = user
         status = .queryingContributions
-        solidRAW.queryContributions { succeed in
+        user.queryContributions { succeed in
             DispatchQueue.main.async {
                 if succeed {
                     self.status = .allDone
