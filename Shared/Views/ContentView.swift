@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    #endif
     #if os(macOS)
     @ObservedObject private var support = Support.shared
     #endif
@@ -25,9 +28,11 @@ struct ContentView: View {
         #else
         TabView {
             NavigationView { list }
+                .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem { Label("List", systemImage: "list.bullet") }
                 .tag("list")
             NavigationView { preferences }
+                .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem { Label("Preferences", systemImage: "gearshape") }
                 .tag("preferences")
         }
@@ -58,7 +63,7 @@ struct ContentView: View {
                 #endif
             }
         
-        EmptyView()
+        emptyView
     }
     
     #if os(iOS)
@@ -67,7 +72,19 @@ struct ContentView: View {
         PreferencesView()
             .navigationTitle("Preferences")
     }
+    
     #endif
+    
+    @ViewBuilder
+    private var emptyView: some View {
+        VStack {
+            Button {
+                presentingAddSheet.toggle()
+            } label: {
+                Label("Add Wiki & User", systemImage: "plus")
+            }
+        }
+    }
     
     #if os(macOS)
     private func toggleSidebar() {
