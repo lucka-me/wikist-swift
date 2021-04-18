@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  Wikist
+
+  Created by Lucka on 18/4/2021.
+  
+*/
+NSHumanReadableCopyright = "版权所有 © 2021 Lucka\n基于MIT许可证";

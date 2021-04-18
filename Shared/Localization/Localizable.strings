@@ -1,0 +1,73 @@
+/* 
+  File.strings
+  Wikist
+
+  Created by Lucka on 18/4/2021.
+  
+*/
+/* View */
+// Shared: Modal Actions
+"view.action.cancel"    = "Cancel";
+"view.action.confirm"   = "Confirm";
+"view.action.dismiss"   = "Dismiss";
+
+// Shared: Informations
+"view.info.site.header" = "Wiki";
+"view.info.site.title"  = "Title";
+"view.info.site.homepage"   = "Home Page";
+"view.info.user.header" = "User";
+"view.info.user.uid"    = "User ID";
+"view.info.user.registration"   = "Registration";
+"view.info.user.edits"  = "Edits";
+"view.info.user.contributionsLastYear"  = "Contributions Last Year";
+"view.info.site.userPage"   = "User Page";
+
+// AddView
+"view.add.title"    = "Add";
+"view.add.url"  = "API URL";
+"view.add.username" = "Username";
+"view.add.query"    = "Query";
+"view.add.alert.urlEmpty"   = "URL is empty.";
+"view.add.alert.urlInvalid" = "URL is invalid.";
+"view.add.alert.usernameEmpty"  = "Username is empty.";
+"view.add.alert.noSite" = "No site info.";
+"view.add.alert.noUser" = "No user info.";
+"view.add.alert.querySiteFailed"    = "Unable to query the site info.";
+"view.add.alert.queryUserFailed"    = "Unable to query the user info.";
+"view.add.alert.queryContributionsFailed"   = "Unable to query the contributions.";
+
+// ContentView
+"view.navi.list"    = "List";
+"view.navi.preferences" = "Preferences";
+"view.navi.list.add"    = "Add";
+"view.navi.list.toggleSidebar"  = "Toggle Sidebar";
+"view.navi.list.empty.select"   = "Select from list";
+"view.navi.list.empty.or"   = "or";
+"view.navi.list.empty.add"  = "Add Wiki & User";
+
+// PreferencesView
+"view.preferences.changeIcon"   = "Change Icon";
+"view.preferences.sourceCode"   = "Source Code";
+"view.preferences.version %@"  = "Version %@";
+"view.preferences.tip"   = "Support Developer";
+"view.preferences.tip.choose"   = "Choose Tip Level";
+"view.preferences.tip.thanks"   = "Thank you for your support!";
+
+// UserDetails
+"view.details.update"   = "Update";
+
+// List
+"view.list.delete" = "Delete";
+
+/* Widget */
+// Intent
+"WGwLRX" = "Contributions Matrix Configuration";
+"kMCcTz" = "Configure the content of Contributions Matrix Widget";
+"eZOWLT" = "Custom User";
+"Se8foB" = "Selected User";
+"dSZ0NA" = "User";
+
+// ContributionsMatrixWidget
+"widget.matrix.name"    = "Contributions Matrix Widget";
+"widget.matrix.desc"    = "Display the contributions matrix.";
+"widget.matrix.noUser"  = "No user";

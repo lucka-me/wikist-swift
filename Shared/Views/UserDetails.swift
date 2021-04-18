@@ -61,7 +61,7 @@ struct UserDetails: View {
                         }
                     }
                 } label: {
-                    Label("Update", systemImage: "arrow.clockwise")
+                    Label("view.details.update", systemImage: "arrow.clockwise")
                 }
                 .disabled(refreshing)
             }
@@ -71,10 +71,10 @@ struct UserDetails: View {
     @ViewBuilder
     private var siteInfo: some View {
         CardView.Card(radius: Self.radius) {
-            CardView.List.header(Text("Wiki"))
-            CardView.List.row(Label("Title", systemImage: "globe"), Text(user.site?.title ?? ""))
+            CardView.List.header(Text("view.info.site.header"))
+            CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(user.site?.title ?? ""))
             CardView.List.row(openHomePage, showIndicator: true) {
-                Label("Home Page", systemImage: "house")
+                Label("view.info.site.homepage", systemImage: "house")
             }
         }
     }
@@ -82,14 +82,14 @@ struct UserDetails: View {
     @ViewBuilder
     private var userInfo: some View {
         CardView.Card(radius: Self.radius) {
-            Text("User")
+            Text("view.info.user.header")
                 .font(.headline)
-            CardView.List.row(Label("User ID", systemImage: "number"), Text("\(user.uid)"))
-            CardView.List.row(Label("Registration", systemImage: "play"), Text(user.registration, style: .date))
-            CardView.List.row(Label("Edits", systemImage: "pencil"), Text("\(user.edits)"))
-            CardView.List.row(Label("Contributions Last Year", systemImage: "calendar"), Text("\(user.contributionsLastYear)"))
+            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(user.uid)"))
+            CardView.List.row(Label("view.info.user.registration", systemImage: "play"), Text(user.registration, style: .date))
+            CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(user.edits)"))
+            CardView.List.row(Label("view.info.user.contributionsLastYear", systemImage: "calendar"), Text("\(user.contributionsLastYear)"))
             CardView.List.row(openUserPage, showIndicator: true) {
-                Label("User Page", systemImage: "person")
+                Label("view.info.site.userPage", systemImage: "person")
             }
         }
     }

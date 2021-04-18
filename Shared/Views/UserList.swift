@@ -33,7 +33,7 @@ struct UserList: View {
                     UserListRow(user)
                 }
                 .contextMenu {
-                    Button("Delete") {
+                    Button("view.list.delete") {
                         Dia.shared.delete(user)
                         Dia.shared.save()
                     }

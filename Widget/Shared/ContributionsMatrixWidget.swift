@@ -78,7 +78,7 @@ struct ContributionsMatrixWidget: Widget {
             if let solidUser = entry.user {
                 content(solidUser)
             } else {
-                Text("No user")
+                Text("widget.matrix.noUser")
             }
         }
         
@@ -105,8 +105,8 @@ struct ContributionsMatrixWidget: Widget {
             EntryView(entry: entry)
         }
         .supportedFamilies([ .systemSmall, .systemMedium ])
-        .configurationDisplayName("Contributions Matrix Widget")
-        .description("Display the contributions matrix.")
+        .configurationDisplayName("widget.matrix.name")
+        .description("widget.matrix.desc")
     }
 }
 

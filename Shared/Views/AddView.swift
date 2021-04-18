@@ -29,10 +29,10 @@ struct AddView: View {
             main
                 .padding()
         }
-        .navigationTitle("Add")
+        .navigationTitle("view.add.title")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Confirm") {
+                Button("view.action.confirm") {
                     model.save()
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -40,7 +40,7 @@ struct AddView: View {
             }
             
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
+                Button("view.action.cancel") {
                     model.clear()
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -74,7 +74,7 @@ struct AddView: View {
     @ViewBuilder
     private var urlField: some View {
         CardView.Card {
-            CardView.List.header(Text("API URL"))
+            CardView.List.header(Text("view.add.url"))
             CardView.List.row {
                 let textField = TextField("https://example.wiki", text: $model.url)
                     .lineLimit(1)
@@ -88,7 +88,7 @@ struct AddView: View {
             }
             if model.status == .inputUrl {
                 CardView.List.row(model.querySite) {
-                    Label("Query", systemImage: "magnifyingglass")
+                    Label("view.add.query", systemImage: "magnifyingglass")
                 }
             }
         }
@@ -97,7 +97,7 @@ struct AddView: View {
     @ViewBuilder
     private var usernameField: some View {
         CardView.Card {
-            CardView.List.header(Text("Username"))
+            CardView.List.header(Text("view.add.username"))
             CardView.List.row {
                 TextField("User", text: $model.username)
                     .lineLimit(1)
@@ -106,7 +106,7 @@ struct AddView: View {
             }
             if model.status == .inputUsername {
                 CardView.List.row(model.queryUser) {
-                    Label("Query", systemImage: "magnifyingglass")
+                    Label("view.add.query", systemImage: "magnifyingglass")
                 }
             }
         }
@@ -115,18 +115,18 @@ struct AddView: View {
     @ViewBuilder
     private var siteInfo: some View {
         CardView.Card {
-            CardView.List.header(Text("Wiki"))
-            CardView.List.row(Label("Title", systemImage: "globe"), Text(model.site?.title ?? ""))
+            CardView.List.header(Text("view.info.site.header"))
+            CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(model.site?.title ?? ""))
         }
     }
     
     @ViewBuilder
     private var userInfo: some View {
         CardView.Card {
-            CardView.List.header(Text("User"))
-            CardView.List.row(Label("User ID", systemImage: "number"), Text("\(model.user?.uid ?? 0)"))
-            CardView.List.row(Label("Registration", systemImage: "play"), Text(model.user?.registration ?? .init(), style: .date))
-            CardView.List.row(Label("Edits", systemImage: "pencil"), Text("\(model.user?.edits ?? 0)"))
+            CardView.List.header(Text("view.info.user.header"))
+            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(model.user?.uid ?? 0)"))
+            CardView.List.row(Label("view.info.user.registration", systemImage: "play"), Text(model.user?.registration ?? .init(), style: .date))
+            CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(model.user?.edits ?? 0)"))
         }
     }
 }
@@ -173,11 +173,11 @@ fileprivate class AddViewModel: ObservableObject {
     func querySite() {
         // Check
         if url.isEmpty {
-            alert("URL is empty")
+            alert("view.add.alert.urlEmpty")
             return
         }
         guard let _ = URL(string: url) else {
-            alert("URL is invalid")
+            alert("view.add.alert.urlInvalid")
             return
         }
         status = .queryingSiteInfo
@@ -193,7 +193,7 @@ fileprivate class AddViewModel: ObservableObject {
                     self.site = .from(raw, context: Dia.shared.context)
                     self.status = .inputUsername
                 } else {
-                    self.alert("Unable to query the site info")
+                    self.alert("view.add.alert.querySiteFailed")
                     self.status = .inputUrl
                 }
             }
@@ -202,11 +202,11 @@ fileprivate class AddViewModel: ObservableObject {
     
     func queryUser() {
         if username.isEmpty {
-            alert("Username is empty")
+            alert("view.add.alert.usernameEmpty")
             return
         }
         guard let solidSite = site else {
-            alert("No site info")
+            alert("view.add.alert.noSite")
             status = .inputUrl
             return
         }
@@ -218,7 +218,7 @@ fileprivate class AddViewModel: ObservableObject {
                     self.user = raw
                     self.queryContributions()
                 } else {
-                    self.alert("Unable to query the user info")
+                    self.alert("view.add.alert.queryUserFailed")
                     self.status = .inputUsername
                 }
             }
@@ -227,7 +227,6 @@ fileprivate class AddViewModel: ObservableObject {
     
     func queryContributions() {
         guard let solidRAW = user else {
-            self.alert("No user info")
             self.status = .inputUsername
             return
         }
@@ -237,7 +236,7 @@ fileprivate class AddViewModel: ObservableObject {
                 if succeed {
                     self.status = .allDone
                 } else {
-                    self.alert("Unable to query the contributions")
+                    self.alert("view.add.alert.queryContributionsFailed")
                     self.status = .inputUsername
                 }
             }

@@ -22,7 +22,7 @@ struct PreferencesView: View {
         List {
             if UIApplication.shared.supportsAlternateIcons {
                 Button(action: changeIcon) {
-                    Label("Change Icon", systemImage: "app")
+                    Label("view.preferences.changeIcon", systemImage: "app")
                 }
             }
             
@@ -30,15 +30,15 @@ struct PreferencesView: View {
                 Button {
                     presentingTipAction = true
                 } label: {
-                    Label("Tip", systemImage: "gift")
+                    Label("view.preferences.tip", systemImage: "gift")
                 }
             }
             
             Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
-                Label("Source Code", systemImage: "swift")
+                Label("view.preferences.sourceCode", systemImage: "swift")
             }
             
-            Label("Version \(version)", systemImage: "info")
+            Label("view.preferences.version \(version)", systemImage: "info")
         }
         .listStyle(InsetGroupedListStyle())
         .sheet(isPresented: $presentingIconSelector) {
@@ -46,12 +46,12 @@ struct PreferencesView: View {
         }
         .actionSheet(isPresented: $presentingTipAction) {
             .init(
-                title: Text("Choose Tip Level"),
+                title: Text("view.preferences.tip.choose"),
                 buttons: tipActionButtons
             )
         }
         .alert(isPresented: $support.purchased) {
-            .init(title: Text("Thank you for the support!"))
+            .init(title: Text("view.preferences.tip.thanks"))
         }
     }
     
@@ -102,10 +102,10 @@ fileprivate struct IconSelector: View {
                 row(Self.dark, "Dark")
             }
             .listStyle(InsetGroupedListStyle())
-            .navigationTitle("Change Icon")
+            .navigationTitle("view.preferences.changeIcon")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Dismiss") {
+                    Button("view.action.dismiss") {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }

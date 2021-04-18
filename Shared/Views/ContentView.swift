@@ -26,11 +26,11 @@ struct ContentView: View {
         TabView {
             NavigationView { list }
                 .navigationViewStyle(DoubleColumnNavigationViewStyle())
-                .tabItem { Label("List", systemImage: "list.bullet") }
+                .tabItem { Label("view.navi.list", systemImage: "list.bullet") }
                 .tag("list")
             NavigationView { preferences }
                 .navigationViewStyle(StackNavigationViewStyle())
-                .tabItem { Label("Preferences", systemImage: "gearshape") }
+                .tabItem { Label("view.navi.preferences", systemImage: "gearshape") }
                 .tag("preferences")
         }
         #endif
@@ -42,19 +42,19 @@ struct ContentView: View {
             .sheet(isPresented: $presentingAddSheet) {
                 AddView()
             }
-            .navigationTitle("Wikist")
+            .navigationTitle("view.navi.list")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         presentingAddSheet.toggle()
                     } label: {
-                        Label("Add", systemImage: "plus")
+                        Label("view.navi.list.add", systemImage: "plus")
                     }
                 }
                 #if os(macOS)
                 ToolbarItem {
                     Button(action: toggleSidebar) {
-                        Label("Toggle Sidebar", systemImage: "sidebar.left")
+                        Label("view.navi.list.toggleSidebar", systemImage: "sidebar.left")
                     }
                 }
                 #endif
@@ -67,7 +67,7 @@ struct ContentView: View {
     @ViewBuilder
     private var preferences: some View {
         PreferencesView()
-            .navigationTitle("Preferences")
+            .navigationTitle("view.navi.preferences")
     }
     
     #endif
@@ -75,13 +75,13 @@ struct ContentView: View {
     @ViewBuilder
     private var emptyView: some View {
         VStack {
-            Text("Select from list")
-            Text("or")
+            Text("view.navi.list.empty.select")
+            Text("view.navi.list.empty.or")
                 .foregroundColor(.secondary)
             Button {
                 presentingAddSheet.toggle()
             } label: {
-                Label("Add Wiki & User", systemImage: "plus")
+                Label("view.navi.list.empty.add", systemImage: "plus")
             }
         }
     }

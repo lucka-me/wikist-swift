@@ -14,11 +14,11 @@ struct WikistCommand: Commands {
     var body: some Commands {
         SidebarCommands()
         CommandGroup(after: .help) {
-            Button("Tip") {
+            Button("view.preferences.tip") {
                 Support.shared.presentingTipSheet = true
             }
             .disabled(!Support.shared.canMakePayments)
-            Button("Source Code") {
+            Button("view.preferences.sourceCode") {
                 openURL(URL(string: "https://github.com/lucka-me/wikist-swift")!)
             }
         }
