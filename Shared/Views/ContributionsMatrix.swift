@@ -9,13 +9,30 @@ import SwiftUI
 
 struct ContributionsMatrix: View {
     
+    private struct SchemedColor {
+        let light: Color
+        let dark: Color
+    }
+    
     private struct LevelColor {
         static let levelNil = Color.black.opacity(0)
         static let level0   = Color.gray.opacity(0.4)
-        static let level5   = Color(hue: 0.1, saturation: 0.55, brightness: 0.55, opacity: 1.0)
-        static let level20  = Color(hue: 0.1, saturation: 0.70, brightness: 0.70, opacity: 1.0)
-        static let level50  = Color(hue: 0.1, saturation: 0.85, brightness: 0.85, opacity: 1.0)
-        static let levelMax = Color(hue: 0.1, saturation: 1.00, brightness: 1.00, opacity: 1.0)
+        static let level5   = SchemedColor(
+            light: .init(hue: 0.1, saturation: 0.35, brightness: 1.00, opacity: 1.0),
+            dark:  .init(hue: 0.1, saturation: 1.00, brightness: 0.55, opacity: 1.0)
+        )
+        static let level20  = SchemedColor(
+            light: .init(hue: 0.1, saturation: 0.50, brightness: 1.00, opacity: 1.0),
+            dark:  .init(hue: 0.1, saturation: 1.00, brightness: 0.70, opacity: 1.0)
+        )
+        static let level50  = SchemedColor(
+            light: .init(hue: 0.1, saturation: 0.65, brightness: 1.00, opacity: 1.0),
+            dark:  .init(hue: 0.1, saturation: 1.00, brightness: 0.85, opacity: 1.0)
+        )
+        static let levelMax = SchemedColor(
+            light: .init(hue: 0.1, saturation: 0.80, brightness: 1.00, opacity: 1.0),
+            dark:  .init(hue: 0.1, saturation: 1.00, brightness: 1.00, opacity: 1.0)
+        )
     }
     
     static let gridSpacing: CGFloat = 2
@@ -27,6 +44,7 @@ struct ContributionsMatrix: View {
         )
     }
     
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var dia: Dia
     
     private let user: WikiUser
@@ -64,14 +82,16 @@ struct ContributionsMatrix: View {
         }
         if solidCount == 0 {
             return LevelColor.level0
-        } else if solidCount < 5 {
-            return LevelColor.level5
-        } else if solidCount < 20 {
-            return LevelColor.level20
-        } else if solidCount < 50 {
-            return LevelColor.level50
         }
-        return LevelColor.levelMax
+        var schemedColor = LevelColor.levelMax
+        if solidCount < 5 {
+            schemedColor = LevelColor.level5
+        } else if solidCount < 20 {
+            schemedColor = LevelColor.level20
+        } else if solidCount < 50 {
+            schemedColor = LevelColor.level50
+        }
+        return colorScheme == .light ? schemedColor.light : schemedColor.dark
     }
 }
 
