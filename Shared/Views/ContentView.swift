@@ -9,9 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     
-    #if os(iOS)
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    #endif
     #if os(macOS)
     @ObservedObject private var support = Support.shared
     #endif
@@ -28,7 +25,7 @@ struct ContentView: View {
         #else
         TabView {
             NavigationView { list }
-                .navigationViewStyle(StackNavigationViewStyle())
+                .navigationViewStyle(DoubleColumnNavigationViewStyle())
                 .tabItem { Label("List", systemImage: "list.bullet") }
                 .tag("list")
             NavigationView { preferences }
@@ -78,6 +75,9 @@ struct ContentView: View {
     @ViewBuilder
     private var emptyView: some View {
         VStack {
+            Text("Select from list")
+            Text("or")
+                .foregroundColor(.secondary)
             Button {
                 presentingAddSheet.toggle()
             } label: {
