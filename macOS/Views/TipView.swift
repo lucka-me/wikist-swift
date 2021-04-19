@@ -51,7 +51,7 @@ struct TipView: View {
             .padding()
         }
         .frame(minWidth: 300, minHeight: 200)
-        .navigationTitle("view.preferences.tip")
+        .navigationTitle("view.tip")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("view.action.dismiss") {
@@ -61,7 +61,7 @@ struct TipView: View {
         }
         .alert(isPresented: $support.purchased) {
             .init(
-                title: Text("view.preferences.tip.thanks"),
+                title: Text("view.tip.thanks"),
                 dismissButton: .default(Text("view.action.dismiss")) {
                     presentationMode.wrappedValue.dismiss()
                 }

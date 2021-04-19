@@ -20,25 +20,29 @@ struct PreferencesView: View {
     @ViewBuilder
     private var content: some View {
         List {
-            if UIApplication.shared.supportsAlternateIcons {
-                Button(action: changeIcon) {
-                    Label("view.preferences.changeIcon", systemImage: "app")
+            Section(header: Text("view.preferences.appearance")) {
+                if UIApplication.shared.supportsAlternateIcons {
+                    Button(action: changeIcon) {
+                        Label("view.preferences.appearance.changeIcon", systemImage: "app")
+                    }
                 }
             }
             
-            if Support.shared.canMakePayments {
-                Button {
-                    presentingTipAction = true
-                } label: {
-                    Label("view.preferences.tip", systemImage: "gift")
+            Section(header: Text("view.preferences.about")) {
+                if Support.shared.canMakePayments {
+                    Button {
+                        presentingTipAction = true
+                    } label: {
+                        Label("view.tip", systemImage: "gift")
+                    }
                 }
+                
+                Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
+                    Label("view.preferences.about.sourceCode", systemImage: "swift")
+                }
+                
+                Label("view.preferences.about.version \(version)", systemImage: "info")
             }
-            
-            Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
-                Label("view.preferences.sourceCode", systemImage: "swift")
-            }
-            
-            Label("view.preferences.version \(version)", systemImage: "info")
         }
         .listStyle(InsetGroupedListStyle())
         .sheet(isPresented: $presentingIconSelector) {
@@ -46,12 +50,12 @@ struct PreferencesView: View {
         }
         .actionSheet(isPresented: $presentingTipAction) {
             .init(
-                title: Text("view.preferences.tip.choose"),
+                title: Text("view.tip.choose"),
                 buttons: tipActionButtons
             )
         }
         .alert(isPresented: $support.purchased) {
-            .init(title: Text("view.preferences.tip.thanks"))
+            .init(title: Text("view.tip.thanks"))
         }
     }
     

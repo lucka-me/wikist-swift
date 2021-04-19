@@ -22,6 +22,11 @@
 "view.info.user.contributionsLastYear"  = "过去一年的贡献";
 "view.info.site.userPage"   = "用户页";
 
+// Shared: Tip
+"view.tip"   = "支持开发者";
+"view.tip.choose"   = "选择打赏级别";
+"view.tip.thanks"   = "非常感谢您的支持！";
+
 // AddView
 "view.add.title"    = "添加";
 "view.add.url"  = "API URL";
@@ -45,12 +50,11 @@
 "view.navi.list.empty.add"  = "添加维基&用户";
 
 // PreferencesView
-"view.preferences.changeIcon"   = "更改图标";
-"view.preferences.sourceCode"   = "源代码";
-"view.preferences.version %@"  = "版本 %@";
-"view.preferences.tip"   = "支持开发者";
-"view.preferences.tip.choose"   = "选择打赏级别";
-"view.preferences.tip.thanks"   = "非常感谢您的支持！";
+"view.preferences.appearance"   = "样式";
+"view.preferences.appearance.changeIcon"   = "更改图标";
+"view.preferences.about"    = "关于";
+"view.preferences.about.sourceCode"   = "源代码";
+"view.preferences.about.version %@"  = "版本 %@";
 
 // UserDetails
 "view.details.update"   = "更新";
