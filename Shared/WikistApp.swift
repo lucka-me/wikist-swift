@@ -10,27 +10,40 @@ import SwiftUI
 @main
 struct WikistApp: App {
     
+    @Environment(\.scenePhase) private var scenePhase : ScenePhase
     private let dia = Dia.shared
     
     var body: some Scene {
         #if os(macOS)
-        WindowGroup {
-            content
-        }
-        .commands {
-            WikistCommand()
-        }
+        content
+            .commands {
+                WikistCommand()
+            }
         #else
-        WindowGroup {
-            content
-        }
+        content
         #endif
     }
     
-    @ViewBuilder
-    private var content: some View {
-        ContentView()
-            .environment(\.managedObjectContext, dia.context)
-            .environmentObject(dia)
+    @SceneBuilder
+    private var content: some Scene {
+        WindowGroup {
+            ContentView()
+                .environment(\.managedObjectContext, dia.context)
+                .environmentObject(dia)
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .active {
+                refreshAll()
+            }
+        }
+    }
+    
+    private func refreshAll() {
+        let users = dia.users()
+        for user in users {
+            user.refresh { succeed in
+                dia.save()
+            }
+        }
     }
 }
