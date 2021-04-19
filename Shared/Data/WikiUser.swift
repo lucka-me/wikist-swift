@@ -164,8 +164,8 @@ extension WikiUser {
     }
     
     func clearContributions() {
-        if let solidSet = contributions {
-            removeFromContributions(solidSet)
+        for contribution in typedContributions {
+            managedObjectContext?.delete(contribution)
         }
     }
 }
