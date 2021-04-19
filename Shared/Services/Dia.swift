@@ -54,9 +54,7 @@ class Dia: ObservableObject {
     }
     
     func users(matches predicate: NSPredicate? = nil) -> [ WikiUser ] {
-        let request: NSFetchRequest<WikiUser> = WikiUser.fetchRequest()
-        request.predicate = predicate
-        return (try? context.fetch(request)) ?? []
+        list(matches: predicate)
     }
     
     func firstUser(sortBy descriptors: [ NSSortDescriptor ]) -> WikiUser? {
@@ -66,7 +64,7 @@ class Dia: ObservableObject {
         return try? context.fetch(request).first
     }
     
-    func user(with id: URL) -> WikiUser? {
+    func user(of id: URL) -> WikiUser? {
         guard
             let coordinator = context.persistentStoreCoordinator,
             let objectID = coordinator.managedObjectID(forURIRepresentation: id)
@@ -84,9 +82,11 @@ class Dia: ObservableObject {
     
     func delete(_ user: WikiUser) {
         context.delete(user)
+        clearSites()
     }
     
     func save() {
+        clearContributions()
         if !context.hasChanges {
             return
         }
@@ -97,6 +97,30 @@ class Dia: ObservableObject {
             }
         } catch {
             print("[CoreData][Save] Failed: \(error.localizedDescription)")
+        }
+    }
+    
+    private func list<T: NSManagedObjectWithFetchRequest>(matches predicate: NSPredicate? = nil) -> [ T ] {
+        let request: NSFetchRequest<T> = T.fetchRequest()
+        request.predicate = predicate
+        return (try? context.fetch(request)) ?? []
+    }
+    
+    /// Clear sites containing no user
+    private func clearSites() {
+        let sites: [ WikiSite ] = list()
+        for site in sites {
+            delete(site)
+        }
+    }
+    
+    /// Clear contributions not linked with user
+    private func clearContributions() {
+        let contributions: [ DailyContribution ] = list()
+        for contribution in contributions {
+            if contribution.user == nil {
+                context.delete(contribution)
+            }
         }
     }
     

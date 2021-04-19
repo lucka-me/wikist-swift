@@ -6,19 +6,16 @@
 //
 //
 
-import Foundation
 import CoreData
 
 @objc(WikiUser)
-public class WikiUser: NSManagedObject {
-
-}
-
-extension WikiUser {
-
+public final class WikiUser: NSManagedObject, NSManagedObjectWithFetchRequest {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<WikiUser> {
         return NSFetchRequest<WikiUser>(entityName: "WikiUser")
     }
+}
+
+extension WikiUser {
 
     @NSManaged public var username: String
     @NSManaged public var site: WikiSite?
@@ -107,9 +104,13 @@ extension WikiUser {
             dictContribution[date] = .init(date: date, count: 0)
         }
         for contribution in typedContributions {
-            if let raw = dictContribution[contribution.date], raw.count ?? 0 < contribution.count {
-                dictContribution[contribution.date] = contribution.raw
+            guard
+                let raw = dictContribution[contribution.date],
+                raw.count ?? 0 < contribution.count
+            else {
+                continue
             }
+            dictContribution[contribution.date] = contribution.raw
         }
         var raws = dictContribution
             .sorted { $0.0 < $1.0 }

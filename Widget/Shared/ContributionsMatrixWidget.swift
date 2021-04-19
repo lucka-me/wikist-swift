@@ -57,7 +57,7 @@ struct ContributionsMatrixWidget: Widget {
             else {
                 return Dia.shared.firstUser(sortBy: WikiUser.sortDescriptorsByEdits)
             }
-            return Dia.shared.user(with: selectedURI)
+            return Dia.shared.user(of: selectedURI)
         }
     }
     

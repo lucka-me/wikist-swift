@@ -35,6 +35,14 @@
 		844833CD262C87CD00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
 		844833CE262C87CD00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
 		844833CF262C87CD00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
+		844833DA262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
+		844833DB262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
+		844833DC262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
+		844833DD262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
+		844833DE262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
+		844833DF262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
+		844833F8262DB93E00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
+		844833FF262DB93F00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
 		8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE35262BDF97003A3C47 /* WikistCommands.swift */; };
 		8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE4A262C08B0003A3C47 /* TipView.swift */; };
 		84AC6A4A26272B68000F2635 /* AppIconDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A4826272B68000F2635 /* AppIconDark@2x.png */; };
@@ -243,6 +251,7 @@
 		844833C5262C7B9900839DC2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		844833D0262C87CD00839DC2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		844833D2262C87D200839DC2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectWithFetchRequest.swift; sourceTree = "<group>"; };
 		8464CE35262BDF97003A3C47 /* WikistCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistCommands.swift; sourceTree = "<group>"; };
 		8464CE4A262C08B0003A3C47 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		84AC6A4826272B68000F2635 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
@@ -468,6 +477,7 @@
 			children = (
 				84E030622623504F0054A01C /* DailyContribution.swift */,
 				84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */,
+				844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */,
 				84E030642623504F0054A01C /* WikiSite.swift */,
 				84E030AB262372B00054A01C /* WikiSiteRAW.swift */,
 				84E030662623504F0054A01C /* WikiUser.swift */,
@@ -811,6 +821,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EA145F2626CF1F002B7636 /* Assets.xcassets in Resources */,
+				844833F8262DB93E00839DC2 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +830,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EA14662626CF1F002B7636 /* Assets.xcassets in Resources */,
+				844833FF262DB93F00839DC2 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +845,7 @@
 				84E030482622EA700054A01C /* AddView.swift in Sources */,
 				84E031C42625E79D0054A01C /* Widget.intentdefinition in Sources */,
 				843BF4232622BE070065D9FF /* ContributionsMatrix.swift in Sources */,
+				844833DA262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84E0306C2623504F0054A01C /* WikiSite.swift in Sources */,
 				841BA788262B22A80083E19C /* Support.swift in Sources */,
 				84E03092262355AD0054A01C /* FileManager.swift in Sources */,
@@ -869,6 +882,7 @@
 				84E0306D2623504F0054A01C /* WikiSite.swift in Sources */,
 				84E03093262355AD0054A01C /* FileManager.swift in Sources */,
 				84E0305F26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */,
+				844833DB262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				843BF42B2622C2D70065D9FF /* UserList.swift in Sources */,
 				84E030692623504F0054A01C /* DailyContribution.swift in Sources */,
 				8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */,
@@ -902,6 +916,7 @@
 				84E031932625D1570054A01C /* URL.swift in Sources */,
 				84E031A72625D1640054A01C /* ContributionsMatrix.swift in Sources */,
 				84E031652625D1430054A01C /* WikiUser.swift in Sources */,
+				844833DC262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84E0316B2625D1460054A01C /* WikiUserRAW.swift in Sources */,
 				84E030F22625CD2B0054A01C /* WikistWidgetBundle.swift in Sources */,
 				84E031872625D1530054A01C /* FileManager.swift in Sources */,
@@ -926,6 +941,7 @@
 				84E031982625D1580054A01C /* URL.swift in Sources */,
 				84E031AC2625D1640054A01C /* ContributionsMatrix.swift in Sources */,
 				84E0316A2625D1440054A01C /* WikiUser.swift in Sources */,
+				844833DD262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84E031702625D1460054A01C /* WikiUserRAW.swift in Sources */,
 				84E0312D2625CEF20054A01C /* WikistWidgetBundle.swift in Sources */,
 				84E0318C2625D1530054A01C /* FileManager.swift in Sources */,
@@ -946,6 +962,7 @@
 				84EA12042626005C002B7636 /* WikiUserRAW.swift in Sources */,
 				84EA120C2626005F002B7636 /* Wikist.xcdatamodeld in Sources */,
 				84EA1244262600BC002B7636 /* URL.swift in Sources */,
+				844833DE262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84EA11E426260052002B7636 /* DailyContribution.swift in Sources */,
 				84EA11FC26260059002B7636 /* WikiUser.swift in Sources */,
 				84EA11F426260057002B7636 /* WikiSiteRAW.swift in Sources */,
@@ -968,6 +985,7 @@
 				84EA13BC262697FD002B7636 /* ISO8601DateFormatter.swift in Sources */,
 				84EA13A0262697EC002B7636 /* WikiUserRAW.swift in Sources */,
 				84EA13CA26269801002B7636 /* URL.swift in Sources */,
+				844833DF262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84EA13A7262697EF002B7636 /* Wikist.xcdatamodeld in Sources */,
 				84EA1384262697E3002B7636 /* DailyContribution.swift in Sources */,
 				84EA1399262697EB002B7636 /* WikiUser.swift in Sources */,

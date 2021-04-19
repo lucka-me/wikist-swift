@@ -22,6 +22,11 @@
 "view.info.user.contributionsLastYear"  = "Contributions Last Year";
 "view.info.site.userPage"   = "User Page";
 
+// Shared: Tip
+"view.tip"   = "Support Developer";
+"view.tip.choose"   = "Choose Tip Level";
+"view.tip.thanks"   = "Thank you for your support!";
+
 // AddView
 "view.add.title"    = "Add";
 "view.add.url"  = "API URL";
@@ -45,12 +50,11 @@
 "view.navi.list.empty.add"  = "Add Wiki & User";
 
 // PreferencesView
-"view.preferences.changeIcon"   = "Change Icon";
-"view.preferences.sourceCode"   = "Source Code";
-"view.preferences.version %@"  = "Version %@";
-"view.preferences.tip"   = "Support Developer";
-"view.preferences.tip.choose"   = "Choose Tip Level";
-"view.preferences.tip.thanks"   = "Thank you for your support!";
+"view.preferences.appearance"   = "Appearance";
+"view.preferences.appearance.changeIcon"   = "Change Icon";
+"view.preferences.about"    = "About";
+"view.preferences.about.sourceCode"   = "Source Code";
+"view.preferences.about.version %@"  = "Version %@";
 
 // UserDetails
 "view.details.update"   = "Update";

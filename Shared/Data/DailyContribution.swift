@@ -6,19 +6,16 @@
 //
 //
 
-import Foundation
 import CoreData
 
 @objc(DailyContribution)
-public class DailyContribution: NSManagedObject {
-
-}
-
-extension DailyContribution {
-
+public final class DailyContribution: NSManagedObject, NSManagedObjectWithFetchRequest {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DailyContribution> {
         return NSFetchRequest<DailyContribution>(entityName: "DailyContribution")
     }
+}
+
+extension DailyContribution {
 
     @NSManaged public var date: Date
     @NSManaged public var count: Int64

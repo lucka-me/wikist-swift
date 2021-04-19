@@ -6,19 +6,16 @@
 //
 //
 
-import Foundation
 import CoreData
 
 @objc(WikiSite)
-public class WikiSite: NSManagedObject {
-
-}
-
-extension WikiSite {
-
+public final class WikiSite: NSManagedObject, NSManagedObjectWithFetchRequest {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<WikiSite> {
         return NSFetchRequest<WikiSite>(entityName: "WikiSite")
     }
+}
+
+extension WikiSite {
 
     @NSManaged public var url: String
     @NSManaged public var title: String
