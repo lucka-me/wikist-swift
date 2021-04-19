@@ -43,6 +43,12 @@
 		844833DF262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */; };
 		844833F8262DB93E00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
 		844833FF262DB93F00839DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833D1262C87CD00839DC2 /* Localizable.strings */; };
+		8448341C262DCEA900839DC2 /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8448341F262DCEA900839DC2 /* Widget.strings */; };
+		8448341D262DCEA900839DC2 /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8448341F262DCEA900839DC2 /* Widget.strings */; };
+		8448343B262DD02300839DC2 /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8448341F262DCEA900839DC2 /* Widget.strings */; };
+		84483442262DD02400839DC2 /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8448341F262DCEA900839DC2 /* Widget.strings */; };
+		84483455262DD08000839DC2 /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8448341F262DCEA900839DC2 /* Widget.strings */; };
+		8448345C262DD08000839DC2 /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8448341F262DCEA900839DC2 /* Widget.strings */; };
 		8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE35262BDF97003A3C47 /* WikistCommands.swift */; };
 		8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE4A262C08B0003A3C47 /* TipView.swift */; };
 		84AC6A4A26272B68000F2635 /* AppIconDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A4826272B68000F2635 /* AppIconDark@2x.png */; };
@@ -252,6 +258,8 @@
 		844833D0262C87CD00839DC2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		844833D2262C87D200839DC2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		844833D9262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectWithFetchRequest.swift; sourceTree = "<group>"; };
+		8448341E262DCEA900839DC2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Widget.strings; sourceTree = "<group>"; };
+		84483426262DCEB000839DC2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Widget.strings"; sourceTree = "<group>"; };
 		8464CE35262BDF97003A3C47 /* WikistCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistCommands.swift; sourceTree = "<group>"; };
 		8464CE4A262C08B0003A3C47 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		84AC6A4826272B68000F2635 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
@@ -452,6 +460,14 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
+		8448340C262DCE6500839DC2 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				8448341F262DCEA900839DC2 /* Widget.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		8464CE49262C089D003A3C47 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -534,6 +550,7 @@
 		84E030E42625C98C0054A01C /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				8448340C262DCE6500839DC2 /* Localization */,
 				84EA11652625FD3B002B7636 /* Intents */,
 				84E031022625CDF30054A01C /* iOS */,
 				84E031262625CEA70054A01C /* macOS */,
@@ -783,6 +800,7 @@
 				84AC6A5326272C66000F2635 /* AppIconDark_83.5@2x.png in Resources */,
 				84AC6A4B26272B68000F2635 /* AppIconDark@3x.png in Resources */,
 				84AC6A4A26272B68000F2635 /* AppIconDark@2x.png in Resources */,
+				84483455262DD08000839DC2 /* Widget.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,6 +810,7 @@
 			files = (
 				844833CD262C87CD00839DC2 /* Localizable.strings in Resources */,
 				844833B9262C7B7800839DC2 /* InfoPlist.strings in Resources */,
+				8448345C262DD08000839DC2 /* Widget.strings in Resources */,
 				843BF4162622BAAF0065D9FF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -802,6 +821,7 @@
 			files = (
 				844833CE262C87CD00839DC2 /* Localizable.strings in Resources */,
 				844833BA262C7B7800839DC2 /* InfoPlist.strings in Resources */,
+				8448341C262DCEA900839DC2 /* Widget.strings in Resources */,
 				84EA14572626CF1E002B7636 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -812,6 +832,7 @@
 			files = (
 				844833CF262C87CD00839DC2 /* Localizable.strings in Resources */,
 				844833BB262C7B7800839DC2 /* InfoPlist.strings in Resources */,
+				8448341D262DCEA900839DC2 /* Widget.strings in Resources */,
 				84EA145E2626CF1E002B7636 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -822,6 +843,7 @@
 			files = (
 				84EA145F2626CF1F002B7636 /* Assets.xcassets in Resources */,
 				844833F8262DB93E00839DC2 /* Localizable.strings in Resources */,
+				8448343B262DD02300839DC2 /* Widget.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,6 +853,7 @@
 			files = (
 				84EA14662626CF1F002B7636 /* Assets.xcassets in Resources */,
 				844833FF262DB93F00839DC2 /* Localizable.strings in Resources */,
+				84483442262DD02400839DC2 /* Widget.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1065,15 @@
 				844833D2262C87D200839DC2 /* zh-Hans */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8448341F262DCEA900839DC2 /* Widget.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8448341E262DCEA900839DC2 /* en */,
+				84483426262DCEB000839DC2 /* zh-Hans */,
+			);
+			name = Widget.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

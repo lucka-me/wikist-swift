@@ -62,14 +62,6 @@
 // List
 "view.list.delete" = "删除";
 
-/* Widget */
-// Intent
-"WGwLRX" = "贡献矩阵设置";
-"kMCcTz" = "设置贡献矩阵小组件";
-"eZOWLT" = "自定用户";
-"Se8foB" = "选择用户";
-"dSZ0NA" = "用户";
-
 // ContributionsMatrixWidget
 "widget.matrix.name"    = "贡献矩阵小组件";
 "widget.matrix.desc"    = "展示贡献矩阵。";

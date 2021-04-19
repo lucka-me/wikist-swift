@@ -62,14 +62,6 @@
 // List
 "view.list.delete" = "Delete";
 
-/* Widget */
-// Intent
-"WGwLRX" = "Contributions Matrix Configuration";
-"kMCcTz" = "Configure the content of Contributions Matrix Widget";
-"eZOWLT" = "Custom User";
-"Se8foB" = "Selected User";
-"dSZ0NA" = "User";
-
 // ContributionsMatrixWidget
 "widget.matrix.name"    = "Contributions Matrix Widget";
 "widget.matrix.desc"    = "Display the contributions matrix.";
