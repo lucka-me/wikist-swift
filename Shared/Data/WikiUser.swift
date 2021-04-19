@@ -70,12 +70,22 @@ extension WikiUser {
         guard let solidContext = managedObjectContext else {
             return
         }
-        clearContributions()
+        let existings = typedContributions
         for (date, count) in raw.contributions {
+            if let existing = existings.first(where: { $0.date == date }) {
+                existing.count = count
+                continue
+            }
             let contribution = DailyContribution(context: solidContext)
             contribution.date = date
             contribution.count = count
             addToContributions(contribution)
+        }
+        let deadline = Date.dateOneYearBeforeAlignedWithWeek
+        for contribution in existings {
+            if contribution.date < deadline {
+                solidContext.delete(contribution)
+            }
         }
     }
 }
@@ -162,11 +172,5 @@ extension WikiUser {
         }
         raw.queryInfo(onFinished)
         raw.queryContributions(onFinished)
-    }
-    
-    func clearContributions() {
-        for contribution in typedContributions {
-            managedObjectContext?.delete(contribution)
-        }
     }
 }
