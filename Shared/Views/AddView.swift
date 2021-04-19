@@ -162,7 +162,7 @@ fileprivate class AddViewModel: ObservableObject {
     
     var site: WikiSite? = nil
     var user: WikiUserRAW? = nil
-    var alertMessage = ""
+    var alertMessage: LocalizedStringKey = ""
     
     var querying: Bool {
         status == .queryingSiteInfo
@@ -248,13 +248,13 @@ fileprivate class AddViewModel: ObservableObject {
     }
     
     func clear() {
-        if let solidSite = site {
+        if let solidSite = site, solidSite.usersCount == 0 {
             Dia.shared.delete(solidSite)
         }
         Dia.shared.save()
     }
     
-    private func alert(_ message: String) {
+    private func alert(_ message: LocalizedStringKey) {
         alertMessage = message
         presentingAlert = true
     }
