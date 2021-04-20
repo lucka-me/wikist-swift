@@ -103,6 +103,7 @@ struct ContributionsMatrixWidget: Widget {
                             image
                                 .resizable()
                                 .scaledToFit()
+                                .clipShape(Circle())
                                 .frame(width: 16, height: 16)
                         }
                         Text(user.username)

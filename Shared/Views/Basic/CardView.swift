@@ -107,7 +107,7 @@ class CardView {
         }
     }
     
-    static let defaultRadius: CGFloat = 10
+    static let defaultRadius: CGFloat = 12
 }
 
 struct CardView_Previews: PreviewProvider {

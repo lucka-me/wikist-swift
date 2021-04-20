@@ -115,7 +115,16 @@ struct AddView: View {
     @ViewBuilder
     private var siteInfo: some View {
         CardView.Card {
-            CardView.List.header(Text("view.info.site.header"))
+            if let site = model.site {
+                CardView.List.header(
+                    Text("view.info.site.header"),
+                    RemoteImage(site.favicon)
+                        .clipShape(Circle())
+                        .frame(width: 16, height: 16)
+                )
+            } else {
+                CardView.List.header(Text("view.info.site.header"))
+            }
             CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(model.site?.title ?? ""))
         }
     }

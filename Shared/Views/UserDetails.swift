@@ -10,7 +10,6 @@ import SwiftUI
 struct UserDetails: View {
     
     static private let matrixHeight: CGFloat = 16 * 7 + ContributionsMatrix.gridSpacing * 6
-    static private let radius: CGFloat = 12
     
     @Environment(\.openURL) private var openURL
     @State private var refreshing = false
@@ -70,10 +69,12 @@ struct UserDetails: View {
     
     @ViewBuilder
     private var siteInfo: some View {
-        CardView.Card(radius: Self.radius) {
+        CardView.Card {
             CardView.List.header(
                 Text("view.info.site.header"),
-                RemoteImage(user.site?.favicon ?? "").frame(width: 16, height: 16)
+                RemoteImage(user.site?.favicon ?? "")
+                    .clipShape(Circle())
+                    .frame(width: 16, height: 16)
             )
             CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(user.site?.title ?? ""))
             CardView.List.row(openHomePage, showIndicator: true) {
@@ -84,7 +85,7 @@ struct UserDetails: View {
     
     @ViewBuilder
     private var userInfo: some View {
-        CardView.Card(radius: Self.radius) {
+        CardView.Card {
             Text("view.info.user.header")
                 .font(.headline)
             CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(user.uid)"))
