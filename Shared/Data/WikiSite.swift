@@ -21,6 +21,7 @@ extension WikiSite {
     @NSManaged public var title: String
     @NSManaged public var homepage: String
     @NSManaged public var logo: String
+    @NSManaged public var favicon: String
     @NSManaged public var server: String
     @NSManaged public var articlePath: String
     @NSManaged public var users: NSSet?

@@ -15,6 +15,7 @@ class WikiSiteRAW {
     var title: String = ""
     var homepage: String = ""
     var logo: String = ""
+    var favicon: String = ""
     var server: String = ""
     var articlePath: String = ""
     
@@ -68,11 +69,9 @@ class WikiSiteRAW {
     private func parse(_ json: ResponseJSON) -> Bool {
         title = json.query.general.sitename
         homepage = json.query.general.base
-        logo = json.query.general.logo
-        server = json.query.general.server
-        if server.starts(with: "//") {
-            server = "https:" + server
-        }
+        logo = json.query.general.logo.prependingURLScheme()
+        favicon = json.query.general.favicon.prependingURLScheme()
+        server = json.query.general.server.prependingURLScheme()
         articlePath = json.query.general.articlepath
         return true
     }
@@ -90,6 +89,7 @@ fileprivate struct GeneralJSON: Decodable {
     var base: String
     var sitename: String
     var logo: String
+    var favicon: String
     var server: String
     var articlepath: String
 }

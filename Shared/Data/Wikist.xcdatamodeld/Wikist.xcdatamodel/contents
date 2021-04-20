@@ -7,6 +7,7 @@
     </entity>
     <entity name="WikiSite" representedClassName="WikiSite" syncable="YES">
         <attribute name="articlePath" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="favicon" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="homepage" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="logo" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="server" optional="YES" attributeType="String" defaultValueString=""/>
@@ -23,8 +24,8 @@
         <relationship name="site" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WikiSite" inverseName="users" inverseEntity="WikiSite"/>
     </entity>
     <elements>
-        <element name="WikiSite" positionX="-63" positionY="-18" width="128" height="134"/>
-        <element name="WikiUser" positionX="-54" positionY="-9" width="128" height="119"/>
         <element name="DailyContribution" positionX="-36" positionY="9" width="128" height="74"/>
+        <element name="WikiSite" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="WikiUser" positionX="-54" positionY="-9" width="128" height="119"/>
     </elements>
 </model>
