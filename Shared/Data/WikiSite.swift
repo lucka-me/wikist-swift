@@ -64,6 +64,7 @@ extension WikiSite {
         title = raw.title
         homepage = raw.homepage
         logo = raw.logo
+        favicon = raw.favicon
         server = raw.server
         articlePath = raw.articlePath
     }
