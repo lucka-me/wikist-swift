@@ -71,7 +71,10 @@ struct UserDetails: View {
     @ViewBuilder
     private var siteInfo: some View {
         CardView.Card(radius: Self.radius) {
-            CardView.List.header(Text("view.info.site.header"))
+            CardView.List.header(
+                Text("view.info.site.header"),
+                RemoteImage(user.site?.favicon ?? "").frame(width: 16, height: 16)
+            )
             CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(user.site?.title ?? ""))
             CardView.List.row(openHomePage, showIndicator: true) {
                 Label("view.info.site.homepage", systemImage: "house")

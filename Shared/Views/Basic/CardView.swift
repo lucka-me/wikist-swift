@@ -47,7 +47,17 @@ class CardView {
         }
         
         @ViewBuilder
-        static func row<Label: View>(_ leading: Label, _ trailing: Text) -> some View {
+        static func header<Trailing: View>(_ text: Text, _ trailing: Trailing) -> some View {
+            HStack {
+                text
+                Spacer()
+                trailing
+            }
+            .font(.headline)
+        }
+        
+        @ViewBuilder
+        static func row<Leading: View, Trailing: View>(_ leading: Leading, _ trailing: Trailing) -> some View {
             row {
                 HStack {
                     leading
