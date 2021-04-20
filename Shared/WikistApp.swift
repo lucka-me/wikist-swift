@@ -11,6 +11,7 @@ import SwiftUI
 struct WikistApp: App {
     
     @Environment(\.scenePhase) private var scenePhase : ScenePhase
+    @State private var lastRefresh = Date(timeIntervalSince1970: 0)
     private let dia = Dia.shared
     
     var body: some Scene {
@@ -33,7 +34,11 @@ struct WikistApp: App {
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {
-                refreshAll()
+                let now = Date()
+                if now.distance(to: lastRefresh) >= 30 * 3600 {
+                    refreshAll()
+                    lastRefresh = now
+                }
             }
         }
     }
@@ -42,7 +47,9 @@ struct WikistApp: App {
         let users = dia.users()
         for user in users {
             user.refresh { succeed in
-                dia.save()
+                if succeed {
+                    dia.save()
+                }
             }
         }
     }
