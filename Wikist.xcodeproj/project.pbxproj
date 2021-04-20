@@ -558,7 +558,6 @@
 		84E030E42625C98C0054A01C /* Widget */ = {
 			isa = PBXGroup;
 			children = (
-				8448340C262DCE6500839DC2 /* Localization */,
 				84EA11652625FD3B002B7636 /* Intents */,
 				84E031022625CDF30054A01C /* iOS */,
 				84E031262625CEA70054A01C /* macOS */,
@@ -588,6 +587,7 @@
 		84E031282625CEE30054A01C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				8448340C262DCE6500839DC2 /* Localization */,
 				84E0313A2625CF600054A01C /* ContributionsMatrixWidget.swift */,
 				84E030F12625CD2B0054A01C /* WikistWidgetBundle.swift */,
 				84E031B92625E3080054A01C /* Widget.intentdefinition */,

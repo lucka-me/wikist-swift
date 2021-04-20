@@ -72,6 +72,9 @@ struct ContributionsMatrixWidget: Widget {
     }
 
     struct EntryView : View {
+        
+        @Environment(\.widgetFamily) private var widgetFamily
+        
         var entry: Provider.Entry
 
         var body: some View {
@@ -85,13 +88,15 @@ struct ContributionsMatrixWidget: Widget {
         @ViewBuilder
         private func content(_ user: WikiUser) -> some View {
             VStack(alignment: .leading) {
-                HStack {
-                    Text(user.username)
-                    Spacer()
-                    Text(user.site?.title ?? "")
+                if widgetFamily == .systemMedium {
+                    HStack {
+                        Text(user.username)
+                        Spacer()
+                        Text(user.site?.title ?? "")
+                    }
+                    .lineLimit(1)
+                    .font(.callout)
                 }
-                .lineLimit(1)
-                .font(.callout)
                 ContributionsMatrix(user)
             }
             .padding()
