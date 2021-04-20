@@ -54,7 +54,7 @@ struct UserDetails: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     refreshing = true
-                    user.refresh { _ in
+                    user.refresh(full: true) { _ in
                         DispatchQueue.main.async {
                             Dia.shared.save()
                             refreshing = false

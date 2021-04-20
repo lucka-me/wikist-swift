@@ -93,7 +93,7 @@ class WikiUserRAW {
     }
     
     private func query(_ queryItems: [URLQueryItem], _ callback: @escaping QueryJSONCallback) {
-        guard var queryComponents = URLComponents(string: site.api) else {
+        guard var queryComponents = site.api else {
             callback(nil)
             return
         }

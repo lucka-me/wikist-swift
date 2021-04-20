@@ -71,8 +71,8 @@ extension WikiSite {
 
 extension WikiSite {
     
-    var api: String {
-        url + "/api.php"
+    var api: URLComponents? {
+        URLComponents(string: url + "/api.php")
     }
     
     var usersCount: Int {

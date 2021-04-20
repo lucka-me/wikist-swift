@@ -23,8 +23,8 @@ class WikiSiteRAW {
         self.url = url
     }
     
-    var api: String {
-        url + "/api.php"
+    var api: URLComponents? {
+        URLComponents(string: url + "/api.php")
     }
     
     private var queryItems: [URLQueryItem] {
@@ -39,7 +39,7 @@ class WikiSiteRAW {
     }
     
     func query(_ callback: @escaping QueryCallback) {
-        guard var queryComponents = URLComponents(string: api) else {
+        guard var queryComponents = api else {
             callback(false)
             return
         }
