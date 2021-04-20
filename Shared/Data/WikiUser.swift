@@ -148,7 +148,25 @@ extension WikiUser {
             .reduce(0) { $0 + $1.value }
     }
     
-    func refresh(_ callback: @escaping WikiUserRAW.QueryCallback) {
+    func refresh(full: Bool = false, _ callback: @escaping WikiUserRAW.QueryCallback) {
+        if full {
+            guard let solidSite = site else {
+                callback(false)
+                return
+            }
+            solidSite.refresh { succeed in
+                if !succeed {
+                    callback(false)
+                    return
+                }
+                self.refreshSelf(callback)
+            }
+        } else {
+            refreshSelf(callback)
+        }
+    }
+    
+    private func refreshSelf(_ callback: @escaping WikiUserRAW.QueryCallback) {
         guard let solidSite = site else {
             callback(false)
             return
