@@ -43,15 +43,10 @@ fileprivate final class RemoteImageModel: ObservableObject {
     @Published var data: Data?
     
     init(_ url: String) {
-        guard let taskUrl = URL(string: url) else {
-            return
-        }
-        let request = URLRequest(url: taskUrl, cachePolicy: .returnCacheDataElseLoad)
-        URLSession.shared.dataTask(with: request) { data, _, _ in
+        URLSession.shared.dataTask(with: url) { data in
             DispatchQueue.main.async {
                 self.data = data
             }
         }
-        .resume()
     }
 }

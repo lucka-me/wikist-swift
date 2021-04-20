@@ -47,15 +47,11 @@ struct ContributionsMatrixWidget: Widget {
                 if succeed {
                     Dia.shared.save()
                 }
-                guard
-                    let site = user.site,
-                    let url = URL(string: site.favicon)
-                else {
+                guard let site = user.site else {
                     onFinished(nil)
                     return
                 }
-                let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
-                URLSession.shared.dataTask(with: request) { data, _, _ in onFinished(data) }.resume()
+                URLSession.shared.dataTask(with: site.favicon) { onFinished($0) }
             }
         }
         
