@@ -23,8 +23,11 @@ extension Image {
         #endif
     }
     
-    init?(data: Data) {
-        guard let unImage = UNImage(data: data) else {
+    init?(data: Data?) {
+        guard
+            let solidData = data,
+            let unImage = UNImage(data: solidData)
+        else {
             return nil
         }
         self.init(unImage: unImage)

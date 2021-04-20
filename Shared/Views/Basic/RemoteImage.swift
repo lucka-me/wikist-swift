@@ -19,7 +19,7 @@ struct RemoteImage: View {
     }
     
     var body: some View {
-        if let solidData = model.data, let image = Image(data: solidData) {
+        if let image = Image(data: model.data) {
             image
                 .resizable()
                 .scaledToFit()
