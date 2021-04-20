@@ -106,7 +106,7 @@ fileprivate struct IconSelector: View {
                 row(Self.dark, "Dark")
             }
             .listStyle(InsetGroupedListStyle())
-            .navigationTitle("view.preferences.changeIcon")
+            .navigationTitle("view.preferences.appearance.changeIcon")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("view.action.dismiss") {

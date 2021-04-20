@@ -413,6 +413,7 @@
 			children = (
 				84E03098262355FD0054A01C /* Wikist.entitlements */,
 				843BF4082622BAAF0065D9FF /* Info.plist */,
+				84483463262EE5D700839DC2 /* Views */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -434,7 +435,6 @@
 				84E030472622EA700054A01C /* AddView.swift */,
 				843BF3FF2622BAAE0065D9FF /* ContentView.swift */,
 				843BF4222622BE070065D9FF /* ContributionsMatrix.swift */,
-				84EA14482626CD90002B7636 /* PreferencesView.swift */,
 				84E030BE262380E20054A01C /* UserDetails.swift */,
 				843BF4292622C2D70065D9FF /* UserList.swift */,
 				843BF42E2622C3020065D9FF /* UserListRow.swift */,
@@ -466,6 +466,14 @@
 				8448341F262DCEA900839DC2 /* Widget.strings */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		84483463262EE5D700839DC2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84EA14482626CD90002B7636 /* PreferencesView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8464CE49262C089D003A3C47 /* Views */ = {
