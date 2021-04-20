@@ -176,6 +176,7 @@ fileprivate class AddViewModel: ObservableObject {
             alert("view.add.alert.urlEmpty")
             return
         }
+        url = url.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let _ = URL(string: url) else {
             alert("view.add.alert.urlInvalid")
             return
