@@ -253,12 +253,12 @@ fileprivate class AddViewModel: ObservableObject {
         guard let solidRAW = user else {
             return
         }
-        let _ = WikiUser.from(solidRAW, context: Dia.shared.context)
+        let _ = WikiUser.from(solidRAW, UUID(), with: Dia.shared.context, createMeta: true)
         Dia.shared.save()
     }
     
     func clear() {
-        if let solidSite = site, solidSite.usersCount == 0 {
+        if let solidSite = site {
             Dia.shared.delete(solidSite)
         }
         Dia.shared.save()

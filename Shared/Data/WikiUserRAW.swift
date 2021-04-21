@@ -24,6 +24,16 @@ class WikiUserRAW {
         self.site = site
     }
     
+    func queryAll(_ callback: @escaping QueryCallback) {
+        queryInfo { succeed in
+            if !succeed {
+                callback(false)
+                return
+            }
+            self.queryContributions(callback)
+        }
+    }
+    
     func queryInfo(_ callback: @escaping QueryCallback) {
         query(queryItemsForInfo) { json in
             guard

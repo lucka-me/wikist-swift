@@ -17,6 +17,7 @@ public final class WikiUser: NSManagedObject, NSManagedObjectWithFetchRequest {
 
 extension WikiUser {
 
+    @NSManaged public var dataId: UUID
     @NSManaged public var username: String
     @NSManaged public var site: WikiSite?
     @NSManaged public var uid: Int64
@@ -49,14 +50,26 @@ extension WikiUser : Identifiable {
 
 extension WikiUser {
     static let sortDescriptorsByEdits = [ NSSortDescriptor(keyPath: \WikiUser.edits, ascending: false) ]
+    
+    static func predicate(of dataId: UUID) -> NSPredicate {
+        .init(format: "dataId = %@", dataId as CVarArg)
+    }
 }
 
 extension WikiUser {
-    static func from(_ raw: WikiUserRAW, context: NSManagedObjectContext) -> WikiUser {
+    static func from(
+        _ raw: WikiUserRAW, _ dataId: UUID,
+        with context: NSManagedObjectContext,
+        createMeta: Bool = false
+    ) -> WikiUser {
         let object = WikiUser(context: context)
+        object.dataId = dataId
         object.username = raw.username
         object.site = raw.site
         object.from(raw)
+        if createMeta {
+            object.createMeta()
+        }
         return object
     }
     
@@ -91,6 +104,19 @@ extension WikiUser {
 }
 
 extension WikiUser {
+    
+    var metaPredicate: NSPredicate {
+        return WikiUserMeta.predicate(of: dataId)
+    }
+    
+    var meta: WikiUserMeta? {
+        guard let solidContext = managedObjectContext else {
+            return nil
+        }
+        let request: NSFetchRequest<WikiUserMeta> = WikiUserMeta.fetchRequest()
+        request.predicate = metaPredicate
+        return try? solidContext.fetch(request).first
+    }
     
     var userPage: URL? {
         guard let solidSite = site else {
@@ -190,5 +216,18 @@ extension WikiUser {
         }
         raw.queryInfo(onFinished)
         raw.queryContributions(onFinished)
+    }
+    
+    private func createMeta() {
+        guard
+            let solidContext = managedObjectContext,
+            let solidSite = site
+        else {
+            return
+        }
+        let meta = WikiUserMeta(context: solidContext)
+        meta.dataId = dataId
+        meta.username = username
+        meta.site = solidSite.url
     }
 }

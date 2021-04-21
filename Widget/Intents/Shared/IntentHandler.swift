@@ -35,16 +35,20 @@ class IntentHandler: INExtension, ContributionsMatrixConfigurationIntentHandling
         for intent: ContributionsMatrixConfigurationIntent,
         with completion: @escaping (INObjectCollection<ContributionsMatrixConfigurationUser>?, Error?) -> Void
     ) {
-        let list: [ContributionsMatrixConfigurationUser] = Dia.shared.users().compactMap { user in
-            guard let site = user.site else {
-                return nil
+        let metas: [ WikiUserMeta ] = Dia.shared.list()
+        let items: [ ContributionsMatrixConfigurationUser ] = metas
+            .compactMap { $0.user }
+            .sorted { $0.edits > $1.edits }
+            .compactMap { user in
+                guard let site = user.site else {
+                    return nil
+                }
+                return .init(
+                    identifier: user.objectID.uriRepresentation().absoluteString,
+                    display: "\(user.username) | \(site.title)"
+                )
             }
-            return .init(
-                identifier: user.objectID.uriRepresentation().absoluteString,
-                display: "\(user.username) | \(site.title)"
-            )
-        }
-        completion(.init(items: list), nil)
+        completion(.init(items: items), nil)
     }
     
 }

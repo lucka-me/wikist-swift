@@ -10,10 +10,10 @@ import SwiftUI
 struct UserList: View {
     
     @Environment(\.managedObjectContext) private var context
+    @EnvironmentObject private var dia: Dia
     @FetchRequest(
-        entity: WikiUser.entity(),
-        sortDescriptors: WikiUser.sortDescriptorsByEdits
-    ) private var users: FetchedResults<WikiUser>
+        entity: WikiUserMeta.entity(), sortDescriptors: []
+    ) private var metas: FetchedResults<WikiUserMeta>
     @State private var selection: ObjectIdentifier?
     
     var body: some View {
@@ -27,39 +27,41 @@ struct UserList: View {
     @ViewBuilder
     private var content: some View {
         List {
-            ForEach(users) { user in
+            ForEach(sortedMetas) { meta in
                 #if os(macOS)
-                link(user) {
-                    UserListRow(user)
+                link(meta) {
+                    UserListRow(meta)
                 }
                 .contextMenu {
                     Button("view.list.delete") {
-                        Dia.shared.delete(user)
-                        Dia.shared.save()
+                        dia.delete(meta)
+                        dia.save()
                     }
                 }
                 #else
                 ZStack {
-                    UserListRow(user)
-                    link(user) { EmptyView() }
+                    UserListRow(meta)
+                    link(meta) { EmptyView() }
                         .hidden()
                 }
                 #endif
             }
             .onDelete { indexSet in
-                for index in indexSet {
-                    if index < users.endIndex {
-                        let user = users[index]
-                        if selection == user.id {
-                            selection = nil
-                        }
-                        Dia.shared.delete(user)
-                    }
+                let metas = self.sortedMetas
+                let deleteList = indexSet.compactMap { index in
+                    index < metas.endIndex ? metas[index] : nil
                 }
-                Dia.shared.save()
+                for meta in deleteList {
+                    dia.delete(meta)
+                }
+                dia.save()
             }
         }
         .listStyle(listStyle)
+    }
+    
+    private var sortedMetas: [ WikiUserMeta ] {
+        metas.sorted { $0.user?.edits ?? 0 > $1.user?.edits ?? 0 }
     }
     
     private var listStyle: some ListStyle {
@@ -71,21 +73,29 @@ struct UserList: View {
     }
     
     @ViewBuilder
-    private func link<Label: View>(_ user: WikiUser, @ViewBuilder label: () -> Label) -> some View {
-        NavigationLink(
-            destination: UserDetails(user),
-            tag: user.id,
-            selection: $selection,
-            label: label
-        )
+    private func link<Label: View>(_ meta: WikiUserMeta, @ViewBuilder label: () -> Label) -> some View {
+        if let user = meta.user {
+            NavigationLink(
+                destination: UserDetails(user),
+                tag: user.id,
+                selection: $selection,
+                label: label
+            )
+        } else {
+            label()
+        }
     }
 }
 
 #if DEBUG
 struct UserList_Previews: PreviewProvider {
+    
+    private static let dia = Dia.preview
+    
     static var previews: some View {
         UserList()
-            .environment(\.managedObjectContext, Dia.preview.context)
+            .environment(\.managedObjectContext, dia.context)
+            .environmentObject(dia)
     }
 }
 #endif

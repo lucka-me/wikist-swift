@@ -34,21 +34,11 @@ struct WikistApp: App {
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {
+                dia.clear()
                 let now = Date()
                 if now.distance(to: lastRefresh) >= 30 * 3600 {
-                    refreshAll()
+                    dia.refresh()
                     lastRefresh = now
-                }
-            }
-        }
-    }
-    
-    private func refreshAll() {
-        let users = dia.users()
-        for user in users {
-            user.refresh { succeed in
-                if succeed {
-                    dia.save()
                 }
             }
         }

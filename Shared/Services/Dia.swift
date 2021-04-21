@@ -13,8 +13,10 @@ class Dia: ObservableObject {
     
     private static let directoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: FileManager.appGroupIdentifier)!
         .appendingPathComponent("database", isDirectory: true)
-    private static let fileURL = directoryURL
-        .appendingPathComponent("default.sqlite")
+    private static let localStoreURL = directoryURL
+        .appendingPathComponent("local.sqlite")
+    private static let cloudStoreURL = directoryURL
+        .appendingPathComponent("cloud.sqlite")
     
     /// Refresh it to force UI refresh after save Core Data
     @Published private var saveID = UUID().uuidString
@@ -28,12 +30,22 @@ class Dia: ObservableObject {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
             #endif
         } else {
-            if !FileManager.default.fileExists(atPath: Self.fileURL.path) {
-                try? FileManager.default.createDirectory(at: Self.directoryURL, withIntermediateDirectories: true, attributes: nil)
+            if !FileManager.default.fileExists(atPath: Self.localStoreURL.path) {
+                try? FileManager.default.createDirectory(
+                    at: Self.directoryURL, withIntermediateDirectories: true, attributes: nil
+                )
             }
-            let storeDescription = NSPersistentStoreDescription(url: Self.fileURL)
-            storeDescription.cloudKitContainerOptions = .init(containerIdentifier: "iCloud.dev.lucka.Wikist")
-            container.persistentStoreDescriptions = [ storeDescription ]
+            
+            let localStoreDescription = NSPersistentStoreDescription(url: Self.localStoreURL)
+            localStoreDescription.configuration = "Local"
+            
+            let cloudStoreDescription = NSPersistentStoreDescription(url: Self.cloudStoreURL)
+            cloudStoreDescription.configuration = "Cloud"
+            cloudStoreDescription.cloudKitContainerOptions = .init(containerIdentifier: "iCloud.dev.lucka.Wikist")
+            
+            container.persistentStoreDescriptions = [
+                localStoreDescription, cloudStoreDescription
+            ]
         }
         container.loadPersistentStores { storeDescription, error in
             if let solidError = error {
@@ -74,15 +86,43 @@ class Dia: ObservableObject {
         return context.object(with: objectID) as? WikiUser
     }
     
+    func delete(_ meta: WikiUserMeta) {
+        let user = meta.user
+        context.delete(meta)
+        if let solidUser = user {
+            context.delete(solidUser)
+        }
+    }
+    
     func delete(_ site: WikiSite) {
         if site.usersCount == 0 {
             context.delete(site)
         }
     }
     
-    func delete(_ user: WikiUser) {
-        context.delete(user)
-        clearSites()
+    func refresh() {
+        let metas: [ WikiUserMeta ] = list()
+        for meta in metas {
+            if let user = meta.user {
+                user.refresh { succeed in
+                    if succeed {
+                        self.save()
+                    }
+                }
+            } else {
+                meta.createUser(with: self)
+            }
+        }
+    }
+    
+    func clear() {
+        let users: [ WikiUser ] = list()
+        for user in users {
+            if user.meta == nil {
+                context.delete(user)
+            }
+        }
+        save()
     }
     
     func save() {
@@ -100,18 +140,10 @@ class Dia: ObservableObject {
         }
     }
     
-    private func list<T: NSManagedObjectWithFetchRequest>(matches predicate: NSPredicate? = nil) -> [ T ] {
+    func list<T: NSManagedObjectWithFetchRequest>(matches predicate: NSPredicate? = nil) -> [ T ] {
         let request: NSFetchRequest<T> = T.fetchRequest()
         request.predicate = predicate
         return (try? context.fetch(request)) ?? []
-    }
-    
-    /// Clear sites containing no user
-    private func clearSites() {
-        let sites: [ WikiSite ] = list()
-        for site in sites {
-            delete(site)
-        }
     }
     
     /// Clear contributions not linked with user
@@ -131,8 +163,13 @@ class Dia: ObservableObject {
         site.url = "https://wiki.52poke.com"
         site.title = "Example"
         let user = WikiUser(context: dia.context)
+        user.dataId = UUID()
         user.username = "User"
         user.site = site
+        let meta = WikiUserMeta(context: dia.context)
+        meta.dataId = user.dataId
+        meta.username = user.username
+        meta.site = site.url
         for _ in 0...100 {
             let date = Date(timeIntervalSinceNow: .init(Int.random(in: 0 ..< Date.daysInYear) * Date.secondsInDay))
             let contribution = DailyContribution(context: dia.context)

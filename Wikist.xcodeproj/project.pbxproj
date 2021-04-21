@@ -13,6 +13,12 @@
 		841BA789262B22A80083E19C /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA787262B22A80083E19C /* Support.swift */; };
 		841BA797262BD2C50083E19C /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA796262BD2C50083E19C /* SKProduct.swift */; };
 		841BA798262BD2C50083E19C /* SKProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA796262BD2C50083E19C /* SKProduct.swift */; };
+		84381A56263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
+		84381A57263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
+		84381A58263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
+		84381A59263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
+		84381A5A263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
+		84381A5B263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
 		843BF4112622BAAF0065D9FF /* WikistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FE2622BAAE0065D9FF /* WikistApp.swift */; };
 		843BF4122622BAAF0065D9FF /* WikistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FE2622BAAE0065D9FF /* WikistApp.swift */; };
 		843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FF2622BAAE0065D9FF /* ContentView.swift */; };
@@ -253,6 +259,7 @@
 		841BA785262B22820083E19C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		841BA787262B22A80083E19C /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
 		841BA796262BD2C50083E19C /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
+		84381A54263035350057FCD4 /* WikiUserMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiUserMeta.swift; sourceTree = "<group>"; };
 		843BF3FE2622BAAE0065D9FF /* WikistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistApp.swift; sourceTree = "<group>"; };
 		843BF3FF2622BAAE0065D9FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		843BF4002622BAAF0065D9FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -525,6 +532,7 @@
 				84E030642623504F0054A01C /* WikiSite.swift */,
 				84E030AB262372B00054A01C /* WikiSiteRAW.swift */,
 				84E030662623504F0054A01C /* WikiUser.swift */,
+				84381A54263035350057FCD4 /* WikiUserMeta.swift */,
 				84E030B0262375F00054A01C /* WikiUserRAW.swift */,
 				84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */,
 			);
@@ -896,6 +904,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84381A56263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				84E030AC262372B00054A01C /* WikiSiteRAW.swift in Sources */,
 				84E030482622EA700054A01C /* AddView.swift in Sources */,
 				844834CA262F211A00839DC2 /* URLSession.swift in Sources */,
@@ -951,6 +960,7 @@
 				841BA789262B22A80083E19C /* Support.swift in Sources */,
 				843BF4302622C3020065D9FF /* UserListRow.swift in Sources */,
 				84E030CC26242C360054A01C /* CardView.swift in Sources */,
+				84381A57263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */,
 				84E030B2262375F00054A01C /* WikiUserRAW.swift in Sources */,
 				843BF4142622BAAF0065D9FF /* ContentView.swift in Sources */,
@@ -975,6 +985,7 @@
 				84E0315F2625D1410054A01C /* WikiSiteRAW.swift in Sources */,
 				84E0318D2625D1550054A01C /* ISO8601DateFormatter.swift in Sources */,
 				84E031812625D1510054A01C /* Date.swift in Sources */,
+				84381A58263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				84E0317B2625D14E0054A01C /* Calendar.swift in Sources */,
 				84E0314F2625D13C0054A01C /* DailyContribution.swift in Sources */,
 				844834AF262F1DD100839DC2 /* Image.swift in Sources */,
@@ -1003,6 +1014,7 @@
 				84E031642625D1410054A01C /* WikiSiteRAW.swift in Sources */,
 				84E031922625D1560054A01C /* ISO8601DateFormatter.swift in Sources */,
 				84E031862625D1510054A01C /* Date.swift in Sources */,
+				84381A59263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				84E031802625D14F0054A01C /* Calendar.swift in Sources */,
 				84E031542625D13C0054A01C /* DailyContribution.swift in Sources */,
 				844834B6262F1DD200839DC2 /* Image.swift in Sources */,
@@ -1033,6 +1045,7 @@
 				84EA1244262600BC002B7636 /* URL.swift in Sources */,
 				844833DE262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84EA11E426260052002B7636 /* DailyContribution.swift in Sources */,
+				84381A5A263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				84EA11FC26260059002B7636 /* WikiUser.swift in Sources */,
 				84EA11F426260057002B7636 /* WikiSiteRAW.swift in Sources */,
 				84EA1234262600B7002B7636 /* Date.swift in Sources */,
@@ -1057,6 +1070,7 @@
 				84EA13CA26269801002B7636 /* URL.swift in Sources */,
 				844833DF262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				84EA13A7262697EF002B7636 /* Wikist.xcdatamodeld in Sources */,
+				84381A5B263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				84EA1384262697E3002B7636 /* DailyContribution.swift in Sources */,
 				84EA1399262697EB002B7636 /* WikiUser.swift in Sources */,
 				84EA13D826269835002B7636 /* Dia.swift in Sources */,
