@@ -6,6 +6,20 @@
 	objectVersion = 54;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		84381B782631BCCF0057FCD4 /* Version */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84381B792631BCCF0057FCD4 /* Build configuration list for PBXAggregateTarget "Version" */;
+			buildPhases = (
+				84381B832631BCD80057FCD4 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Version;
+			productName = Version;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		841BA784262B22740083E19C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841BA783262B22740083E19C /* StoreKit.framework */; };
 		841BA786262B22820083E19C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841BA785262B22820083E19C /* StoreKit.framework */; };
@@ -197,6 +211,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		84381B8B2631BD800057FCD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84381B782631BCCF0057FCD4;
+			remoteInfo = Version;
+		};
+		84381B8D2631BD830057FCD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84381B782631BCCF0057FCD4;
+			remoteInfo = Version;
+		};
+		84381B8F2631BD880057FCD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84381B782631BCCF0057FCD4;
+			remoteInfo = Version;
+		};
+		84381B912631BD8B0057FCD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84381B782631BCCF0057FCD4;
+			remoteInfo = Version;
+		};
+		84381B9A2631BDA60057FCD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84381B782631BCCF0057FCD4;
+			remoteInfo = Version;
+		};
+		84381B9C2631BDAA0057FCD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84381B782631BCCF0057FCD4;
+			remoteInfo = Version;
+		};
 		84E030F62625CD2E0054A01C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 843BF3F92622BAAE0065D9FF /* Project object */;
@@ -678,6 +734,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84381B9D2631BDAA0057FCD4 /* PBXTargetDependency */,
 				84E030F72625CD2E0054A01C /* PBXTargetDependency */,
 				84EA115B2625FD21002B7636 /* PBXTargetDependency */,
 			);
@@ -698,6 +755,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84381B9B2631BDA60057FCD4 /* PBXTargetDependency */,
 				84E031122625CE3B0054A01C /* PBXTargetDependency */,
 				84EA13512626974E002B7636 /* PBXTargetDependency */,
 			);
@@ -717,6 +775,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84381B922631BD8B0057FCD4 /* PBXTargetDependency */,
 			);
 			name = "Widget Extension iOS";
 			productName = WidgetExtension;
@@ -734,6 +793,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84381B902631BD880057FCD4 /* PBXTargetDependency */,
 			);
 			name = "Widget Extension macOS";
 			productName = WidgetExtension;
@@ -751,6 +811,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84381B8E2631BD830057FCD4 /* PBXTargetDependency */,
 			);
 			name = "WidgetConfiguration iOS";
 			productName = WidgetConfiguration;
@@ -768,6 +829,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84381B8C2631BD800057FCD4 /* PBXTargetDependency */,
 			);
 			name = "WidgetConfiguration macOS";
 			productName = WidgetConfiguration;
@@ -783,6 +845,9 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					84381B782631BCCF0057FCD4 = {
+						CreatedOnToolsVersion = 12.4;
+					};
 					843BF4042622BAAF0065D9FF = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -823,6 +888,7 @@
 				84E031062625CE380054A01C /* Widget Extension macOS */,
 				84EA11532625FD21002B7636 /* WidgetConfiguration iOS */,
 				84EA13492626974E002B7636 /* WidgetConfiguration macOS */,
+				84381B782631BCCF0057FCD4 /* Version */,
 			);
 		};
 /* End PBXProject section */
@@ -898,6 +964,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		84381B832631BCD80057FCD4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh ${PROJECT_DIR}/Scripts/pre-build.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		843BF4012622BAAF0065D9FF /* Sources */ = {
@@ -1088,6 +1175,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		84381B8C2631BD800057FCD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84381B782631BCCF0057FCD4 /* Version */;
+			targetProxy = 84381B8B2631BD800057FCD4 /* PBXContainerItemProxy */;
+		};
+		84381B8E2631BD830057FCD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84381B782631BCCF0057FCD4 /* Version */;
+			targetProxy = 84381B8D2631BD830057FCD4 /* PBXContainerItemProxy */;
+		};
+		84381B902631BD880057FCD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84381B782631BCCF0057FCD4 /* Version */;
+			targetProxy = 84381B8F2631BD880057FCD4 /* PBXContainerItemProxy */;
+		};
+		84381B922631BD8B0057FCD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84381B782631BCCF0057FCD4 /* Version */;
+			targetProxy = 84381B912631BD8B0057FCD4 /* PBXContainerItemProxy */;
+		};
+		84381B9B2631BDA60057FCD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84381B782631BCCF0057FCD4 /* Version */;
+			targetProxy = 84381B9A2631BDA60057FCD4 /* PBXContainerItemProxy */;
+		};
+		84381B9D2631BDAA0057FCD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84381B782631BCCF0057FCD4 /* Version */;
+			targetProxy = 84381B9C2631BDAA0057FCD4 /* PBXContainerItemProxy */;
+		};
 		84E030F72625CD2E0054A01C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84E030EA2625CD2B0054A01C /* Widget Extension iOS */;
@@ -1141,6 +1258,24 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		84381B7A2631BCCF0057FCD4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84381B7B2631BCCF0057FCD4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4J48MW8HQS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		843BF4172622BAAF0065D9FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1592,6 +1727,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		84381B792631BCCF0057FCD4 /* Build configuration list for PBXAggregateTarget "Version" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84381B7A2631BCCF0057FCD4 /* Debug */,
+				84381B7B2631BCCF0057FCD4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		843BF3FC2622BAAE0065D9FF /* Build configuration list for PBXProject "Wikist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
