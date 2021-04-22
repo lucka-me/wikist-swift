@@ -14,7 +14,7 @@ class WikiUserRAW {
     
     var username: String
     var site: WikiSite
-    var uid: Int64 = 0
+    var userId: Int64 = 0
     var registration: Date = .init()
     var edits: Int64 = 0
     var contributions: [ Date : Int64 ] = [:]
@@ -131,7 +131,7 @@ class WikiUserRAW {
     }
     
     private func parse(_ json: UserJSON) -> Bool {
-        uid = json.userid
+        userId = json.userid
         guard let solidRegistration = ISO8601DateFormatter.shared.date(from: json.registration) else {
             return false
         }

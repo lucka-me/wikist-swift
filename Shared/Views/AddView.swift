@@ -133,7 +133,7 @@ struct AddView: View {
     private var userInfo: some View {
         CardView.Card {
             CardView.List.header(Text("view.info.user.header"))
-            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(model.user?.uid ?? 0)"))
+            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(model.user?.userId ?? 0)"))
             CardView.List.row(Label("view.info.user.registration", systemImage: "play"), Text(model.user?.registration ?? .init(), style: .date))
             CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(model.user?.edits ?? 0)"))
         }

@@ -88,7 +88,7 @@ struct UserDetails: View {
         CardView.Card {
             Text("view.info.user.header")
                 .font(.headline)
-            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(user.uid)"))
+            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(user.userId)"))
             CardView.List.row(Label("view.info.user.registration", systemImage: "play"), Text(user.registration, style: .date))
             CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(user.edits)"))
             CardView.List.row(Label("view.info.user.contributionsLastYear", systemImage: "calendar"), Text("\(user.contributionsLastYear)"))

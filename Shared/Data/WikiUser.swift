@@ -20,7 +20,7 @@ extension WikiUser {
     @NSManaged public var dataId: UUID
     @NSManaged public var username: String
     @NSManaged public var site: WikiSite?
-    @NSManaged public var uid: Int64
+    @NSManaged public var userId: Int64
     @NSManaged public var registration: Date
     @NSManaged public var edits: Int64
     @NSManaged public var contributions: NSSet?
@@ -77,7 +77,7 @@ extension WikiUser {
         if raw.username != username || raw.site != site {
             return
         }
-        uid = raw.uid
+        userId = raw.userId
         registration = raw.registration
         edits = raw.edits
         guard let solidContext = managedObjectContext else {
