@@ -61,7 +61,7 @@
 
 // List
 "view.list.delete"  = "删除";
-"view.list.loading" = "Loading";
+"view.list.loading" = "加载中";
 
 // ContributionsMatrixWidget
 "widget.matrix.name"    = "贡献矩阵小组件";
