@@ -33,14 +33,22 @@ struct WikistApp: App {
                 .environmentObject(dia)
         }
         .onChange(of: scenePhase) { phase in
+            sync()
             if phase == .active {
-                dia.clear()
-                let now = Date()
-                if now.distance(to: lastRefresh) >= 30 * 3600 {
-                    dia.refresh()
-                    lastRefresh = now
-                }
+                refresh()
             }
+        }
+    }
+    
+    private func sync() {
+        dia.sync()
+    }
+    
+    private func refresh() {
+        let now = Date()
+        if now.distance(to: lastRefresh) >= 30 * 3600 {
+            dia.refresh()
+            lastRefresh = now
         }
     }
 }

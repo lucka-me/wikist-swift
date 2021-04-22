@@ -109,13 +109,17 @@ class Dia: ObservableObject {
                         self.save()
                     }
                 }
-            } else {
-                meta.createUser(with: self)
             }
         }
     }
     
-    func clear() {
+    func sync() {
+        let metas: [ WikiUserMeta ] = list()
+        for meta in metas {
+            if meta.user == nil {
+                meta.createUser(with: self)
+            }
+        }
         let users: [ WikiUser ] = list()
         for user in users {
             if user.meta == nil {
