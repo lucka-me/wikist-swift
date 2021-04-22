@@ -41,17 +41,27 @@ struct UserListRow: View {
             Text(meta.username)
                 .font(.title2)
                 .lineLimit(1)
-            Text(meta.user?.site?.title ?? "Loading")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            if let site = meta.user?.site {
+                Text(site.title)
+                    .foregroundColor(.secondary)
+            } else {
+                Text("view.list.loading")
+                    .foregroundColor(.secondary)
+            }
         }
         #else
         VStack(alignment: .leading) {
             HStack {
                 Text(meta.username)
                 Spacer()
-                Text(meta.user?.site?.title ?? "Loading")
-                    .foregroundColor(.secondary)
+                if let site = meta.user?.site {
+                    Text(site.title)
+                        .foregroundColor(.secondary)
+                } else {
+                    Text("view.list.loading")
+                        .foregroundColor(.secondary)
+                }
+                
             }
             .font(.subheadline)
             .lineLimit(1)

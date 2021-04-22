@@ -60,7 +60,8 @@
 "view.details.update"   = "更新";
 
 // List
-"view.list.delete" = "删除";
+"view.list.delete"  = "删除";
+"view.list.loading" = "Loading";
 
 // ContributionsMatrixWidget
 "widget.matrix.name"    = "贡献矩阵小组件";

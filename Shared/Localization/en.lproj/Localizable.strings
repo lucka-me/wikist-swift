@@ -60,7 +60,8 @@
 "view.details.update"   = "Update";
 
 // List
-"view.list.delete" = "Delete";
+"view.list.delete"  = "Delete";
+"view.list.loading" = "Loading";
 
 // ContributionsMatrixWidget
 "widget.matrix.name"    = "Contributions Matrix Widget";
