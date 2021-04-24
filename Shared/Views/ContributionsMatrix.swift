@@ -37,23 +37,10 @@ struct ContributionsMatrix: View {
     
     static let gridSpacing: CGFloat = 2
     
-    static func bestHeight(in size: CGSize) -> CGFloat {
-        bestHeight(lessThan: size.height, matching: size.width)
-    }
-    
-    static func bestHeight(lessThan height: CGFloat, matching width: CGFloat) -> CGFloat {
-        let expandedWidth = width + gridSpacing
-        let expandedHeight = height + gridSpacing
-        let columns = ceil(expandedWidth / expandedHeight * 7)
-        return expandedWidth * (7 / columns) - gridSpacing
-    }
-    
-    static private var rows: [GridItem] {
-        .init(
-            repeating: .init(.flexible(minimum: 10, maximum: .infinity), spacing: Self.gridSpacing),
-            count: 7
-        )
-    }
+    static private let rows: [ GridItem ] = .init(
+        repeating: .init(.flexible(minimum: 10, maximum: .infinity), spacing: Self.gridSpacing),
+        count: 7
+    )
     
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var dia: Dia
@@ -67,11 +54,11 @@ struct ContributionsMatrix: View {
     var body: some View {
         GeometryReader { geometry in
             LazyHGrid(rows: Self.rows, alignment: .top, spacing: Self.gridSpacing) {
-                ForEach(user.contributionsMatrix.suffix(count(geometry.size))) { raw in
+                ForEach(user.contributionsMatrix.suffix(count(in: geometry.size))) { raw in
                     grid(raw.count)
                 }
             }
-            .frame(alignment: .center)
+            .frame(height: bestHeight(in: geometry.size))
         }
     }
     
@@ -82,9 +69,18 @@ struct ContributionsMatrix: View {
             .aspectRatio(1, contentMode: .fit)
     }
     
-    private func count(_ size: CGSize) -> Int {
-        let weeks = Int(floor((size.width + Self.gridSpacing) / (size.height + Self.gridSpacing) * 7))
-        return weeks * 7
+    private func bestHeight(in size: CGSize) -> CGFloat {
+        let width = size.width + Self.gridSpacing
+        let height = size.height + Self.gridSpacing
+        let columns = ceil(width / height * 7)
+        return width * (7 / columns) - Self.gridSpacing
+    }
+    
+    private func count(in size: CGSize) -> Int {
+        let width = size.width + Self.gridSpacing
+        let height = size.height + Self.gridSpacing
+        let columns = ceil(width / height * 7)
+        return Int(columns * 7)
     }
     
     private func color(_ count: Int64?) -> Color {

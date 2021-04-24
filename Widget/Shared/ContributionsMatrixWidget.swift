@@ -103,7 +103,7 @@ struct ContributionsMatrixWidget: Widget {
         
         @ViewBuilder
         private func contentMedium(_ user: WikiUser) -> some View {
-            VStack(alignment: .leading, spacing: nil) {
+            VStack {
                 HStack {
                     if let image = Image(data: entry.favicon) {
                         image
@@ -119,11 +119,9 @@ struct ContributionsMatrixWidget: Widget {
                 .lineLimit(1)
                 .foregroundColor(.secondary)
                 .font(.caption)
-                GeometryReader { proxy in
-                    Spacer()
-                    ContributionsMatrix(user)
-                        .frame(height: ContributionsMatrix.bestHeight(in: proxy.size))
-                }
+                
+                ContributionsMatrix(user)
+                    .frame(alignment: .bottom)
             }
             .padding()
         }

@@ -66,17 +66,11 @@ struct UserListRow: View {
             .font(.subheadline)
             
             if let user = meta.user {
-                GeometryReader { proxy in
-                    ContributionsMatrix(user)
-                        .frame(height: ContributionsMatrix.bestHeight(in: proxy.size))
-                }
-                .frame(height: Self.matrixHeight, alignment: .bottom)
+                ContributionsMatrix(user)
+                    .frame(height: Self.matrixHeight, alignment: .bottom)
             }
         }
         .padding(.vertical, 5)
-        GeometryReader { proxy in
-            
-        }
         #endif
     }
 }
