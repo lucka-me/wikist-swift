@@ -50,7 +50,7 @@ struct UserListRow: View {
             }
         }
         #else
-        VStack(alignment: .leading) {
+        VStack {
             HStack {
                 Text(meta.username)
                 Spacer()
@@ -66,11 +66,17 @@ struct UserListRow: View {
             .font(.subheadline)
             
             if let user = meta.user {
-                ContributionsMatrix(user)
-                    .frame(height: Self.matrixHeight)
+                GeometryReader { proxy in
+                    ContributionsMatrix(user)
+                        .frame(height: ContributionsMatrix.bestHeight(in: proxy.size))
+                }
+                .frame(height: Self.matrixHeight, alignment: .bottom)
             }
         }
         .padding(.vertical, 5)
+        GeometryReader { proxy in
+            
+        }
         #endif
     }
 }

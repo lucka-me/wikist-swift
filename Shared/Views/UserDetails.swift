@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserDetails: View {
     
-    static private let matrixHeight: CGFloat = 16 * 7 + ContributionsMatrix.gridSpacing * 6
+    static private let matrixMaxHeight: CGFloat = 16 * 7 + ContributionsMatrix.gridSpacing * 6
     
     @Environment(\.openURL) private var openURL
     @State private var refreshing = false
@@ -35,18 +35,20 @@ struct UserDetails: View {
     @ViewBuilder
     private var content: some View {
         ScrollView {
-            VStack(alignment: .center) {
-                ContributionsMatrix(user)
-                    .frame(height: Self.matrixHeight)
-                
-                LazyVGrid(columns: [ .init(.adaptive(minimum: 250), alignment: .top) ], alignment: .center) {
-                    siteInfo
-                    userInfo
+            GeometryReader { proxy in
+                VStack(alignment: .center) {
+                    ContributionsMatrix(user)
+                        .frame(height: ContributionsMatrix.bestHeight(lessThan: Self.matrixMaxHeight, matching: proxy.size.width))
+                    
+                    LazyVGrid(columns: [ .init(.adaptive(minimum: 250), alignment: .top) ], alignment: .center) {
+                        siteInfo
+                        userInfo
+                    }
+                    .lineLimit(1)
                 }
-                .lineLimit(1)
+                .animation(.easeInOut)
             }
             .padding()
-            .animation(.easeInOut)
         }
         .navigationTitle(user.username)
         .toolbar {
