@@ -24,6 +24,7 @@ struct UserListRow: View {
     
     var body: some View {
         content
+            .lineLimit(1)
             .onAppear {
                 if firstAppear {
                     firstAppear = false
@@ -40,7 +41,6 @@ struct UserListRow: View {
         VStack(alignment: .leading) {
             Text(meta.username)
                 .font(.title2)
-                .lineLimit(1)
             if let site = meta.user?.site {
                 Text(site.title)
                     .foregroundColor(.secondary)
@@ -64,7 +64,6 @@ struct UserListRow: View {
                 
             }
             .font(.subheadline)
-            .lineLimit(1)
             
             if let user = meta.user {
                 ContributionsMatrix(user)
