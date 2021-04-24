@@ -37,6 +37,13 @@ struct ContributionsMatrix: View {
     
     static let gridSpacing: CGFloat = 2
     
+    static func bestHeight(in size: CGSize) -> CGFloat {
+        let width = size.width + gridSpacing
+        let height = size.height + gridSpacing
+        let columns = ceil(width / height * 7)
+        return width * (7 / columns) - gridSpacing
+    }
+    
     static private var rows: [GridItem] {
         .init(
             repeating: .init(.flexible(minimum: 10, maximum: .infinity), spacing: Self.gridSpacing),

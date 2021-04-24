@@ -88,31 +88,49 @@ struct ContributionsMatrixWidget: Widget {
 
         var body: some View {
             if let solidUser = entry.user {
-                content(solidUser)
+                switch widgetFamily {
+                    case .systemSmall:
+                        contentSmall(solidUser)
+                    case .systemMedium:
+                        contentMedium(solidUser)
+                    default:
+                        EmptyView()
+                }
             } else {
                 Text("widget.matrix.noUser")
             }
         }
         
         @ViewBuilder
-        private func content(_ user: WikiUser) -> some View {
-            VStack(alignment: .leading) {
-                if widgetFamily == .systemMedium {
-                    HStack {
-                        if let image = Image(data: entry.favicon) {
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(Circle())
-                                .frame(width: 16, height: 16)
-                        }
-                        Text(user.username)
-                        Spacer()
-                        Text(user.site?.title ?? "")
+        private func contentMedium(_ user: WikiUser) -> some View {
+            VStack(alignment: .leading, spacing: nil) {
+                HStack {
+                    if let image = Image(data: entry.favicon) {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(Circle())
+                            .frame(width: 12, height: 12)
                     }
-                    .lineLimit(1)
-                    .font(.callout)
+                    Text(user.username.localizedUppercase)
+                    Spacer()
+                    Text(user.site?.title.localizedUppercase ?? "")
                 }
+                .lineLimit(1)
+                .foregroundColor(.secondary)
+                .font(.caption)
+                GeometryReader { proxy in
+                    Spacer()
+                    ContributionsMatrix(user)
+                        .frame(height: ContributionsMatrix.bestHeight(in: proxy.size))
+                }
+            }
+            .padding()
+        }
+        
+        @ViewBuilder
+        private func contentSmall(_ user: WikiUser) -> some View {
+            VStack {
                 ContributionsMatrix(user)
             }
             .padding()
