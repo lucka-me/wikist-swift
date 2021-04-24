@@ -316,6 +316,7 @@
 		841BA787262B22A80083E19C /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
 		841BA796262BD2C50083E19C /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
 		84381A54263035350057FCD4 /* WikiUserMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiUserMeta.swift; sourceTree = "<group>"; };
+		84381BD626342E4C0057FCD4 /* PRIVACY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY.md; sourceTree = "<group>"; };
 		843BF3FE2622BAAE0065D9FF /* WikistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistApp.swift; sourceTree = "<group>"; };
 		843BF3FF2622BAAE0065D9FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		843BF4002622BAAF0065D9FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -452,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				84483346262C1B6600839DC2 /* LICENSE */,
+				84381BD626342E4C0057FCD4 /* PRIVACY.md */,
 				8448332D262C1AFB00839DC2 /* README.md */,
 				84E030DD2625C39A0054A01C /* Frameworks */,
 				843BF4072622BAAF0065D9FF /* iOS */,
