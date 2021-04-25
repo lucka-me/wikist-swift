@@ -197,25 +197,13 @@ extension WikiUser {
             callback(false)
             return
         }
-        let total = 2
-        var finished = 0
-        var bothSucceed = true
         let raw = WikiUserRAW(username, solidSite)
-        let onFinished: WikiUserRAW.QueryCallback = { succeed in
-            finished += 1
-            if finished < total {
-                return
-            }
-            if !succeed {
-                bothSucceed = false
-            }
-            if bothSucceed {
+        raw.queryAll { succeed in
+            if succeed {
                 self.from(raw)
             }
-            callback(bothSucceed)
+            callback(succeed)
         }
-        raw.queryInfo(onFinished)
-        raw.queryContributions(onFinished)
     }
     
     private func createMeta() {
