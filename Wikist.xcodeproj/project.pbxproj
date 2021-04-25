@@ -33,6 +33,8 @@
 		84381A59263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
 		84381A5A263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
 		84381A5B263035350057FCD4 /* WikiUserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381A54263035350057FCD4 /* WikiUserMeta.swift */; };
+		84381BE32635AE240057FCD4 /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381BE22635AE240057FCD4 /* Locale.swift */; };
+		84381BE42635AE240057FCD4 /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84381BE22635AE240057FCD4 /* Locale.swift */; };
 		843BF4112622BAAF0065D9FF /* WikistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FE2622BAAE0065D9FF /* WikistApp.swift */; };
 		843BF4122622BAAF0065D9FF /* WikistApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FE2622BAAE0065D9FF /* WikistApp.swift */; };
 		843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF3FF2622BAAE0065D9FF /* ContentView.swift */; };
@@ -317,6 +319,7 @@
 		841BA796262BD2C50083E19C /* SKProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKProduct.swift; sourceTree = "<group>"; };
 		84381A54263035350057FCD4 /* WikiUserMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiUserMeta.swift; sourceTree = "<group>"; };
 		84381BD626342E4C0057FCD4 /* PRIVACY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY.md; sourceTree = "<group>"; };
+		84381BE22635AE240057FCD4 /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		843BF3FE2622BAAE0065D9FF /* WikistApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistApp.swift; sourceTree = "<group>"; };
 		843BF3FF2622BAAE0065D9FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		843BF4002622BAAF0065D9FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -618,6 +621,7 @@
 				84483470262F06CC00839DC2 /* String.swift */,
 				84E030D82625BD3B0054A01C /* URL.swift */,
 				844834C9262F211A00839DC2 /* URLSession.swift */,
+				84381BE22635AE240057FCD4 /* Locale.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1016,6 +1020,7 @@
 				84E030702623504F0054A01C /* WikiUser.swift in Sources */,
 				84E030D42625AC530054A01C /* ISO8601DateFormatter.swift in Sources */,
 				843BF4112622BAAF0065D9FF /* WikistApp.swift in Sources */,
+				84381BE32635AE240057FCD4 /* Locale.swift in Sources */,
 				84E030D92625BD3B0054A01C /* URL.swift in Sources */,
 				84483484262F0CE900839DC2 /* Image.swift in Sources */,
 				84E0309C262358400054A01C /* Date.swift in Sources */,
@@ -1042,6 +1047,7 @@
 				84E03093262355AD0054A01C /* FileManager.swift in Sources */,
 				84E0305F26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */,
 				844834CB262F211A00839DC2 /* URLSession.swift in Sources */,
+				84381BE42635AE240057FCD4 /* Locale.swift in Sources */,
 				844833DB262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				843BF42B2622C2D70065D9FF /* UserList.swift in Sources */,
 				84E030692623504F0054A01C /* DailyContribution.swift in Sources */,

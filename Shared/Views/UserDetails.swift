@@ -76,9 +76,12 @@ struct UserDetails: View {
                     .clipShape(Circle())
                     .frame(width: 16, height: 16)
             )
-            CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(user.site?.title ?? ""))
+            CardView.List.row(Label("view.info.site.title", systemImage: "house"), Text(user.site?.title ?? ""))
+            if let language = Locale.localizedString(forLanguageCode: user.site?.language ?? "") {
+                CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
+            }
             CardView.List.row(openHomePage, showIndicator: true) {
-                Label("view.info.site.homepage", systemImage: "house")
+                Label("view.info.site.homepage", systemImage: "safari")
             }
         }
     }
@@ -93,7 +96,7 @@ struct UserDetails: View {
             CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(user.edits)"))
             CardView.List.row(Label("view.info.user.contributionsLastYear", systemImage: "calendar"), Text("\(user.contributionsLastYear)"))
             CardView.List.row(openUserPage, showIndicator: true) {
-                Label("view.info.site.userPage", systemImage: "person")
+                Label("view.info.user.userPage", systemImage: "safari")
             }
         }
     }

@@ -126,6 +126,9 @@ struct AddView: View {
                 CardView.List.header(Text("view.info.site.header"))
             }
             CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(model.site?.title ?? ""))
+            if let language = Locale.localizedString(forLanguageCode: model.site?.language ?? "") {
+                CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
+            }
         }
     }
     

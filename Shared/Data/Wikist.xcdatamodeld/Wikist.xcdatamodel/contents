@@ -9,6 +9,7 @@
         <attribute name="articlePath" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="favicon" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="homepage" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="language" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="logo" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="server" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="title" optional="YES" attributeType="String" defaultValueString=""/>
@@ -39,7 +40,7 @@
     </configuration>
     <elements>
         <element name="DailyContribution" positionX="-36" positionY="9" width="128" height="74"/>
-        <element name="WikiSite" positionX="-63" positionY="-18" width="128" height="149"/>
+        <element name="WikiSite" positionX="-63" positionY="-18" width="128" height="164"/>
         <element name="WikiUser" positionX="-54" positionY="-9" width="128" height="134"/>
         <element name="WikiUserMeta" positionX="-45" positionY="54" width="128" height="74"/>
     </elements>

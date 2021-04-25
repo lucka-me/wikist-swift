@@ -23,6 +23,7 @@ extension WikiSite {
     @NSManaged public var logo: String
     @NSManaged public var favicon: String
     @NSManaged public var server: String
+    @NSManaged public var language: String
     @NSManaged public var articlePath: String
     @NSManaged public var users: NSSet?
 
@@ -66,6 +67,7 @@ extension WikiSite {
         logo = raw.logo
         favicon = raw.favicon
         server = raw.server
+        language = raw.language
         articlePath = raw.articlePath
     }
 }

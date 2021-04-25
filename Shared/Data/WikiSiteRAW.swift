@@ -17,6 +17,7 @@ class WikiSiteRAW {
     var logo: String = ""
     var favicon: String = ""
     var server: String = ""
+    var language: String = ""
     var articlePath: String = ""
     
     init(_ url: String) {
@@ -72,6 +73,7 @@ class WikiSiteRAW {
         logo = json.query.general.logo.urlString ?? ""
         favicon = json.query.general.favicon.urlString ?? ""
         server = json.query.general.server.urlString ?? ""
+        language = json.query.general.lang
         articlePath = json.query.general.articlepath
         return true
     }
@@ -91,5 +93,6 @@ fileprivate struct GeneralJSON: Decodable {
     var logo: String
     var favicon: String
     var server: String
+    var lang: String
     var articlepath: String
 }

@@ -15,12 +15,13 @@
 "view.info.site.header" = "Wiki";
 "view.info.site.title"  = "Title";
 "view.info.site.homepage"   = "Home Page";
+"view.info.site.language"   = "Language";
 "view.info.user.header" = "User";
 "view.info.user.uid"    = "User ID";
 "view.info.user.registration"   = "Registration";
 "view.info.user.edits"  = "Edits";
 "view.info.user.contributionsLastYear"  = "Contributions Last Year";
-"view.info.site.userPage"   = "User Page";
+"view.info.user.userPage"   = "User Page";
 
 // Shared: Tip
 "view.tip"   = "Support Developer";

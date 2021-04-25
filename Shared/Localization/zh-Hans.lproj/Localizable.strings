@@ -15,12 +15,13 @@
 "view.info.site.header" = "维基";
 "view.info.site.title"  = "标题";
 "view.info.site.homepage"   = "主页";
+"view.info.site.language"   = "语言";
 "view.info.user.header" = "用户";
 "view.info.user.uid"    = "用户ID";
 "view.info.user.registration"   = "注册时间";
 "view.info.user.edits"  = "编辑数";
 "view.info.user.contributionsLastYear"  = "过去一年的贡献";
-"view.info.site.userPage"   = "用户页";
+"view.info.user.userPage"   = "用户页";
 
 // Shared: Tip
 "view.tip"   = "支持开发者";
