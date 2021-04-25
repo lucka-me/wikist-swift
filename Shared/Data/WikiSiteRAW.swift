@@ -48,7 +48,7 @@ class WikiSiteRAW {
             callback(false)
             return
         }
-        let request = URLRequest(url: queryUrl)
+        let request = URLRequest(url: queryUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
         URLSession.shared.dataTask(with: request) { data, _, error in
             if error != nil {
                 callback(false)
@@ -69,9 +69,9 @@ class WikiSiteRAW {
     private func parse(_ json: ResponseJSON) -> Bool {
         title = json.query.general.sitename
         homepage = json.query.general.base
-        logo = json.query.general.logo.prependingURLScheme()
-        favicon = json.query.general.favicon.prependingURLScheme()
-        server = json.query.general.server.prependingURLScheme()
+        logo = json.query.general.logo.urlString ?? ""
+        favicon = json.query.general.favicon.urlString ?? ""
+        server = json.query.general.server.urlString ?? ""
         articlePath = json.query.general.articlepath
         return true
     }

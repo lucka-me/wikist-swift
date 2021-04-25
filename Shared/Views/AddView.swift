@@ -186,10 +186,11 @@ fileprivate class AddViewModel: ObservableObject {
             return
         }
         url = url.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let _ = URL(string: url) else {
+        guard let urlString = url.urlString else {
             alert("view.add.alert.urlInvalid")
             return
         }
+        url = urlString
         status = .queryingSiteInfo
         if let site = Dia.shared.site(of: url) {
             self.site = site

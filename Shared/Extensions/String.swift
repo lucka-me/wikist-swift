@@ -8,11 +8,18 @@
 import Foundation
 
 extension String {
-    func prependingURLScheme(_ scheme: String = "https") -> Self {
-        var newString = self
-        if newString.starts(with: "//") {
-            newString = scheme + ":" + self
+    var urlString: String? {
+        var string = self.replacingOccurrences(of: "^[A-Za-z0-9-.]*:?//", with: "https://", options: .regularExpression)
+        if !string.starts(with: "https://") {
+            string = "https://" + string
         }
-        return newString
+        guard
+            var urlComponents = URLComponents(string: string),
+            let host = urlComponents.host
+        else {
+            return nil
+        }
+        urlComponents.host = host.lowercased()
+        return urlComponents.string
     }
 }
