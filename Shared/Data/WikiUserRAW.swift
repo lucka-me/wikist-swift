@@ -112,7 +112,7 @@ class WikiUserRAW {
             callback(nil)
             return
         }
-        let request = URLRequest(url: queryUrl)
+        let request = URLRequest(url: queryUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
         URLSession.shared.dataTask(with: request) { data, _, error in
             if error != nil {
                 callback(nil)
