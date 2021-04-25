@@ -11,6 +11,7 @@ struct UserDetails: View {
     
     static private let matrixHeight: CGFloat = 16 * 7 + ContributionsMatrix.gridSpacing * 6
     
+    @Environment(\.locale) private var locale
     @Environment(\.openURL) private var openURL
     @State private var refreshing = false
     
@@ -77,7 +78,7 @@ struct UserDetails: View {
                     .frame(width: 16, height: 16)
             )
             CardView.List.row(Label("view.info.site.title", systemImage: "house"), Text(user.site?.title ?? ""))
-            if let language = Locale.localizedString(forLanguageCode: user.site?.language ?? "") {
+            if let language = locale.localizedString(forLanguageCode: user.site?.language ?? "") {
                 CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
             }
             CardView.List.row(openHomePage, showIndicator: true) {

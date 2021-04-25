@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddView: View {
     
+    @Environment(\.locale) private var locale
     @Environment(\.presentationMode) private var presentationMode
     @ObservedObject private var model = AddViewModel()
     
@@ -126,7 +127,7 @@ struct AddView: View {
                 CardView.List.header(Text("view.info.site.header"))
             }
             CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(model.site?.title ?? ""))
-            if let language = Locale.localizedString(forLanguageCode: model.site?.language ?? "") {
+            if let language = locale.localizedString(forLanguageCode: model.site?.language ?? "") {
                 CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
             }
         }
