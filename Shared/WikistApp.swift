@@ -46,9 +46,11 @@ struct WikistApp: App {
     
     private func refresh() {
         let now = Date()
-        if now.distance(to: lastRefresh) >= 30 * 3600 {
+        if lastRefresh.distance(to: now) >= 30 * 3600 {
             dia.refresh()
-            lastRefresh = now
+            DispatchQueue.main.async {
+                lastRefresh = now
+            }
         }
     }
 }
