@@ -17,7 +17,7 @@
 "view.info.site.homepage"   = "主页";
 "view.info.site.language"   = "语言";
 "view.info.user.header" = "用户";
-"view.info.user.uid"    = "用户ID";
+"view.info.user.uid"    = "用户 ID";
 "view.info.user.registration"   = "注册时间";
 "view.info.user.edits"  = "编辑数";
 "view.info.user.contributionsLastYear"  = "过去一年的贡献";
@@ -30,8 +30,13 @@
 
 // AddView
 "view.add.title"    = "添加";
-"view.add.url"  = "API URL";
-"view.add.username" = "用户名";
+"view.add.site.method"  = "方式";
+"view.add.site.method.add"  = "添加";
+"view.add.site.method.select"   = "选择";
+"view.add.site.add.hint"    = "API 接口";
+"view.add.site.add.help.title"  = "API 接口";
+"view.add.site.add.help.message"    = "API 接口用于从 MediaWiki 站点查询信息。\n它以 /api.php 结尾并且通常位于 / 或 /w 路径下。\n例如维基百科的接口是 https://zh.wikipedia.org/w/api.php。\n其中 /api.php 的部分可以省略。";
+"view.add.site.select.hint" = "站点";
 "view.add.query"    = "查询";
 "view.add.alert.urlEmpty"   = "URL是空的。";
 "view.add.alert.urlInvalid" = "URL无效。";

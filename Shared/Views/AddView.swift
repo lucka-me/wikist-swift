@@ -12,11 +12,12 @@ struct AddView: View {
     @Environment(\.locale) private var locale
     @Environment(\.presentationMode) private var presentationMode
     @ObservedObject private var model = AddViewModel()
+    @State private var presentingAddSiteHelpAlert = false
     
     var body: some View {
         #if os(macOS)
         content
-            .frame(minWidth: 300, minHeight: 400)
+            .frame(minWidth: 350, minHeight: 400)
         #else
         NavigationView {
             content
@@ -28,6 +29,7 @@ struct AddView: View {
     private var content: some View {
         ScrollView {
             main
+                .animation(.easeInOut)
                 .padding()
         }
         .navigationTitle("view.add.title")
@@ -50,15 +52,18 @@ struct AddView: View {
         .alert(isPresented: $model.presentingAlert) {
             .init(title: Text(model.alertMessage))
         }
+        .alert(isPresented: $presentingAddSiteHelpAlert) {
+            .init(title: Text("view.add.site.add.help.title"), message: Text("view.add.site.add.help.message"))
+        }
     }
     
     @ViewBuilder
     private var main: some View {
         VStack {
-            urlField
+            siteField
             
-            if model.status >= .inputUsername {
-                usernameField
+            if model.status >= .inputUser {
+                userField
                 siteInfo
                 
                 if model.status >= .queryingContributions {
@@ -73,39 +78,84 @@ struct AddView: View {
     }
     
     @ViewBuilder
-    private var urlField: some View {
+    private var siteField: some View {
         CardView.Card {
-            CardView.List.header(Text("view.add.url"))
-            CardView.List.row {
-                let textField = TextField("https://example.wiki", text: $model.url)
-                    .lineLimit(1)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(model.status != .inputUrl)
-                #if os(macOS)
-                textField
-                #else
-                textField.keyboardType(.URL)
-                #endif
-            }
-            if model.status == .inputUrl {
-                CardView.List.row(model.querySite) {
-                    Label("view.add.query", systemImage: "magnifyingglass")
+            CardView.List.header(Text("view.info.site.header"))
+            if !model.sites.isEmpty {
+                CardView.List.row {
+                    Picker("view.add.site.method", selection: $model.siteMethod) {
+                        Text("view.add.site.method.add").tag(AddViewModel.SiteMethod.add)
+                        Text("view.add.site.method.select").tag(AddViewModel.SiteMethod.select)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .disabled(model.status != .inputSite)
                 }
+            }
+            if model.siteMethod == .add {
+                siteAddField
+            } else {
+                siteSelector
             }
         }
     }
     
     @ViewBuilder
-    private var usernameField: some View {
+    private var siteAddField: some View {
+        CardView.List.row {
+            HStack {
+                let textField = TextField("view.add.site.add.hint", text: $model.url)
+                    .lineLimit(1)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disabled(model.status != .inputSite)
+                #if os(macOS)
+                textField
+                #else
+                textField.keyboardType(.URL)
+                #endif
+                Button {
+                    presentingAddSiteHelpAlert = true
+                } label: {
+                    Label("view.add.site.add.help", systemImage: "questionmark.circle")
+                        .labelStyle(IconOnlyLabelStyle())
+                }
+                .buttonStyle(BorderlessButtonStyle())
+            }
+        }
+        if model.status == .inputSite {
+            CardView.List.row(model.querySite) {
+                Label("view.add.query", systemImage: "magnifyingglass")
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var siteSelector: some View {
+        CardView.List.row {
+            Picker("view.add.site.select.hint", selection: $model.selectedSite) {
+                ForEach(0 ..< model.sites.count) { index in
+                    Text(model.sites[index].title).tag(index)
+                }
+            }
+            .disabled(model.status != .inputSite)
+        }
+        if model.status == .inputSite {
+            CardView.List.row(model.selectSite) {
+                Label("view.action.confirm", systemImage: "checkmark.circle")
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var userField: some View {
         CardView.Card {
-            CardView.List.header(Text("view.add.username"))
+            CardView.List.header(Text("view.info.user.header"))
             CardView.List.row {
                 TextField("User", text: $model.username)
                     .lineLimit(1)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(model.status != .inputUsername)
+                    .disabled(model.status != .inputUser)
             }
-            if model.status == .inputUsername {
+            if model.status == .inputUser {
                 CardView.List.row(model.queryUser) {
                     Label("view.add.query", systemImage: "magnifyingglass")
                 }
@@ -126,7 +176,7 @@ struct AddView: View {
             } else {
                 CardView.List.header(Text("view.info.site.header"))
             }
-            CardView.List.row(Label("view.info.site.title", systemImage: "globe"), Text(model.site?.title ?? ""))
+            CardView.List.row(Label("view.info.site.title", systemImage: "house"), Text(model.site?.title ?? ""))
             if let language = locale.localizedString(forLanguageCode: model.site?.language ?? "") {
                 CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
             }
@@ -155,9 +205,9 @@ struct AddView_Previews: PreviewProvider {
 fileprivate class AddViewModel: ObservableObject {
     
     enum Status: Int, Comparable {
-        case inputUrl               = 0
+        case inputSite              = 0
         case queryingSiteInfo       = 1
-        case inputUsername          = 2
+        case inputUser              = 2
         case queryingUserInfo       = 3
         case queryingContributions  = 4
         case allDone                = 10
@@ -167,20 +217,45 @@ fileprivate class AddViewModel: ObservableObject {
         }
     }
     
-    @Published var status = Status.inputUrl
+    enum SiteMethod {
+        case add
+        case select
+    }
+    
+    @Published var status = Status.inputSite
+    @Published var siteMethod: SiteMethod
+    @Published var selectedSite: Int = 0
     @Published var url = ""
     @Published var username = ""
     
     @Published var presentingAlert = false
     
+    let sites: [ WikiSite ] = Dia.shared.list()
+        .filter { $0.usersCount > 0 }
+        .sorted { $0.usersCount > $1.usersCount }
+    
     var site: WikiSite? = nil
     var user: WikiUserRAW? = nil
     var alertMessage: LocalizedStringKey = ""
+    
+    init() {
+        siteMethod = sites.isEmpty ? .add : .select
+    }
     
     var querying: Bool {
         status == .queryingSiteInfo
             || status == .queryingUserInfo
             || status == .queryingContributions
+    }
+    
+    func selectSite() {
+        if selectedSite >= sites.count {
+            selectedSite = 0
+            alert("Invalid Selection")
+            return
+        }
+        site = sites[selectedSite]
+        self.status = .inputUser
     }
     
     func querySite() {
@@ -189,7 +264,9 @@ fileprivate class AddViewModel: ObservableObject {
             alert("view.add.alert.urlEmpty")
             return
         }
-        url = url.trimmingCharacters(in: .whitespacesAndNewlines)
+        url = url
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .replacingOccurrences(of: "/api\\.php$", with: "", options: .regularExpression)
         guard let urlString = url.urlString else {
             alert("view.add.alert.urlInvalid")
             return
@@ -198,7 +275,7 @@ fileprivate class AddViewModel: ObservableObject {
         status = .queryingSiteInfo
         if let site = Dia.shared.site(of: url) {
             self.site = site
-            self.status = .inputUsername
+            self.status = .inputUser
             return
         }
         let raw = WikiSiteRAW(url)
@@ -206,10 +283,10 @@ fileprivate class AddViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if succeed {
                     self.site = .from(raw, context: Dia.shared.context)
-                    self.status = .inputUsername
+                    self.status = .inputUser
                 } else {
                     self.alert("view.add.alert.querySiteFailed")
-                    self.status = .inputUrl
+                    self.status = .inputSite
                 }
             }
         }
@@ -222,7 +299,7 @@ fileprivate class AddViewModel: ObservableObject {
         }
         guard let solidSite = site else {
             alert("view.add.alert.noSite")
-            status = .inputUrl
+            status = .inputSite
             return
         }
         status = .queryingUserInfo
@@ -233,7 +310,7 @@ fileprivate class AddViewModel: ObservableObject {
                     self.queryContributions(raw)
                 } else {
                     self.alert("view.add.alert.queryUserFailed")
-                    self.status = .inputUsername
+                    self.status = .inputUser
                 }
             }
         }
@@ -248,7 +325,7 @@ fileprivate class AddViewModel: ObservableObject {
                     self.status = .allDone
                 } else {
                     self.alert("view.add.alert.queryContributionsFailed")
-                    self.status = .inputUsername
+                    self.status = .inputUser
                 }
             }
         }

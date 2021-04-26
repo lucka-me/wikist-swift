@@ -30,8 +30,14 @@
 
 // AddView
 "view.add.title"    = "Add";
-"view.add.url"  = "API URL";
-"view.add.username" = "Username";
+"view.add.site.method"  = "Method";
+"view.add.site.method.add"  = "Add";
+"view.add.site.method.select"   = "Select";
+"view.add.site.add.hint"    = "API Endpoint";
+"view.add.site.add.help.title"  = "API Endpoint";
+"view.add.site.add.help.message"    = "The API Endpoint is used to query information from MediaWiki site.\nIt's end up with /api.php and usually located under the / or /w path\nE.g. https://en.wikipedia.org/w/api.php for Wikipedia.\nThe /api.php part could be omitted.";
+"view.add.site.add.help.open"   = "Help";
+"view.add.site.select.hint" = "Site";
 "view.add.query"    = "Query";
 "view.add.alert.urlEmpty"   = "URL is empty.";
 "view.add.alert.urlInvalid" = "URL is invalid.";
