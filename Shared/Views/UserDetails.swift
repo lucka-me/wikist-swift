@@ -118,7 +118,7 @@ struct UserDetails: View {
 #if DEBUG
 struct WikiDetails_Previews: PreviewProvider {
     static var previews: some View {
-        UserDetails(Dia.preview.users().first!)
+        UserDetails(Dia.preview.list().first!)
     }
 }
 #endif

@@ -65,10 +65,6 @@ class Dia: ObservableObject {
         return try? context.fetch(request).first
     }
     
-    func users(matches predicate: NSPredicate? = nil) -> [ WikiUser ] {
-        list(matches: predicate)
-    }
-    
     func firstUser(sortBy descriptors: [ NSSortDescriptor ]) -> WikiUser? {
         let request: NSFetchRequest<WikiUser> = WikiUser.fetchRequest()
         request.sortDescriptors = descriptors

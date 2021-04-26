@@ -81,7 +81,7 @@ struct UserListRow_Previews: PreviewProvider {
     private static let dia = Dia.preview
     
     static var previews: some View {
-        UserListRow(dia.users().first!.meta!)
+        UserListRow(dia.list().first!)
             .environmentObject(dia)
     }
 }

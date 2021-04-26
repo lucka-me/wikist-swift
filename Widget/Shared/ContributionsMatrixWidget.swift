@@ -150,7 +150,7 @@ struct ContributionsMatrixWidget: Widget {
 #if DEBUG
 struct ContributionsMatrixWidget_Previews: PreviewProvider {
     static var previews: some View {
-        ContributionsMatrixWidget.EntryView(entry: .init(Dia.preview.users().first!))
+        ContributionsMatrixWidget.EntryView(entry: .init(Dia.preview.list().first!))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }

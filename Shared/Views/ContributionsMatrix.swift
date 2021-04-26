@@ -105,7 +105,7 @@ struct ContributionsMatrix: View {
 #if DEBUG
 struct ContributionsMatrix_Previews: PreviewProvider {
     static var previews: some View {
-        ContributionsMatrix(Dia.preview.users().first!)
+        ContributionsMatrix(Dia.preview.list().first!)
     }
 }
 #endif
