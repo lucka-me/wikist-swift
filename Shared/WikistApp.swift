@@ -33,15 +33,13 @@ struct WikistApp: App {
                 .environmentObject(dia)
         }
         .onChange(of: scenePhase) { phase in
-            sync()
             if phase == .active {
+                dia.sync()
                 refresh()
+            } else if phase == .background {
+                dia.cleanUp()
             }
         }
-    }
-    
-    private func sync() {
-        dia.sync()
     }
     
     private func refresh() {

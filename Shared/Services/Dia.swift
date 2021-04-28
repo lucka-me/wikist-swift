@@ -116,6 +116,9 @@ class Dia: ObservableObject {
                 meta.createUser(with: self)
             }
         }
+    }
+    
+    func cleanUp() {
         let users: [ WikiUser ] = list()
         for user in users {
             if user.meta == nil {
