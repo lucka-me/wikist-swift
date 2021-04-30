@@ -19,6 +19,7 @@ class Support: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentT
     #endif
     @Published var purchased = false
     
+    var currentPayment: SKPayment? = nil
     var products: [SKProduct] = []
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
@@ -27,8 +28,9 @@ class Support: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentT
     
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
-            if transaction.transactionState == .purchased {
+            if transaction.payment == currentPayment && transaction.transactionState == .purchased {
                 purchased = true
+                currentPayment = nil
             }
         }
     }
@@ -55,7 +57,9 @@ class Support: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentT
     
     func purchase(_ product: SKProduct) {
         if canMakePayments {
-            SKPaymentQueue.default().add(.init(product: product))
+            let payment = SKPayment(product: product)
+            SKPaymentQueue.default().add(payment)
+            currentPayment = payment
         }
     }
 }
