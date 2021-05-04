@@ -6,9 +6,15 @@
 
 ## Description
 
-An app to display MediaWiki contributions matrix.
+An app to show MediaWiki contributions matrix.
+
+- Support most MediaWiki instances
+- Widgets
+- Sync with iCloud
 
 [![](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us)](https://apps.apple.com/app/potori-nomination-manager/id1563425734)
+
+This project is heavily inspired by [JustinFincher/GitHubContributionsiOS](https://github.com/JustinFincher/GitHubContributionsiOS) and [AnderGoig/github-contributions-ios](https://github.com/AnderGoig/github-contributions-ios).
 
 ## Requirements
 - Xcode 12+
@@ -19,9 +25,9 @@ An app to display MediaWiki contributions matrix.
 
 1. Clone or download the repository
 2. Open `Wikist.xcodeproj`
-3. Change the Bundle Identifiers, App Groups and iCloud Containers
+3. Change the Team, Bundle Identifiers, App Groups and iCloud Containers to valid ones
 4. Choose your target and connect your device if necessary
-5. Hit `⌘ R`
+5. Push `⌘ R`
 
 ## License
 The source code are [licensed under MIT](./LICENSE).
