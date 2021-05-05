@@ -2,32 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIcons~ipad</key>
-	<dict>
-		<key>CFBundleAlternateIcons</key>
-		<dict>
-			<key>AppIconDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIconDark_76</string>
-					<string>AppIconDark_83.5</string>
-				</array>
-			</dict>
-		</dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<dict>
-				<key>New item</key>
-				<string></string>
-			</dict>
-			<key>CFBundleIconName</key>
-			<string>AppIcon</string>
-			<key>UIPrerenderedIcon</key>
-			<false/>
-		</dict>
-	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -50,6 +24,32 @@
 			<array>
 				<string></string>
 			</array>
+			<key>CFBundleIconName</key>
+			<string>AppIcon</string>
+			<key>UIPrerenderedIcon</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>AppIconDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconDark_76</string>
+					<string>AppIconDark_83.5</string>
+				</array>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<dict>
+				<key>New item</key>
+				<string></string>
+			</dict>
 			<key>CFBundleIconName</key>
 			<string>AppIcon</string>
 			<key>UIPrerenderedIcon</key>
