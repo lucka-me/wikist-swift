@@ -104,6 +104,7 @@ struct AddView: View {
         CardView.List.row {
             HStack {
                 let textField = TextField("view.add.site.add.hint", text: $model.url)
+                    .disableAutocorrection(true)
                     .lineLimit(1)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .disabled(model.status != .inputSite)
