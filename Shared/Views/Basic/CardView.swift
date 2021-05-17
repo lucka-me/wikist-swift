@@ -110,6 +110,7 @@ class CardView {
     static let defaultRadius: CGFloat = 12
 }
 
+#if DEBUG
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView.Card {
@@ -117,3 +118,4 @@ struct CardView_Previews: PreviewProvider {
         }
     }
 }
+#endif
