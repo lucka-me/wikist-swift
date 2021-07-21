@@ -9,6 +9,12 @@ import SwiftUI
 
 struct UserList: View {
     
+    #if os(macOS)
+    private static let minWidth: CGFloat = 200
+    #else
+    private static let minWidth: CGFloat? = nil
+    #endif
+    
     @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var dia: Dia
     @FetchRequest(
@@ -17,73 +23,32 @@ struct UserList: View {
     @State private var selection: ObjectIdentifier?
     
     var body: some View {
-        #if os(macOS)
-        content.frame(minWidth: 200)
-        #else
-        content
-        #endif
-    }
-    
-    @ViewBuilder
-    private var content: some View {
         List {
             ForEach(sortedMetas) { meta in
-                #if os(macOS)
-                link(meta) {
+                NavigationLink(tag: meta.id, selection: $selection) {
+                    UserDetails(meta)
+                } label: {
                     UserListRow(meta)
                 }
-                .contextMenu {
-                    Button("view.list.delete") {
-                        dia.delete(meta)
-                        dia.save()
-                    }
-                }
-                #else
-                ZStack {
-                    UserListRow(meta)
-                    link(meta) { EmptyView() }
-                        .hidden()
-                }
-                #endif
+                .buttonStyle(.plain)
             }
             .onDelete { indexSet in
-                let metas = self.sortedMetas
-                let deleteList = indexSet.compactMap { index in
-                    index < metas.endIndex ? metas[index] : nil
-                }
-                for meta in deleteList {
-                    dia.delete(meta)
+                let sortedIndexes = indexSet.sorted(by: >)
+                let sortedMetas = self.sortedMetas
+                for index in sortedIndexes {
+                    if index < sortedMetas.endIndex {
+                        dia.delete(sortedMetas[index])
+                    }
                 }
                 dia.save()
             }
         }
-        .listStyle(listStyle)
+        .listStyle(.sidebar)
+        .frame(minWidth: Self.minWidth)
     }
     
     private var sortedMetas: [ WikiUserMeta ] {
         metas.sorted { $0.user?.edits ?? 0 > $1.user?.edits ?? 0 }
-    }
-    
-    private var listStyle: some ListStyle {
-        #if os(macOS)
-        return SidebarListStyle()
-        #else
-        return InsetGroupedListStyle()
-        #endif
-    }
-    
-    @ViewBuilder
-    private func link<Label: View>(_ meta: WikiUserMeta, @ViewBuilder label: () -> Label) -> some View {
-        if let user = meta.user {
-            NavigationLink(
-                destination: UserDetails(user),
-                tag: user.id,
-                selection: $selection,
-                label: label
-            )
-        } else {
-            label()
-        }
     }
 }
 

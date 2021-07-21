@@ -17,8 +17,8 @@ struct UserDetails: View {
     
     var user: WikiUser
     
-    init(_ user: WikiUser) {
-        self.user = user
+    init(_ meta: WikiUserMeta) {
+        user = meta.user!
     }
     
     var body: some View {
@@ -28,7 +28,7 @@ struct UserDetails: View {
             #if os(macOS)
             content.frame(minWidth: 300)
             #else
-            content
+            content.frame(minWidth: nil)
             #endif
         }
     }
@@ -46,7 +46,7 @@ struct UserDetails: View {
                 }
                 .lineLimit(1)
             }
-            .animation(.easeInOut)
+            .animation(.easeInOut, value: refreshing)
             .padding()
         }
         .navigationTitle(user.username)
