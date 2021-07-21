@@ -10,9 +10,9 @@ import SwiftUI
 struct UserList: View {
     
     #if os(macOS)
-    private static let minWidth: CGFloat = 200
+    static private let minWidth: CGFloat = 200
     #else
-    private static let minWidth: CGFloat? = nil
+    static private let minWidth: CGFloat? = nil
     #endif
     
     @Environment(\.managedObjectContext) private var context
@@ -64,3 +64,59 @@ struct UserList_Previews: PreviewProvider {
     }
 }
 #endif
+
+struct UserListRow: View {
+    
+    #if os(iOS)
+    static private let matrixHeight: CGFloat = 12 * 7 + ContributionsMatrix.gridSpacing * 6
+    #endif
+    
+    @EnvironmentObject private var dia: Dia
+    @State private var firstAppear = true
+    
+    private var meta: WikiUserMeta
+    
+    init(_ meta: WikiUserMeta) {
+        self.meta = meta
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            label
+            
+            #if os(iOS)
+            if let user = meta.user {
+                ContributionsMatrix(user)
+                    .frame(height: Self.matrixHeight, alignment: .bottom)
+            }
+            #endif
+        }
+        .lineLimit(1)
+        .task {
+            guard meta.user == nil else { return }
+            meta.createUser(with: dia)
+        }
+    }
+    
+    @ViewBuilder
+    private var label: some View {
+        #if os(macOS)
+        Text(meta.username)
+            .font(.title2)
+        Text(siteText)
+            .foregroundColor(.secondary)
+        #else
+        HStack {
+            Text(meta.username)
+            Spacer()
+            Text(siteText)
+                .foregroundColor(.secondary)
+        }
+        .font(.subheadline)
+        #endif
+    }
+    
+    private var siteText: String {
+        meta.user?.site?.title ?? .init(localized: "view.list.loading")
+    }
+}

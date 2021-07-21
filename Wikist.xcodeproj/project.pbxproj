@@ -43,8 +43,6 @@
 		843BF4242622BE070065D9FF /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4222622BE070065D9FF /* ContributionsMatrix.swift */; };
 		843BF42A2622C2D70065D9FF /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4292622C2D70065D9FF /* UserList.swift */; };
 		843BF42B2622C2D70065D9FF /* UserList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF4292622C2D70065D9FF /* UserList.swift */; };
-		843BF42F2622C3020065D9FF /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF42E2622C3020065D9FF /* UserListRow.swift */; };
-		843BF4302622C3020065D9FF /* UserListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843BF42E2622C3020065D9FF /* UserListRow.swift */; };
 		8448338D262C66AB00839DC2 /* AppIconDark_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 8448338B262C66AB00839DC2 /* AppIconDark_76.png */; };
 		8448338E262C66AB00839DC2 /* AppIconDark_76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8448338C262C66AB00839DC2 /* AppIconDark_76@2x.png */; };
 		844833B8262C7B7800839DC2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 844833BD262C7B7800839DC2 /* InfoPlist.strings */; };
@@ -327,7 +325,6 @@
 		843BF4102622BAAF0065D9FF /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		843BF4222622BE070065D9FF /* ContributionsMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsMatrix.swift; sourceTree = "<group>"; };
 		843BF4292622C2D70065D9FF /* UserList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserList.swift; sourceTree = "<group>"; };
-		843BF42E2622C3020065D9FF /* UserListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRow.swift; sourceTree = "<group>"; };
 		8448332D262C1AFB00839DC2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84483346262C1B6600839DC2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		84483348262C1B9800839DC2 /* pre-build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "pre-build.sh"; sourceTree = "<group>"; };
@@ -522,7 +519,6 @@
 				843BF4222622BE070065D9FF /* ContributionsMatrix.swift */,
 				84E030BE262380E20054A01C /* UserDetails.swift */,
 				843BF4292622C2D70065D9FF /* UserList.swift */,
-				843BF42E2622C3020065D9FF /* UserListRow.swift */,
 				84E030C926242C130054A01C /* Basic */,
 			);
 			path = Views;
@@ -1009,7 +1005,6 @@
 				843BF42A2622C2D70065D9FF /* UserList.swift in Sources */,
 				841BA797262BD2C50083E19C /* SKProduct.swift in Sources */,
 				84E030682623504F0054A01C /* DailyContribution.swift in Sources */,
-				843BF42F2622C3020065D9FF /* UserListRow.swift in Sources */,
 				84E030CB26242C360054A01C /* CardView.swift in Sources */,
 				84E030B1262375F00054A01C /* WikiUserRAW.swift in Sources */,
 				843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */,
@@ -1047,7 +1042,6 @@
 				84E030692623504F0054A01C /* DailyContribution.swift in Sources */,
 				8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */,
 				841BA789262B22A80083E19C /* Support.swift in Sources */,
-				843BF4302622C3020065D9FF /* UserListRow.swift in Sources */,
 				84E030CC26242C360054A01C /* CardView.swift in Sources */,
 				84381A57263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */,
