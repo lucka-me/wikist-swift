@@ -65,13 +65,17 @@ extension WikiUserMeta {
     
     private func createSite(with dia: Dia, _ callback: @escaping (WikiSite) -> Void) {
         let raw = WikiSiteRAW(site)
-        raw.query { succeed in
-            guard
-                succeed, let solidContext = self.managedObjectContext
-            else {
+        Task.init {
+            do {
+                try await raw.query()
+            } catch {
+                // ?
                 return
             }
-            if let site = dia.site(of: self.site) {
+            guard let solidContext = managedObjectContext else {
+                return
+            }
+            if let site = dia.site(of: site) {
                 callback(site)
                 return
             }

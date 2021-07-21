@@ -88,11 +88,16 @@ extension WikiSite {
     
     func refresh(_ callback: @escaping WikiSiteRAW.QueryCallback) {
         let raw = WikiSiteRAW(url)
-        raw.query { succeed in
-            if succeed {
-                self.from(raw)
+        Task.init {
+            do {
+                try await raw.query()
+            } catch {
+                // Alert
+                callback(false)
+                return
             }
-            callback(succeed)
+            from(raw)
+            callback(true)
         }
     }
 }

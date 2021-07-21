@@ -280,15 +280,19 @@ fileprivate class AddViewModel: ObservableObject {
             return
         }
         let raw = WikiSiteRAW(url)
-        raw.query { succeed in
-            DispatchQueue.main.async {
-                if succeed {
-                    self.site = .from(raw, context: Dia.shared.context)
-                    self.status = .inputUser
-                } else {
+        Task.init {
+            do {
+                try await raw.query()
+            } catch {
+                DispatchQueue.main.async {
                     self.alert("view.add.alert.querySiteFailed")
                     self.status = .inputSite
                 }
+                return
+            }
+            DispatchQueue.main.async {
+                self.site = .from(raw, context: Dia.shared.context)
+                self.status = .inputUser
             }
         }
     }

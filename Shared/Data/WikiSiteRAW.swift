@@ -9,6 +9,11 @@ import Foundation
 
 class WikiSiteRAW {
     
+    enum QueryError: Error {
+        case invalidURL
+        case invalidResponse
+    }
+    
     typealias QueryCallback = (Bool) -> Void
     
     var url: String
@@ -28,8 +33,11 @@ class WikiSiteRAW {
         URLComponents(string: url + "/api.php")
     }
     
-    private var queryItems: [URLQueryItem] {
-        [
+    func query() async throws {
+        guard var urlComponents = api else {
+            throw QueryError.invalidURL
+        }
+        urlComponents.queryItems = [
             .init(name: "action", value: "query"),
             
             .init(name: "meta", value: "siteinfo"),
@@ -37,37 +45,16 @@ class WikiSiteRAW {
             
             .init(name: "format", value: "json"),
         ]
-    }
-    
-    func query(_ callback: @escaping QueryCallback) {
-        guard var queryComponents = api else {
-            callback(false)
-            return
+        guard let url = urlComponents.url else {
+            throw QueryError.invalidURL
         }
-        queryComponents.queryItems = queryItems
-        guard let queryUrl = queryComponents.url else {
-            callback(false)
-            return
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw QueryError.invalidResponse
         }
-        let request = URLRequest(url: queryUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if error != nil {
-                callback(false)
-                return
-            }
-            guard
-                let solidData = data,
-                let solidJSON = try? JSONDecoder().decode(ResponseJSON.self, from: solidData)
-            else {
-                callback(false)
-                return
-            }
-            callback(self.parse(solidJSON))
-        }
-        .resume()
-    }
-    
-    private func parse(_ json: ResponseJSON) -> Bool {
+        let decoder = JSONDecoder()
+        let json = try decoder.decode(ResponseJSON.self, from: data)
         title = json.query.general.sitename
         homepage = json.query.general.base
         logo = json.query.general.logo.urlString ?? ""
@@ -75,7 +62,6 @@ class WikiSiteRAW {
         server = json.query.general.server.urlString ?? ""
         language = json.query.general.lang
         articlePath = json.query.general.articlepath
-        return true
     }
 }
 
