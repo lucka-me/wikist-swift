@@ -14,8 +14,6 @@ class WikiSiteRAW {
         case invalidResponse
     }
     
-    typealias QueryCallback = (Bool) -> Void
-    
     var url: String
     var title: String = ""
     var homepage: String = ""
@@ -29,12 +27,8 @@ class WikiSiteRAW {
         self.url = url
     }
     
-    var api: URLComponents? {
-        URLComponents(string: url + "/api.php")
-    }
-    
     func query() async throws {
-        guard var urlComponents = api else {
+        guard var urlComponents = URLComponents(string: url + "/api.php") else {
             throw QueryError.invalidURL
         }
         urlComponents.queryItems = [
@@ -50,7 +44,7 @@ class WikiSiteRAW {
         }
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
         let (data, response) = try await URLSession.shared.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let typedResponse = response as? HTTPURLResponse, typedResponse.statusCode == 200 else {
             throw QueryError.invalidResponse
         }
         let decoder = JSONDecoder()
