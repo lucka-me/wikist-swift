@@ -74,30 +74,23 @@ extension WikiSite {
 
 extension WikiSite {
     
-    var api: URLComponents? {
-        URLComponents(string: url + "/api.php")
-    }
-    
     var usersCount: Int {
         users?.count ?? 0
+    }
+    
+    func url(for queryItems: [ URLQueryItem ]) -> URL? {
+        guard var components = URLComponents(string: url + "/api.php") else { return nil }
+        components.queryItems = queryItems
+        return components.url
     }
     
     func articleURL(of title: String) -> URL? {
         return URL(raw: server + articlePath.replacingOccurrences(of: "$1", with: title))
     }
     
-    func refresh(_ callback: @escaping WikiSiteRAW.QueryCallback) {
+    func refresh() async throws {
         let raw = WikiSiteRAW(url)
-        Task.init {
-            do {
-                try await raw.query()
-            } catch {
-                // Alert
-                callback(false)
-                return
-            }
-            from(raw)
-            callback(true)
-        }
+        try await raw.query()
+        from(raw)
     }
 }

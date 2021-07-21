@@ -13,7 +13,7 @@ struct UserDetails: View {
     
     @Environment(\.locale) private var locale
     @Environment(\.openURL) private var openURL
-    @State private var refreshing = false
+    @EnvironmentObject private var dia: Dia
     
     var user: WikiUser
     
@@ -35,38 +35,20 @@ struct UserDetails: View {
     
     @ViewBuilder
     private var content: some View {
-        ScrollView {
-            VStack(alignment: .center) {
+        List {
+            Group {
                 ContributionsMatrix(user)
                     .frame(height: Self.matrixHeight, alignment: .top)
-                
-                LazyVGrid(columns: [ .init(.adaptive(minimum: 250), alignment: .top) ], alignment: .center) {
-                    siteInfo
-                    userInfo
-                }
-                .lineLimit(1)
+                siteInfo
+                userInfo
             }
-            .animation(.easeInOut, value: refreshing)
-            .padding()
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.plain)
         .navigationTitle(user.username)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    refreshing = true
-                    user.refresh(full: true) { succeed in
-                        DispatchQueue.main.async {
-                            if succeed {
-                                Dia.shared.save()
-                            }
-                            refreshing = false
-                        }
-                    }
-                } label: {
-                    Label("view.details.update", systemImage: "arrow.clockwise")
-                }
-                .disabled(refreshing)
-            }
+        .refreshable {
+            try? await user.refresh(onlyContributions: false)
+            dia.save()
         }
     }
     

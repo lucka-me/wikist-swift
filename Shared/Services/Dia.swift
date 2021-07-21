@@ -98,23 +98,31 @@ class Dia: ObservableObject {
     
     func refresh() {
         let metas: [ WikiUserMeta ] = list()
-        for meta in metas {
-            if let user = meta.user {
-                user.refresh { succeed in
-                    if succeed {
-                        self.save()
+        Task.init {
+            await withTaskGroup(of: Void.self) { taskGroup in
+                for meta in metas {
+                    guard let user = meta.user else { continue }
+                    taskGroup.async {
+                        try? await user.refresh()
                     }
                 }
             }
+            save()
         }
     }
     
     func sync() {
         let metas: [ WikiUserMeta ] = list()
-        for meta in metas {
-            if meta.user == nil {
-                meta.createUser(with: self)
+        Task.init {
+            await withTaskGroup(of: Void.self) { taskGroup in
+                for meta in metas {
+                    guard meta.user == nil else { continue }
+                    taskGroup.async {
+                        try? await meta.createUser(with: self)
+                    }
+                }
             }
+            save()
         }
     }
     

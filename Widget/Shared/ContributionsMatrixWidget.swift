@@ -43,15 +43,18 @@ struct ContributionsMatrixWidget: Widget {
                     completion(.init(entries: [ .init(user, favicon: favicon, date: entryDate) ], policy: .atEnd))
                 }
             }
-            user.refresh { succeed in
-                if succeed {
-                    Dia.shared.save()
-                }
-                guard let site = user.site else {
+            Task.init {
+                try? await user.refresh()
+                Dia.shared.save()
+                guard
+                    let site = user.site,
+                    let url = URL(string: site.favicon),
+                    let (data, _) = try? await URLSession.shared.data(from: url)
+                else {
                     onFinished(nil)
                     return
                 }
-                URLSession.shared.dataTask(with: site.favicon) { onFinished($0) }
+                onFinished(data)
             }
         }
         

@@ -309,29 +309,20 @@ fileprivate class AddViewModel: ObservableObject {
         }
         status = .queryingUserInfo
         let raw = WikiUserRAW(username, solidSite)
-        raw.queryInfo { succeed in
-            DispatchQueue.main.async {
-                if succeed {
-                    self.queryContributions(raw)
-                } else {
-                    self.alert("view.add.alert.queryUserFailed")
-                    self.status = .inputUser
+        Task.init {
+            do {
+                try await raw.query(user: true, contributions: false)
+                DispatchQueue.main.async {
+                    self.status = .queryingContributions
                 }
-            }
-        }
-    }
-    
-    func queryContributions(_ user: WikiUserRAW) {
-        self.user = user
-        status = .queryingContributions
-        user.queryContributions { succeed in
-            DispatchQueue.main.async {
-                if succeed {
+                self.user = raw
+                try await raw.query(user: false, contributions: true)
+                DispatchQueue.main.async {
                     self.status = .allDone
-                } else {
-                    self.alert("view.add.alert.queryContributionsFailed")
-                    self.status = .inputUser
                 }
+            } catch {
+                self.alert("view.add.alert.queryUserFailed")
+                self.status = .inputUser
             }
         }
     }

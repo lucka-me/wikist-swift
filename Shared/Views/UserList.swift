@@ -94,7 +94,7 @@ struct UserListRow: View {
         .lineLimit(1)
         .task {
             guard meta.user == nil else { return }
-            meta.createUser(with: dia)
+            try? await meta.createUser(with: dia)
         }
     }
     

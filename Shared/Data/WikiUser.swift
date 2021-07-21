@@ -173,37 +173,24 @@ extension WikiUser {
             }
             .reduce(0) { $0 + $1.value }
     }
+}
+
+extension WikiUser {
     
-    func refresh(full: Bool = false, _ callback: @escaping WikiUserRAW.QueryCallback) {
-        if full {
-            guard let solidSite = site else {
-                callback(false)
-                return
-            }
-            solidSite.refresh { succeed in
-                if !succeed {
-                    callback(false)
-                    return
-                }
-                self.refreshSelf(callback)
-            }
-        } else {
-            refreshSelf(callback)
-        }
+    enum RefreshError: Error {
+        case siteDataNotFound
     }
     
-    private func refreshSelf(_ callback: @escaping WikiUserRAW.QueryCallback) {
+    func refresh(onlyContributions: Bool = true) async throws {
         guard let solidSite = site else {
-            callback(false)
-            return
+            throw RefreshError.siteDataNotFound
+        }
+        if !onlyContributions {
+            try await solidSite.refresh()
         }
         let raw = WikiUserRAW(username, solidSite)
-        raw.queryAll { succeed in
-            if succeed {
-                self.from(raw)
-            }
-            callback(succeed)
-        }
+        try await raw.query()
+        from(raw)
     }
     
     private func createMeta() {

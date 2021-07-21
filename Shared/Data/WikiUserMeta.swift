@@ -48,54 +48,25 @@ extension WikiUserMeta {
         return try? solidContext.fetch(request).first
     }
     
-    func createUser(with dia: Dia) {
-        if user != nil {
-            return
-        }
-        if let site = dia.site(of: site) {
-            createUser(in: site, with: dia)
+    func createUser(with dia: Dia) async throws {
+        guard user == nil else { return }
+        let siteRaw = WikiSiteRAW(site)
+        try await siteRaw.query()
+        let site: WikiSite
+        // Check site
+        if let existing = dia.site(of: self.site) {
+            site = existing
         } else {
-            createSite(with: dia) { site in
-                if self.user == nil {
-                    self.createUser(in: site, with: dia)
-                }
-            }
+            site = .from(siteRaw, context: dia.context)
         }
-    }
-    
-    private func createSite(with dia: Dia, _ callback: @escaping (WikiSite) -> Void) {
-        let raw = WikiSiteRAW(site)
-        Task.init {
-            do {
-                try await raw.query()
-            } catch {
-                // ?
-                return
-            }
-            guard let solidContext = managedObjectContext else {
-                return
-            }
-            if let site = dia.site(of: site) {
-                callback(site)
-                return
-            }
-            callback(.from(raw, context: solidContext))
-        }
-    }
-    
-    private func createUser(in site: WikiSite, with dia: Dia) {
-        let raw = WikiUserRAW(username, site)
-        raw.queryAll { succeed in
-            guard
-                succeed, let solidContext = self.managedObjectContext
-            else {
-                dia.delete(site)
-                return
-            }
-            if self.user == nil {
-                let _ = WikiUser.from(raw, self.dataId, with: solidContext)
-                dia.save()
-            }
+        // Check user again
+        guard user == nil else { return }
+        let userRaw = WikiUserRAW(username, site)
+        try await userRaw.query()
+        // Check user again
+        if user == nil {
+            let _ = WikiUser.from(userRaw, dataId, with: dia.context)
+            dia.save()
         }
     }
 }

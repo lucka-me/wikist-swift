@@ -9,8 +9,12 @@ import Foundation
 
 class WikiUserRAW {
     
-    typealias QueryCallback = (Bool) -> Void
-    private typealias QueryJSONCallback = (ResponseJSON?) -> Void
+    enum QueryError: Error {
+        case invalidURL
+        case invalidResponse
+        case userNotFound
+        case invalidResponseContent
+    }
     
     var username: String
     var site: WikiSite
@@ -24,37 +28,17 @@ class WikiUserRAW {
         self.site = site
     }
     
-    func queryAll(_ callback: @escaping QueryCallback) {
-        queryInfo { succeed in
-            if !succeed {
-                callback(false)
-                return
-            }
-            self.queryContributions(callback)
+    func query(user: Bool = true, contributions: Bool = true) async throws {
+        if user {
+            try await queryUser()
+        }
+        if contributions {
+            try await queryContributons()
         }
     }
     
-    func queryInfo(_ callback: @escaping QueryCallback) {
-        query(queryItemsForInfo) { json in
-            guard
-                let solidJSON = json,
-                let solidUser = solidJSON.query.users?.first
-            else {
-                callback(false)
-                return
-            }
-            callback(self.parse(solidUser))
-        }
-    }
-    
-    func queryContributions(_ callback: @escaping QueryCallback) {
-        query(queryItemsForContributions) { json in
-            self.handleContributionsQuery(json, callback)
-        }
-    }
-    
-    private var queryItemsForInfo: [URLQueryItem] {
-        [
+    private func queryUser() async throws {
+        guard let url = site.url(for: [
             .init(name: "action", value: "query"),
             
             .init(name: "list", value: "users"),
@@ -62,11 +46,28 @@ class WikiUserRAW {
             .init(name: "usprop", value: "editcount|registration"),
             
             .init(name: "format", value: "json"),
-        ]
+        ]) else {
+            throw QueryError.invalidURL
+        }
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let typedResponse = response as? HTTPURLResponse, typedResponse.statusCode == 200 else {
+            throw QueryError.invalidResponse
+        }
+        let decoder = JSONDecoder()
+        let queryResponse = try decoder.decode(UsersQueryResponse.self, from: data)
+        guard let userData = queryResponse.query.users.first else {
+            throw QueryError.userNotFound
+        }
+        guard let solidRegistration = ISO8601DateFormatter.shared.date(from: userData.registration) else {
+            throw QueryError.invalidResponseContent
+        }
+        registration = solidRegistration
+        userId = userData.userid
+        edits = userData.editcount
     }
     
-    private var queryItemsForContributions: [URLQueryItem] {
-        [
+    private func queryContributons() async throws {
+        let queryItems: [ URLQueryItem ] = [
             .init(name: "action", value: "query"),
             
             .init(name: "list", value: "usercontribs"),
@@ -77,106 +78,68 @@ class WikiUserRAW {
             
             .init(name: "format", value: "json"),
         ]
-    }
-    
-    private func handleContributionsQuery(_ json: ResponseJSON?, _ callback: @escaping QueryCallback) {
-        guard
-            let solidJSON = json,
-            let solidContribs = solidJSON.query.usercontribs
-        else {
-            callback(false)
-            return
-        }
-        if !self.parse(solidContribs) {
-            callback(false)
-            return
-        }
-        guard let continueData = solidJSON.continueData else {
-            callback(true)
-            return
-        }
-        var queryItems = self.queryItemsForContributions
-        queryItems.append(.init(name: "uccontinue", value: continueData.uccontinue))
-        query(queryItems) { json in
-            self.handleContributionsQuery(json, callback)
-        }
-    }
-    
-    private func query(_ queryItems: [URLQueryItem], _ callback: @escaping QueryJSONCallback) {
-        guard var queryComponents = site.api else {
-            callback(nil)
-            return
-        }
-        queryComponents.queryItems = queryItems
-        guard let queryUrl = queryComponents.url else {
-            callback(nil)
-            return
-        }
-        let request = URLRequest(url: queryUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if error != nil {
-                callback(nil)
-                return
+        var uccontinue: String? = nil
+        repeat {
+            var currentQueryItems = queryItems
+            if let solidContinue = uccontinue {
+                currentQueryItems.append(.init(name: "uccontinue", value: solidContinue))
             }
-            guard
-                let solidData = data,
-                let solidJSON = try? JSONDecoder().decode(ResponseJSON.self, from: solidData)
-            else {
-                callback(nil)
-                return
+            guard let url = site.url(for: currentQueryItems) else {
+                throw QueryError.invalidURL
             }
-            callback(solidJSON)
-        }
-        .resume()
-    }
-    
-    private func parse(_ json: UserJSON) -> Bool {
-        userId = json.userid
-        guard let solidRegistration = ISO8601DateFormatter.shared.date(from: json.registration) else {
-            return false
-        }
-        registration = solidRegistration
-        edits = json.editcount
-        return true
-    }
-    
-    private func parse(_ list: [UserContribJSON]) -> Bool {
-        for json in list {
-            guard let solidDate = ISO8601DateFormatter.shared.date(from: json.timestamp) else {
-                continue
+            let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let typedResponse = response as? HTTPURLResponse, typedResponse.statusCode == 200 else {
+                throw QueryError.invalidResponse
             }
-            let day = Calendar.iso8601.startOfDay(for: solidDate)
-            contributions[day] = contributions[day, default: 0] + 1
-        }
-        return true
+            let decoder = JSONDecoder()
+            let queryResponse = try decoder.decode(ContributionsQueryResponse.self, from: data)
+            for contributionData in queryResponse.query.usercontribs {
+                guard let date = ISO8601DateFormatter.shared.date(from: contributionData.timestamp) else {
+                    continue
+                }
+                let day = Calendar.iso8601.startOfDay(for: date)
+                contributions[day] = contributions[day, default: 0] + 1
+            }
+            uccontinue = queryResponse.continueData?.uccontinue
+        } while uccontinue != nil
     }
 }
 
-fileprivate struct ResponseJSON: Decodable {
-    var query: QueryJSON
-    var continueData: ContinueJSON?
+fileprivate struct UsersQueryResponse: Decodable {
+    
+    struct Item: Decodable {
+        var userid: Int64
+        var registration: String
+        var editcount: Int64
+    }
+    
+    struct Query: Decodable {
+        var users: [ Item ]
+    }
+    
+    var query: Query
+}
+
+fileprivate struct ContributionsQueryResponse: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case query = "query"
         case continueData = "continue"
     }
-}
-
-fileprivate struct ContinueJSON: Decodable {
-    var uccontinue: String
-}
-
-fileprivate struct QueryJSON: Decodable {
-    var users: [UserJSON]?
-    var usercontribs: [UserContribJSON]?
-}
-
-fileprivate struct UserJSON: Decodable {
-    var userid: Int64
-    var registration: String
-    var editcount: Int64
-}
-
-fileprivate struct UserContribJSON: Decodable {
-    var timestamp: String
+    
+    struct ContinueData: Decodable {
+        var uccontinue: String
+    }
+    
+    struct Item: Decodable {
+        var timestamp: String
+    }
+    
+    struct Query: Decodable {
+        var usercontribs: [ Item ]
+    }
+    
+    var query: Query
+    var continueData: ContinueData?
 }
