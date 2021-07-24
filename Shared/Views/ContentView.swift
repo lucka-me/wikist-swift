@@ -9,79 +9,68 @@ import SwiftUI
 
 struct ContentView: View {
     
+    private enum SheetContent: Identifiable {
+        case addSheet
+        #if os(iOS)
+        case preferences
+        #endif
+        
+        var id: Int { self.hashValue }
+    }
+    
     #if os(macOS)
     @ObservedObject private var support = Support.shared
     #endif
-    @State private var presentingAddSheet = false
+    @State private var sheetContent: SheetContent? = nil
     
     var body: some View {
-        #if os(macOS)
         NavigationView {
-            list
-        }
-        .sheet(isPresented: $support.presentingTipSheet) {
-            TipView()
-        }
-        #else
-        TabView {
-            NavigationView { list }
-                .navigationViewStyle(DoubleColumnNavigationViewStyle())
-                .tabItem { Label("view.navi.list", systemImage: "list.bullet") }
-                .tag("list")
-            NavigationView { preferences }
-                .navigationViewStyle(StackNavigationViewStyle())
-                .tabItem { Label("view.navi.preferences", systemImage: "gearshape") }
-                .tag("preferences")
-        }
-        #endif
-    }
-    
-    @ViewBuilder
-    private var list: some View {
-        UserList()
-            .sheet(isPresented: $presentingAddSheet) {
-                AddView()
-            }
-            .navigationTitle("view.navi.list")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        presentingAddSheet.toggle()
-                    } label: {
-                        Label("view.navi.list.add", systemImage: "plus")
+            UserList()
+                .navigationTitle("view.list")
+                .sheet(item: $sheetContent) { content in
+                    switch content {
+                        case .addSheet:
+                            AddView()
+                        #if os(iOS)
+                        case .preferences:
+                            PreferencesView()
+                        #endif
                     }
                 }
-                #if os(macOS)
-                ToolbarItem {
-                    Button(action: toggleSidebar) {
-                        Label("view.navi.list.toggleSidebar", systemImage: "sidebar.left")
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            sheetContent = .addSheet
+                        } label: {
+                            Label("view.list.add", systemImage: "plus")
+                        }
                     }
+                    #if os(macOS)
+                    ToolbarItem {
+                        Button(action: toggleSidebar) {
+                            Label("view.list.toggleSidebar", systemImage: "sidebar.left")
+                        }
+                    }
+                    #else
+                    ToolbarItem(placement: .navigation) {
+                        Button {
+                            sheetContent = .preferences
+                        } label: {
+                            Label("view.preferences", systemImage: "gear")
+                        }
+                    }
+                    #endif
                 }
-                #endif
-            }
-        
-        emptyView
-    }
-    
-    #if os(iOS)
-    @ViewBuilder
-    private var preferences: some View {
-        PreferencesView()
-            .navigationTitle("view.navi.preferences")
-    }
-    
-    #endif
-    
-    @ViewBuilder
-    private var emptyView: some View {
-        VStack {
-            Text("view.navi.list.empty.select")
-            Text("view.navi.list.empty.or")
-                .foregroundColor(.secondary)
-            Button {
-                presentingAddSheet.toggle()
-            } label: {
-                Label("view.navi.list.empty.add", systemImage: "plus")
+            
+            VStack {
+                Text("view.list.empty.select")
+                Text("view.list.empty.or")
+                    .foregroundColor(.secondary)
+                Button {
+                    sheetContent = .addSheet
+                } label: {
+                    Label("view.list.empty.add", systemImage: "plus")
+                }
             }
         }
     }

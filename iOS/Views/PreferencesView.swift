@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PreferencesView: View {
     
+    @Environment(\.presentationMode) private var presentationMode
     @ObservedObject private var support = Support.shared
     @State private var presentingIconSelector = false
     @State private var presentingTipAction = false
@@ -19,47 +20,60 @@ struct PreferencesView: View {
     
     @ViewBuilder
     private var content: some View {
-        List {
-            Section(header: Text("view.preferences.appearance")) {
-                if UIApplication.shared.supportsAlternateIcons {
-                    Button(action: changeIcon) {
-                        Label("view.preferences.appearance.changeIcon", systemImage: "app")
-                    }
-                }
-            }
-            
-            Section(header: Text("view.preferences.about")) {
-                if Support.shared.canMakePayments {
-                    Button {
-                        presentingTipAction = true
-                    } label: {
-                        Label("view.tip", systemImage: "gift")
+        NavigationView {
+            List {
+                Section(header: Text("view.preferences.appearance")) {
+                    if UIApplication.shared.supportsAlternateIcons {
+                        Button {
+                            presentingIconSelector = true
+                        } label: {
+                            Label("view.preferences.appearance.changeIcon", systemImage: "app")
+                        }
                     }
                 }
                 
-                Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
-                    Label("view.preferences.about.sourceCode", systemImage: "swift")
+                Section(header: Text("view.preferences.about")) {
+                    if Support.shared.canMakePayments {
+                        Button {
+                            presentingTipAction = true
+                        } label: {
+                            Label("view.tip", systemImage: "gift")
+                        }
+                    }
+                    
+                    Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
+                        Label("view.preferences.about.sourceCode", systemImage: "swift")
+                    }
+                    
+                    Label("view.preferences.about.version \(version)", systemImage: "info")
                 }
-                
-                Label("view.preferences.about.version \(version)", systemImage: "info")
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("view.preferences")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("view.action.dismiss") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+            .sheet(isPresented: $presentingIconSelector) {
+                IconSelector()
+            }
+            .actionSheet(isPresented: $presentingTipAction) {
+                .init(
+                    title: Text("view.tip.choose"),
+                    buttons: tipActionButtons
+                )
+            }
+            .alert(isPresented: $support.purchased) {
+                .init(title: Text("view.tip.thanks"))
             }
         }
-        .listStyle(InsetGroupedListStyle())
-        .sheet(isPresented: $presentingIconSelector) {
-            IconSelector()
-        }
-        .actionSheet(isPresented: $presentingTipAction) {
-            .init(
-                title: Text("view.tip.choose"),
-                buttons: tipActionButtons
-            )
-        }
-        .alert(isPresented: $support.purchased) {
-            .init(title: Text("view.tip.thanks"))
-        }
+        .navigationViewStyle(.stack)
     }
     
-    private var tipActionButtons: [ActionSheet.Button] {
+    private var tipActionButtons: [ ActionSheet.Button ] {
         var list: [ActionSheet.Button] = support.products.map { product in
             .default(Text(product.localizedText)) {
                 support.purchase(product)
@@ -76,10 +90,6 @@ struct PreferencesView: View {
         let shortVersion = infoDict["CFBundleShortVersionString"] as? String ?? "Unknown"
         let build = infoDict["CFBundleVersion"] as? String ?? "Unknown"
         return "\(shortVersion) (\(build))"
-    }
-    
-    private func changeIcon() {
-        presentingIconSelector = true
     }
 }
 
@@ -105,7 +115,7 @@ fileprivate struct IconSelector: View {
                 row(Self.light, "Light")
                 row(Self.dark, "Dark")
             }
-            .listStyle(InsetGroupedListStyle())
+            .listStyle(.insetGrouped)
             .navigationTitle("view.preferences.appearance.changeIcon")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -115,6 +125,7 @@ fileprivate struct IconSelector: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
     }
     
     @ViewBuilder

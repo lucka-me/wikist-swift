@@ -50,13 +50,13 @@
 "view.add.alert.queryContributionsFailed"   = "Unable to query the contributions.";
 
 // ContentView
-"view.navi.list"    = "List";
-"view.navi.preferences" = "Preferences";
-"view.navi.list.add"    = "Add";
-"view.navi.list.toggleSidebar"  = "Toggle Sidebar";
-"view.navi.list.empty.select"   = "Select from list";
-"view.navi.list.empty.or"   = "or";
-"view.navi.list.empty.add"  = "Add Wiki & User";
+"view.list"    = "List";
+"view.preferences" = "Preferences";
+"view.list.add"    = "Add";
+"view.list.toggleSidebar"  = "Toggle Sidebar";
+"view.list.empty.select"   = "Select from list";
+"view.list.empty.or"   = "or";
+"view.list.empty.add"  = "Add Wiki & User";
 
 // PreferencesView
 "view.preferences.appearance"   = "Appearance";

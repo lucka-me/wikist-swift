@@ -49,13 +49,13 @@
 "view.add.alert.queryContributionsFailed"   = "无法查询用户贡献。";
 
 // ContentView
-"view.navi.list"    = "列表";
-"view.navi.preferences" = "偏好设置";
-"view.navi.list.add"    = "添加";
-"view.navi.list.toggleSidebar"  = "开关边栏";
-"view.navi.list.empty.select"   = "从列表中选择";
-"view.navi.list.empty.or"   = "或";
-"view.navi.list.empty.add"  = "添加维基&用户";
+"view.list" = "列表";
+"view.preferences"  = "偏好设置";
+"view.list.add" = "添加";
+"view.list.toggleSidebar"   = "开关边栏";
+"view.list.empty.select"    = "从列表中选择";
+"view.list.empty.or"    = "或";
+"view.list.empty.add"   = "添加维基&用户";
 
 // PreferencesView
 "view.preferences.appearance"   = "样式";
