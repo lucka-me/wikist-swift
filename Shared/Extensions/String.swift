@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    var urlString: String? {
+    var url: URL? {
         var string = self.replacingOccurrences(of: "^[A-Za-z0-9-.]*:?//", with: "https://", options: .regularExpression)
         if !string.starts(with: "https://") {
             string = "https://" + string
@@ -20,6 +20,6 @@ extension String {
             return nil
         }
         urlComponents.host = host.lowercased()
-        return urlComponents.string
+        return urlComponents.url
     }
 }

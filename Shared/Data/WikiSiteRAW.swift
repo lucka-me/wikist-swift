@@ -51,9 +51,9 @@ class WikiSiteRAW {
         let json = try decoder.decode(ResponseJSON.self, from: data)
         title = json.query.general.sitename
         homepage = json.query.general.base
-        logo = json.query.general.logo.urlString ?? ""
-        favicon = json.query.general.favicon.urlString ?? ""
-        server = json.query.general.server.urlString ?? ""
+        logo = json.query.general.logo.url?.absoluteString ?? ""
+        favicon = json.query.general.favicon.url?.absoluteString ?? ""
+        server = json.query.general.server.url?.absoluteString ?? ""
         language = json.query.general.lang
         articlePath = json.query.general.articlepath
     }

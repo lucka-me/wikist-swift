@@ -256,11 +256,11 @@ fileprivate class AddViewModel: ObservableObject {
         url = url
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "/api\\.php$", with: "", options: .regularExpression)
-        guard let urlString = url.urlString else {
+        guard let urlString = url.url else {
             alert("view.add.alert.urlInvalid")
             return
         }
-        url = urlString
+        url = urlString.absoluteString
         status = .queryingSiteInfo
         if let site = Dia.shared.site(of: url) {
             self.site = site
