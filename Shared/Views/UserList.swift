@@ -71,6 +71,9 @@ struct UserListRow: View {
     static private let matrixHeight: CGFloat = 12 * 7 + ContributionsMatrix.gridSpacing * 6
     #endif
     
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    #endif
     @EnvironmentObject private var dia: Dia
     @State private var firstAppear = true
     
@@ -82,12 +85,17 @@ struct UserListRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            label
-            
-            #if os(iOS)
-            if let user = meta.user {
-                ContributionsMatrix(user)
-                    .frame(height: Self.matrixHeight, alignment: .bottom)
+            #if os(macOS)
+            doubleLinesLabel
+            #else
+            if horizontalSizeClass == .compact {
+                singleLineLabel
+                if let user = meta.user {
+                    ContributionsMatrix(user)
+                        .frame(height: Self.matrixHeight, alignment: .bottom)
+                }
+            } else {
+                doubleLinesLabel
             }
             #endif
         }
@@ -98,14 +106,9 @@ struct UserListRow: View {
         }
     }
     
+    #if os(iOS)
     @ViewBuilder
-    private var label: some View {
-        #if os(macOS)
-        Text(meta.username)
-            .font(.title2)
-        Text(siteText)
-            .foregroundColor(.secondary)
-        #else
+    private var singleLineLabel: some View {
         HStack {
             Text(meta.username)
             Spacer()
@@ -113,7 +116,15 @@ struct UserListRow: View {
                 .foregroundColor(.secondary)
         }
         .font(.subheadline)
-        #endif
+    }
+    #endif
+    
+    @ViewBuilder
+    private var doubleLinesLabel: some View {
+        Text(meta.username)
+            .font(.title2)
+        Text(siteText)
+            .foregroundColor(.secondary)
     }
     
     private var siteText: String {
