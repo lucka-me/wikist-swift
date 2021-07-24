@@ -96,8 +96,8 @@
 		84AC6A82262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
 		84AC6A83262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
 		84AC6A84262885F9000F2635 /* DailyContributionRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */; };
-		84E030482622EA700054A01C /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030472622EA700054A01C /* AddView.swift */; };
-		84E030492622EA700054A01C /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030472622EA700054A01C /* AddView.swift */; };
+		84E030482622EA700054A01C /* AddForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030472622EA700054A01C /* AddForm.swift */; };
+		84E030492622EA700054A01C /* AddForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030472622EA700054A01C /* AddForm.swift */; };
 		84E0305E26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
 		84E0305F26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84E0305C26234E6D0054A01C /* Wikist.xcdatamodeld */; };
 		84E030682623504F0054A01C /* DailyContribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030622623504F0054A01C /* DailyContribution.swift */; };
@@ -350,7 +350,7 @@
 		84AC6A4926272B68000F2635 /* AppIconDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@3x.png"; sourceTree = "<group>"; };
 		84AC6A5226272C66000F2635 /* AppIconDark_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark_83.5@2x.png"; sourceTree = "<group>"; };
 		84AC6A7E262885F9000F2635 /* DailyContributionRAW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyContributionRAW.swift; sourceTree = "<group>"; };
-		84E030472622EA700054A01C /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
+		84E030472622EA700054A01C /* AddForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddForm.swift; sourceTree = "<group>"; };
 		84E0305D26234E6D0054A01C /* Wikist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Wikist.xcdatamodel; sourceTree = "<group>"; };
 		84E030622623504F0054A01C /* DailyContribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyContribution.swift; sourceTree = "<group>"; };
 		84E030642623504F0054A01C /* WikiSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiSite.swift; sourceTree = "<group>"; };
@@ -517,7 +517,7 @@
 		843BF4212622BDDA0065D9FF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				84E030472622EA700054A01C /* AddView.swift */,
+				84E030472622EA700054A01C /* AddForm.swift */,
 				843BF3FF2622BAAE0065D9FF /* ContentView.swift */,
 				843BF4222622BE070065D9FF /* ContributionsMatrix.swift */,
 				84E030BE262380E20054A01C /* UserDetails.swift */,
@@ -995,7 +995,7 @@
 			files = (
 				84381A56263035350057FCD4 /* WikiUserMeta.swift in Sources */,
 				84E030AC262372B00054A01C /* WikiSiteRAW.swift in Sources */,
-				84E030482622EA700054A01C /* AddView.swift in Sources */,
+				84E030482622EA700054A01C /* AddForm.swift in Sources */,
 				844834CA262F211A00839DC2 /* URLSession.swift in Sources */,
 				84E031C42625E79D0054A01C /* Widget.intentdefinition in Sources */,
 				84483471262F06CC00839DC2 /* String.swift in Sources */,
@@ -1033,7 +1033,7 @@
 			files = (
 				84E030AD262372B00054A01C /* WikiSiteRAW.swift in Sources */,
 				841BA798262BD2C50083E19C /* SKProduct.swift in Sources */,
-				84E030492622EA700054A01C /* AddView.swift in Sources */,
+				84E030492622EA700054A01C /* AddForm.swift in Sources */,
 				84483494262F0E6900839DC2 /* RemoteImage.swift in Sources */,
 				84E031C92625E79E0054A01C /* Widget.intentdefinition in Sources */,
 				84483485262F0CE900839DC2 /* Image.swift in Sources */,

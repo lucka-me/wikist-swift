@@ -1,5 +1,5 @@
 //
-//  AddView.swift
+//  AddForm.swift
 //  Wikist
 //
 //  Created by Lucka on 11/4/2021.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddView: View {
+struct AddForm: View {
     
     @Environment(\.locale) private var locale
     @Environment(\.presentationMode) private var presentationMode
@@ -29,7 +29,7 @@ struct AddView: View {
     private var content: some View {
         ScrollView {
             main
-                .animation(.easeInOut)
+                .animation(.easeInOut, value: model.status)
                 .padding()
         }
         .navigationTitle("view.add.title")
@@ -198,7 +198,7 @@ struct AddView: View {
 #if DEBUG
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView()
+        AddForm()
     }
 }
 #endif

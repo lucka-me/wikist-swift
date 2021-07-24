@@ -30,7 +30,7 @@ struct ContentView: View {
                 .sheet(item: $sheetContent) { content in
                     switch content {
                         case .addSheet:
-                            AddView()
+                            AddForm()
                         #if os(iOS)
                         case .preferences:
                             PreferencesView()
