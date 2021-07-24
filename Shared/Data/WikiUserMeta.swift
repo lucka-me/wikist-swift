@@ -66,7 +66,7 @@ extension WikiUserMeta {
         // Check user again
         if user == nil {
             let _ = WikiUser.from(userRaw, dataId, with: dia.context)
-            dia.save()
+            await dia.save()
         }
     }
 }

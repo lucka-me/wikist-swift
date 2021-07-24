@@ -45,7 +45,7 @@ struct ContributionsMatrixWidget: Widget {
             }
             Task.init {
                 try? await user.refresh()
-                Dia.shared.save()
+                await Dia.shared.save()
                 guard
                     let site = user.site,
                     let url = URL(string: site.favicon),

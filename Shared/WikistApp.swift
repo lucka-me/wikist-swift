@@ -33,22 +33,22 @@ struct WikistApp: App {
                 .environmentObject(dia)
         }
         .onChange(of: scenePhase) { phase in
-            if phase == .active {
-                dia.sync()
-                refresh()
-            } else if phase == .background {
-                dia.cleanUp()
+            Task.init {
+                switch phase {
+                    case .active:
+                        await refresh()
+                    case .background:
+                        dia.removeUsersWithoutMeta()
+                        await dia.save()
+                    default: break
+                }
             }
         }
     }
     
-    private func refresh() {
-        let now = Date()
-        if lastRefresh.distance(to: now) >= 30 * 3600 {
-            dia.refresh()
-            DispatchQueue.main.async {
-                lastRefresh = now
-            }
-        }
+    private func refresh() async {
+        guard lastRefresh.distance(to: .now) >= 30 * 3600 else { return }
+        await dia.refresh()
+        lastRefresh = .now
     }
 }

@@ -33,6 +33,7 @@ struct AddForm: View {
     @Environment(\.locale) private var locale
     @Environment(\.managedObjectContext) private var context
     @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var dia: Dia
     @ObservedObject private var model = Model()
     @State private var status: Status = .configSite
     @State private var alertItem: AlertItem? = nil
@@ -66,16 +67,20 @@ struct AddForm: View {
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("view.action.confirm") {
-                    model.save()
-                    presentationMode.wrappedValue.dismiss()
+                    Task.init {
+                        await model.save(with: dia)
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
                 .disabled(status != .allDone)
             }
             
             ToolbarItem(placement: .cancellationAction) {
                 Button("view.action.cancel") {
-                    model.clear()
-                    presentationMode.wrappedValue.dismiss()
+                    Task.init {
+                        await model.clear(with: dia)
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
             }
         }
@@ -121,7 +126,7 @@ struct AddForm: View {
                     update(status: .queryingSite)
                     var done = false
                     do {
-                        try await model.querySite(with: context)
+                        try await model.querySite(with: dia)
                         done = true
                     } catch Model.ErrorType.invalidURL {
                         errorMessage = "view.add.error.invalidURL"
@@ -309,7 +314,7 @@ fileprivate class Model: ObservableObject {
         self.site = site
     }
     
-    func querySite(with context: NSManagedObjectContext) async throws {
+    func querySite(with dia: Dia) async throws {
         guard !url.isEmpty else {
             throw ErrorType.emptyURL
         }
@@ -322,13 +327,13 @@ fileprivate class Model: ObservableObject {
             throw ErrorType.invalidURL
         }
         url = cleanURL.absoluteString
-        if let existingSite = Dia.shared.site(of: url) {
+        if let existingSite = dia.site(of: url) {
             site = existingSite
             return
         }
         let raw = WikiSiteRAW(url)
         try await raw.query()
-        site = .from(raw, context: context)
+        site = .from(raw, context: dia.context)
     }
     
     func queryUser() async throws {
@@ -350,18 +355,15 @@ fileprivate class Model: ObservableObject {
         try await raw.query(user: false, contributions: true)
     }
     
-    func save() {
-        guard let solidRAW = user else {
-            return
-        }
-        let _ = WikiUser.from(solidRAW, UUID(), with: Dia.shared.context, createMeta: true)
-        Dia.shared.save()
+    func save(with dia: Dia) async {
+        guard let solidRAW = user else { return }
+        let _ = WikiUser.from(solidRAW, UUID(), with: dia.context, createMeta: true)
+        await dia.save()
     }
     
-    func clear() {
-        if let solidSite = site {
-            Dia.shared.delete(solidSite)
-        }
-        Dia.shared.save()
+    func clear(with dia: Dia) async {
+        guard let solidSite = site else { return }
+        dia.delete(solidSite)
+        await dia.save()
     }
 }

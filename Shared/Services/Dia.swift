@@ -19,7 +19,7 @@ class Dia: ObservableObject {
         .appendingPathComponent("cloud.sqlite")
     
     /// Refresh it to force UI refresh after save Core Data
-    @Published private var saveID = UUID().uuidString
+//    @Published private var saveID = UUID()
     
     let context: NSManagedObjectContext
     
@@ -96,56 +96,35 @@ class Dia: ObservableObject {
         }
     }
     
-    func refresh() {
+    func refresh() async {
         let metas: [ WikiUserMeta ] = list()
-        Task.init {
-            await withTaskGroup(of: Void.self) { taskGroup in
-                for meta in metas {
-                    guard let user = meta.user else { continue }
-                    taskGroup.async {
-                        try? await user.refresh()
-                    }
+        await withTaskGroup(of: Void.self) { taskGroup in
+            for meta in metas {
+                guard let user = meta.user else { continue }
+                taskGroup.async {
+                    try? await user.refresh()
                 }
             }
-            save()
+        }
+        await save()
+    }
+    
+    func removeUsersWithoutMeta() {
+        let targets: [ WikiUser ] = list().filter { $0.meta == nil }
+        for user in targets {
+            context.delete(user)
         }
     }
     
-    func sync() {
-        let metas: [ WikiUserMeta ] = list()
-        Task.init {
-            await withTaskGroup(of: Void.self) { taskGroup in
-                for meta in metas {
-                    guard meta.user == nil else { continue }
-                    taskGroup.async {
-                        try? await meta.createUser(with: self)
-                    }
-                }
-            }
-            save()
-        }
-    }
-    
-    func cleanUp() {
-        let users: [ WikiUser ] = list()
-        for user in users {
-            if user.meta == nil {
-                context.delete(user)
-            }
-        }
-        save()
-    }
-    
+    @MainActor
     func save() {
-        clearContributions()
+        removeContributionsWithoutUser()
         if !context.hasChanges {
             return
         }
         do {
             try context.save()
-            DispatchQueue.main.async {
-                self.saveID = UUID().uuidString
-            }
+//            saveID = .init()
         } catch {
             print("[CoreData][Save] Failed: \(error.localizedDescription)")
         }
@@ -158,12 +137,10 @@ class Dia: ObservableObject {
     }
     
     /// Clear contributions not linked with user
-    private func clearContributions() {
-        let contributions: [ DailyContribution ] = list()
+    private func removeContributionsWithoutUser() {
+        let contributions: [ DailyContribution ] = list().filter { $0.user == nil }
         for contribution in contributions {
-            if contribution.user == nil {
-                context.delete(contribution)
-            }
+            context.delete(contribution)
         }
     }
     
@@ -188,7 +165,6 @@ class Dia: ObservableObject {
             contribution.count = .random(in: 1 ..< 60)
             user.addToContributions(contribution)
         }
-        dia.save()
         return dia
     }()
     #endif
