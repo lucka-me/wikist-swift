@@ -19,8 +19,10 @@
 "view.info.user.header" = "用户";
 "view.info.user.uid"    = "用户 ID";
 "view.info.user.registration"   = "注册时间";
+"view.info.user.since"  = "注册时间";
 "view.info.user.edits"  = "编辑数";
-"view.info.user.contributionsLastYear"  = "过去一年的贡献";
+"view.info.user.days %lld"  = "%lld天";
+"view.info.user.lastYear"  = "过去一年";
 "view.info.user.userPage"   = "用户页";
 
 // Shared: Tip

@@ -19,8 +19,10 @@
 "view.info.user.header" = "User";
 "view.info.user.uid"    = "User ID";
 "view.info.user.registration"   = "Registration";
+"view.info.user.since"  = "Since";
 "view.info.user.edits"  = "Edits";
-"view.info.user.contributionsLastYear"  = "Contributions Last Year";
+"view.info.user.days %lld"    = "%lld days";
+"view.info.user.lastYear"   = "Last Year";
 "view.info.user.userPage"   = "User Page";
 
 // Shared: Tip

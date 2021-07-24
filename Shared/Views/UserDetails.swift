@@ -9,93 +9,148 @@ import SwiftUI
 
 struct UserDetails: View {
     
-    static private let matrixHeight: CGFloat = 16 * 7 + ContributionsMatrix.gridSpacing * 6
+    static private let matrixGridSize: CGFloat = 16
+    static private let matrixHeight: CGFloat = matrixGridSize * 7 + ContributionsMatrix.gridSpacing * 6
+    static private let matrixMaxWidth: CGFloat = matrixGridSize * 53 + ContributionsMatrix.gridSpacing * 52
+    #if os(macOS)
+    static private let minWidth: CGFloat = 300
+    #else
+    static private let minWidth: CGFloat? = nil
+    #endif
     
     @Environment(\.locale) private var locale
     @Environment(\.openURL) private var openURL
     @EnvironmentObject private var dia: Dia
     
-    var user: WikiUser
+    var meta: WikiUserMeta
     
     init(_ meta: WikiUserMeta) {
-        user = meta.user!
+        self.meta = meta
     }
     
     var body: some View {
-        if user.isFault {
-            EmptyView()
+        if let user = meta.user, let site = user.site {
+            List {
+                Group {
+                    ContributionsMatrix(user)
+                        .frame(height: Self.matrixHeight, alignment: .top)
+                    logoAndLinks(user, site)
+                    language(site)
+                    edits(user)
+                    interval(user)
+                }
+                .listRowSeparator(.hidden)
+                .frame(minWidth: Self.minWidth, maxWidth: Self.matrixMaxWidth)
+            }
+            .listStyle(.plain)
+            .navigationTitle(user.username)
+            .refreshable {
+                try? await user.refresh(onlyContributions: false)
+                dia.save()
+            }
         } else {
-            #if os(macOS)
-            content.frame(minWidth: 300)
-            #else
-            content.frame(minWidth: nil)
-            #endif
+            ProgressView("Loading")
+                .task {
+                    try? await meta.createUser(with: dia)
+                }
+                .frame(minWidth: Self.minWidth)
         }
     }
     
     @ViewBuilder
-    private var content: some View {
-        List {
-            Group {
-                ContributionsMatrix(user)
-                    .frame(height: Self.matrixHeight, alignment: .top)
-                siteInfo
-                userInfo
+    private func logoAndLinks(_ user: WikiUser, _ site: WikiSite) -> some View {
+        HStack(alignment: .center) {
+            AsyncImage(url: URL(string: site.logo)) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                ProgressView()
             }
-            .listRowSeparator(.hidden)
+            .frame(width: 60, height: 60, alignment: .center)
+            Spacer()
+            VStack(alignment: .trailing) {
+                if let url = URL(string: site.homepage) {
+                    Button{
+                        openURL(url)
+                    } label: {
+                        Text(site.title)
+                        Label("Open", systemImage: "chevron.forward")
+                    }
+                }
+                Divider()
+                if let url = user.userPage {
+                    Button {
+                        openURL(url)
+                    } label: {
+                        Text("view.info.user.userPage")
+                        Label("Open", systemImage: "chevron.forward")
+                    }
+                }
+            }
+            .labelStyle(.iconOnly)
+            .buttonStyle(.borderless)
+            .lineLimit(1)
         }
-        .listStyle(.plain)
-        .navigationTitle(user.username)
-        .refreshable {
-            try? await user.refresh(onlyContributions: false)
-            dia.save()
-        }
+        .card()
     }
     
     @ViewBuilder
-    private var siteInfo: some View {
-        CardView.Card {
-            CardView.List.header(
-                Text("view.info.site.header"),
-                RemoteImage(user.site?.favicon ?? "")
-                    .clipShape(Circle())
-                    .frame(width: 16, height: 16)
-            )
-            CardView.List.row(Label("view.info.site.title", systemImage: "house"), Text(user.site?.title ?? ""))
-            if let language = locale.localizedString(forLanguageCode: user.site?.language ?? "") {
-                CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
-            }
-            CardView.List.row(openHomePage, showIndicator: true) {
-                Label("view.info.site.homepage", systemImage: "safari")
+    private func language(_ site: WikiSite) -> some View {
+        HStack {
+            Label("view.info.site.language", systemImage: "character.book.closed")
+            Spacer()
+            if let language = locale.localizedString(forLanguageCode: site.language) {
+                Text(language)
+            } else {
+                Text("Unknown")
             }
         }
+        .card()
     }
     
     @ViewBuilder
-    private var userInfo: some View {
-        CardView.Card {
-            Text("view.info.user.header")
-                .font(.headline)
-            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(user.userId)"))
-            CardView.List.row(Label("view.info.user.registration", systemImage: "play"), Text(user.registration, style: .date))
-            CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(user.edits)"))
-            CardView.List.row(Label("view.info.user.contributionsLastYear", systemImage: "calendar"), Text("\(user.contributionsLastYear)"))
-            CardView.List.row(openUserPage, showIndicator: true) {
-                Label("view.info.user.userPage", systemImage: "safari")
+    private func edits(_ user: WikiUser) -> some View {
+        VStack(alignment: .leading) {
+            Text("\(user.edits)")
+                .font(.system(.largeTitle, design: .rounded))
+            HStack {
+                Spacer()
+                Text("view.info.user.edits")
+                    .font(.subheadline)
+            }
+            Divider()
+            HStack {
+                let contributionsLastYear = user.contributionsLastYear
+                Label("view.info.user.lastYear", systemImage: "calendar")
+                ProgressView(value: Double(contributionsLastYear), total: Double(user.edits))
+                Text("\(contributionsLastYear)")
+                    .font(.system(.body, design: .rounded))
             }
         }
+        .card()
     }
     
-    private func openHomePage() {
-        if let site = user.site, let url = URL(string: site.homepage) {
-            openURL(url)
+    @ViewBuilder
+    private func interval(_ user: WikiUser) -> some View {
+        VStack(alignment: .leading) {
+            Text(user.registration, style: .relative)
+                .font(.largeTitle)
+            HStack {
+                Spacer()
+                let days = Int(Date.now.timeIntervalSince(user.registration)) / Date.secondsInDay
+                Text("view.info.user.days \(days)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            Divider()
+            HStack {
+                Label("view.info.user.since", systemImage: "play")
+                Spacer()
+                Text(user.registration, style: .date)
+            }
         }
-    }
-    
-    private func openUserPage() {
-        if let url = user.userPage {
-            openURL(url)
-        }
+        .card()
     }
 }
 

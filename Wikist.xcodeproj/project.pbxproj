@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		840AED7126ABAA5400107658 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840AED7026ABAA5300107658 /* ViewModifiers.swift */; };
+		840AED7226ABAA5400107658 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840AED7026ABAA5300107658 /* ViewModifiers.swift */; };
 		841BA784262B22740083E19C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841BA783262B22740083E19C /* StoreKit.framework */; };
 		841BA786262B22820083E19C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841BA785262B22820083E19C /* StoreKit.framework */; };
 		841BA788262B22A80083E19C /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BA787262B22A80083E19C /* Support.swift */; };
@@ -309,6 +311,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		840AED7026ABAA5300107658 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		841BA783262B22740083E19C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		841BA785262B22820083E19C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		841BA787262B22A80083E19C /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
@@ -623,6 +626,7 @@
 			children = (
 				84E030CA26242C360054A01C /* CardView.swift */,
 				84483492262F0E6900839DC2 /* RemoteImage.swift */,
+				840AED7026ABAA5300107658 /* ViewModifiers.swift */,
 			);
 			path = Basic;
 			sourceTree = "<group>";
@@ -1006,6 +1010,7 @@
 				841BA797262BD2C50083E19C /* SKProduct.swift in Sources */,
 				84E030682623504F0054A01C /* DailyContribution.swift in Sources */,
 				84E030CB26242C360054A01C /* CardView.swift in Sources */,
+				840AED7126ABAA5400107658 /* ViewModifiers.swift in Sources */,
 				84E030B1262375F00054A01C /* WikiUserRAW.swift in Sources */,
 				843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */,
 				84E030702623504F0054A01C /* WikiUser.swift in Sources */,
@@ -1037,6 +1042,7 @@
 				84E03093262355AD0054A01C /* FileManager.swift in Sources */,
 				84E0305F26234E6D0054A01C /* Wikist.xcdatamodeld in Sources */,
 				844834CB262F211A00839DC2 /* URLSession.swift in Sources */,
+				840AED7226ABAA5400107658 /* ViewModifiers.swift in Sources */,
 				844833DB262D9BD800839DC2 /* NSManagedObjectWithFetchRequest.swift in Sources */,
 				843BF42B2622C2D70065D9FF /* UserList.swift in Sources */,
 				84E030692623504F0054A01C /* DailyContribution.swift in Sources */,
