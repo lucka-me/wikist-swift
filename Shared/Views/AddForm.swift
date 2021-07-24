@@ -15,20 +15,8 @@ struct AddForm: View {
     @State private var presentingAddSiteHelpAlert = false
     
     var body: some View {
-        #if os(macOS)
-        content
-            .frame(minWidth: 350, minHeight: 400)
-        #else
-        NavigationView {
-            content
-        }
-        #endif
-    }
-    
-    @ViewBuilder
-    private var content: some View {
         ScrollView {
-            main
+            form
                 .animation(.easeInOut, value: model.status)
                 .padding()
         }
@@ -58,7 +46,7 @@ struct AddForm: View {
     }
     
     @ViewBuilder
-    private var main: some View {
+    private var form: some View {
         VStack {
             siteField
             

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private enum SheetContent: Identifiable {
+    private enum SheetItem: Identifiable {
         case addSheet
         #if os(iOS)
         case preferences
@@ -21,26 +21,27 @@ struct ContentView: View {
     #if os(macOS)
     @ObservedObject private var support = Support.shared
     #endif
-    @State private var sheetContent: SheetContent? = nil
+    @State private var sheetItem: SheetItem? = nil
     
     var body: some View {
         NavigationView {
             UserList()
                 .navigationTitle("view.list")
-                .sheet(item: $sheetContent) { content in
-                    switch content {
-                        case .addSheet:
-                            AddForm()
-                        #if os(iOS)
-                        case .preferences:
-                            PreferencesView()
-                        #endif
+                .sheet(item: $sheetItem) { item in
+                    #if os(macOS)
+                    sheetContent(of: item)
+                        .frame(minWidth: 350, minHeight: 400)
+                    #else
+                    NavigationView {
+                        sheetContent(of: item)
                     }
+                    .navigationViewStyle(.stack)
+                    #endif
                 }
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            sheetContent = .addSheet
+                            sheetItem = .addSheet
                         } label: {
                             Label("view.list.add", systemImage: "plus")
                         }
@@ -54,7 +55,7 @@ struct ContentView: View {
                     #else
                     ToolbarItem(placement: .navigation) {
                         Button {
-                            sheetContent = .preferences
+                            sheetItem = .preferences
                         } label: {
                             Label("view.preferences", systemImage: "gear")
                         }
@@ -67,11 +68,23 @@ struct ContentView: View {
                 Text("view.list.empty.or")
                     .foregroundColor(.secondary)
                 Button {
-                    sheetContent = .addSheet
+                    sheetItem = .addSheet
                 } label: {
                     Label("view.list.empty.add", systemImage: "plus")
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    private func sheetContent(of item: SheetItem) -> some View {
+        switch item {
+            case .addSheet:
+                AddForm()
+            #if os(iOS)
+            case .preferences:
+                PreferencesView()
+            #endif
         }
     }
     

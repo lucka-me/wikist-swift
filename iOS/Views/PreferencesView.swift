@@ -20,57 +20,57 @@ struct PreferencesView: View {
     
     @ViewBuilder
     private var content: some View {
-        NavigationView {
-            List {
-                Section(header: Text("view.preferences.appearance")) {
-                    if UIApplication.shared.supportsAlternateIcons {
-                        Button {
-                            presentingIconSelector = true
-                        } label: {
-                            Label("view.preferences.appearance.changeIcon", systemImage: "app")
-                        }
+        List {
+            Section(header: Text("view.preferences.appearance")) {
+                if UIApplication.shared.supportsAlternateIcons {
+                    Button {
+                        presentingIconSelector = true
+                    } label: {
+                        Label("view.preferences.appearance.changeIcon", systemImage: "app")
+                    }
+                }
+            }
+            
+            Section(header: Text("view.preferences.about")) {
+                if Support.shared.canMakePayments {
+                    Button {
+                        presentingTipAction = true
+                    } label: {
+                        Label("view.tip", systemImage: "gift")
                     }
                 }
                 
-                Section(header: Text("view.preferences.about")) {
-                    if Support.shared.canMakePayments {
-                        Button {
-                            presentingTipAction = true
-                        } label: {
-                            Label("view.tip", systemImage: "gift")
-                        }
-                    }
-                    
-                    Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
-                        Label("view.preferences.about.sourceCode", systemImage: "swift")
-                    }
-                    
-                    Label("view.preferences.about.version \(version)", systemImage: "info")
+                Link(destination: URL(string: "https://github.com/lucka-me/wikist-swift")!) {
+                    Label("view.preferences.about.sourceCode", systemImage: "swift")
                 }
-            }
-            .listStyle(.insetGrouped)
-            .navigationTitle("view.preferences")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("view.action.dismiss") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            }
-            .sheet(isPresented: $presentingIconSelector) {
-                IconSelector()
-            }
-            .actionSheet(isPresented: $presentingTipAction) {
-                .init(
-                    title: Text("view.tip.choose"),
-                    buttons: tipActionButtons
-                )
-            }
-            .alert(isPresented: $support.purchased) {
-                .init(title: Text("view.tip.thanks"))
+                
+                Label("view.preferences.about.version \(version)", systemImage: "info")
             }
         }
-        .navigationViewStyle(.stack)
+        .listStyle(.insetGrouped)
+        .navigationTitle("view.preferences")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("view.action.dismiss") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+        }
+        .sheet(isPresented: $presentingIconSelector) {
+            NavigationView {
+                IconSelector()
+            }
+            .navigationViewStyle(.stack)
+        }
+        .actionSheet(isPresented: $presentingTipAction) {
+            .init(
+                title: Text("view.tip.choose"),
+                buttons: tipActionButtons
+            )
+        }
+        .alert(isPresented: $support.purchased) {
+            .init(title: Text("view.tip.thanks"))
+        }
     }
     
     private var tipActionButtons: [ ActionSheet.Button ] {
@@ -110,22 +110,19 @@ fileprivate struct IconSelector: View {
     @State private var selected = UIApplication.shared.alternateIconName ?? Self.light
     
     var body: some View {
-        NavigationView {
-            List {
-                row(Self.light, "Light")
-                row(Self.dark, "Dark")
-            }
-            .listStyle(.insetGrouped)
-            .navigationTitle("view.preferences.appearance.changeIcon")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("view.action.dismiss") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
+        List {
+            row(Self.light, "Light")
+            row(Self.dark, "Dark")
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("view.preferences.appearance.changeIcon")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("view.action.dismiss") {
+                    presentationMode.wrappedValue.dismiss()
                 }
             }
         }
-        .navigationViewStyle(.stack)
     }
     
     @ViewBuilder
