@@ -37,8 +37,9 @@ struct UserDetails: View {
                     logoAndLinks(user, site)
                     language(site)
                     edits(user)
-                    interval(user)
+                    intervalAndID(user)
                 }
+                .lineLimit(1)
                 .listRowSeparator(.hidden)
                 .frame(minWidth: Self.minWidth, maxWidth: Self.matrixMaxWidth)
             }
@@ -90,7 +91,6 @@ struct UserDetails: View {
             }
             .labelStyle(.iconOnly)
             .buttonStyle(.borderless)
-            .lineLimit(1)
         }
         .card()
     }
@@ -114,11 +114,12 @@ struct UserDetails: View {
         VStack(alignment: .leading) {
             Text("\(user.edits)")
                 .font(.system(.largeTitle, design: .rounded))
-            HStack {
+            HStack(alignment: .firstTextBaseline) {
                 Spacer()
                 Text("view.info.user.edits")
-                    .font(.subheadline)
             }
+            .font(.subheadline)
+            .foregroundColor(.secondary)
             Divider()
             HStack {
                 let contributionsLastYear = user.contributionsLastYear
@@ -132,17 +133,18 @@ struct UserDetails: View {
     }
     
     @ViewBuilder
-    private func interval(_ user: WikiUser) -> some View {
+    private func intervalAndID(_ user: WikiUser) -> some View {
         VStack(alignment: .leading) {
             Text(user.registration, style: .relative)
                 .font(.largeTitle)
-            HStack {
-                Spacer()
+            HStack(alignment: .firstTextBaseline) {
                 let days = Int(Date.now.timeIntervalSince(user.registration)) / Date.secondsInDay
                 Text("view.info.user.days \(days)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                Spacer()
+                Text("# \(user.userId)")
             }
+            .font(.subheadline)
+            .foregroundColor(.secondary)
             Divider()
             HStack {
                 Label("view.info.user.since", systemImage: "play")
