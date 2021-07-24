@@ -59,7 +59,7 @@ struct AddForm: View {
             
             if status >= .configUser {
                 Section(LocalizedStringKey("view.add.user.header")) {
-                    
+                    userFields
                 }
             }
         }
