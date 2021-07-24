@@ -12,11 +12,8 @@
 "view.action.dismiss"   = "Dismiss";
 
 // Shared: Informations
-"view.info.site.header" = "Wiki";
-"view.info.site.title"  = "Title";
 "view.info.site.homepage"   = "Home Page";
 "view.info.site.language"   = "Language";
-"view.info.user.header" = "User";
 "view.info.user.uid"    = "User ID";
 "view.info.user.registration"   = "Registration";
 "view.info.user.since"  = "Since";
@@ -31,7 +28,9 @@
 "view.tip.thanks"   = "Thank you for your support!";
 
 // AddView
+"view.add.query"    = "Query";
 "view.add.title"    = "Add";
+"view.add.site.header"  = "Wiki";
 "view.add.site.method"  = "Method";
 "view.add.site.method.add"  = "Add";
 "view.add.site.method.select"   = "Select";
@@ -40,7 +39,9 @@
 "view.add.site.add.help.message"    = "The API Endpoint is used to query information from MediaWiki site.\nIt's end up with /api.php and usually located under the / or /w path\nE.g. https://en.wikipedia.org/w/api.php for Wikipedia.\nThe /api.php part could be omitted.";
 "view.add.site.add.help.open"   = "Help";
 "view.add.site.select.hint" = "Site";
-"view.add.query"    = "Query";
+"view.add.site.title"   = "Title";
+"view.add.user.header"  = "User";
+"view.add.user.add.hint"    = "Username";
 "view.add.alert.urlEmpty"   = "URL is empty.";
 "view.add.alert.urlInvalid" = "URL is invalid.";
 "view.add.alert.usernameEmpty"  = "Username is empty.";

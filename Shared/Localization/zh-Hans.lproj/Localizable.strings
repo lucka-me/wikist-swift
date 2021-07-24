@@ -12,11 +12,8 @@
 "view.action.dismiss"   = "关闭";
 
 // Shared: Informations
-"view.info.site.header" = "维基";
-"view.info.site.title"  = "标题";
 "view.info.site.homepage"   = "主页";
 "view.info.site.language"   = "语言";
-"view.info.user.header" = "用户";
 "view.info.user.uid"    = "用户 ID";
 "view.info.user.registration"   = "注册时间";
 "view.info.user.since"  = "注册时间";
@@ -31,7 +28,9 @@
 "view.tip.thanks"   = "非常感谢您的支持！";
 
 // AddView
+"view.add.query"    = "查询";
 "view.add.title"    = "添加";
+"view.add.site.header"  = "维基";
 "view.add.site.method"  = "方式";
 "view.add.site.method.add"  = "添加";
 "view.add.site.method.select"   = "选择";
@@ -39,7 +38,9 @@
 "view.add.site.add.help.title"  = "API 接口";
 "view.add.site.add.help.message"    = "API 接口用于从 MediaWiki 站点查询信息。\n它以 /api.php 结尾并且通常位于 / 或 /w 路径下。\n例如维基百科的接口是 https://zh.wikipedia.org/w/api.php。\n其中 /api.php 的部分可以省略。";
 "view.add.site.select.hint" = "站点";
-"view.add.query"    = "查询";
+"view.add.site.title"  = "标题";
+"view.add.user.header"  = "用户";
+"view.add.user.add.hint"    = "用户名";
 "view.add.alert.urlEmpty"   = "URL是空的。";
 "view.add.alert.urlInvalid" = "URL无效。";
 "view.add.alert.usernameEmpty"  = "用户名是空的。";

@@ -5,20 +5,62 @@
 //  Created by Lucka on 11/4/2021.
 //
 
+import CoreData
 import SwiftUI
 
 struct AddForm: View {
     
+    private enum AlertItem: Identifiable {
+        case addSiteHelp
+        case error
+        
+        var id: Int { hashValue }
+    }
+    
+    private enum Status: Int, Comparable {
+        case configSite             = 0
+        case queryingSite           = 1
+        case configUser             = 2
+        case queryingUser           = 3
+        case queryingContributions  = 4
+        case allDone                = 10
+        
+        static func < (lhs: Status, rhs: Status) -> Bool {
+            lhs.rawValue < rhs.rawValue
+        }
+    }
+    
     @Environment(\.locale) private var locale
+    @Environment(\.managedObjectContext) private var context
     @Environment(\.presentationMode) private var presentationMode
-    @ObservedObject private var model = AddViewModel()
-    @State private var presentingAddSiteHelpAlert = false
+    @ObservedObject private var model = Model()
+    @State private var status: Status = .configSite
+    @State private var alertItem: AlertItem? = nil
+    @State private var errorMessage: LocalizedStringKey = ""
     
     var body: some View {
-        ScrollView {
-            form
-                .animation(.easeInOut, value: model.status)
-                .padding()
+        Form {
+            Section(LocalizedStringKey("view.add.site.header")) {
+                if !model.sites.isEmpty {
+                    Picker("view.add.site.method", selection: $model.siteMethod) {
+                        Text("view.add.site.method.select").tag(Model.SiteMethod.select)
+                        Text("view.add.site.method.add").tag(Model.SiteMethod.add)
+                    }
+                    .pickerStyle(.segmented)
+                    .disabled(status != .configSite)
+                }
+                if model.siteMethod == .add {
+                    addSiteFields
+                } else {
+                    siteSelector
+                }
+            }
+            
+            if status >= .configUser {
+                Section(LocalizedStringKey("view.add.user.header")) {
+                    
+                }
+            }
         }
         .navigationTitle("view.add.title")
         .toolbar {
@@ -27,7 +69,7 @@ struct AddForm: View {
                     model.save()
                     presentationMode.wrappedValue.dismiss()
                 }
-                .disabled(model.status != .allDone)
+                .disabled(status != .allDone)
             }
             
             ToolbarItem(placement: .cancellationAction) {
@@ -37,173 +79,198 @@ struct AddForm: View {
                 }
             }
         }
-        .alert(isPresented: $model.presentingAlert) {
-            .init(title: Text(model.alertMessage))
-        }
-        .alert(isPresented: $presentingAddSiteHelpAlert) {
-            .init(title: Text("view.add.site.add.help.title"), message: Text("view.add.site.add.help.message"))
+        .alert(item: $alertItem) { item in
+            let title: LocalizedStringKey
+            let message: LocalizedStringKey
+            switch item {
+                case .addSiteHelp:
+                    title = "view.add.site.add.help.title"
+                    message = "view.add.site.add.help.message"
+                case .error:
+                    title = "view.add.error.title"
+                    message = errorMessage
+            }
+            return .init(title: .init(title), message: .init(message))
         }
     }
     
     @ViewBuilder
-    private var form: some View {
-        VStack {
-            siteField
-            
-            if model.status >= .inputUser {
-                userField
-                siteInfo
-                
-                if model.status >= .queryingContributions {
-                    userInfo
-                }
+    private var addSiteFields: some View {
+        HStack {
+            let textField = TextField("view.add.site.add.hint", text: $model.url)
+                .disableAutocorrection(true)
+                .lineLimit(1)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .disabled(status != .configSite)
+            #if os(macOS)
+            textField
+            #else
+            textField.keyboardType(.URL)
+            #endif
+            Button {
+                alertItem = .addSiteHelp
+            } label: {
+                Label("view.add.site.add.help", systemImage: "questionmark.circle")
+                    .labelStyle(.iconOnly)
             }
-            
-            if model.querying {
-                ProgressView()
-            }
+            .buttonStyle(.borderless)
         }
-    }
-    
-    @ViewBuilder
-    private var siteField: some View {
-        CardView.Card {
-            CardView.List.header(Text("view.info.site.header"))
-            if !model.sites.isEmpty {
-                CardView.List.row {
-                    Picker("view.add.site.method", selection: $model.siteMethod) {
-                        Text("view.add.site.method.add").tag(AddViewModel.SiteMethod.add)
-                        Text("view.add.site.method.select").tag(AddViewModel.SiteMethod.select)
+        if status <= .queryingSite && model.urlIsValid {
+            Button {
+                Task.init {
+                    update(status: .queryingSite)
+                    var done = false
+                    do {
+                        try await model.querySite(with: context)
+                        done = true
+                    } catch Model.ErrorType.invalidURL {
+                        errorMessage = "view.add.error.invalidURL"
+                    } catch WikiSiteRAW.QueryError.invalidURL {
+                        errorMessage = "view.add.error.invalidURL"
+                    } catch WikiSiteRAW.QueryError.invalidResponse {
+                        errorMessage = "view.add.error.invalidResponse"
+                    } catch {
+                        // Should never happen: Model.ErrorType.emptyURL
+                        errorMessage = .init(error.localizedDescription)
                     }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .disabled(model.status != .inputSite)
+                    if !done {
+                        alertItem = .error
+                    }
+                    update(status: done ? .configUser : .configSite)
                 }
-            }
-            if model.siteMethod == .add {
-                siteAddField
-            } else {
-                siteSelector
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private var siteAddField: some View {
-        CardView.List.row {
-            HStack {
-                let textField = TextField("view.add.site.add.hint", text: $model.url)
-                    .disableAutocorrection(true)
-                    .lineLimit(1)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(model.status != .inputSite)
-                #if os(macOS)
-                textField
-                #else
-                textField.keyboardType(.URL)
-                #endif
-                Button {
-                    presentingAddSiteHelpAlert = true
-                } label: {
-                    Label("view.add.site.add.help", systemImage: "questionmark.circle")
-                        .labelStyle(IconOnlyLabelStyle())
-                }
-                .buttonStyle(BorderlessButtonStyle())
-            }
-        }
-        if model.status == .inputSite {
-            CardView.List.row(model.querySite) {
+            } label: {
+                let querying = status == .queryingSite
                 Label("view.add.query", systemImage: "magnifyingglass")
+                    .opacity(querying ? 0 : 1)
+                    .overlay {
+                        if querying {
+                            ProgressView()
+                        }
+                    }
+            }
+        }
+        if status > .queryingSite, let site = model.site {
+            row(titleKey: "view.add.site.title", systemImage: "house", text: .init(site.title))
+            if let language = locale.localizedString(forLanguageCode: site.language) {
+                row(titleKey: "view.info.site.language", systemImage: "character.book.closed", text: .init(language))
             }
         }
     }
     
     @ViewBuilder
     private var siteSelector: some View {
-        CardView.List.row {
-            Picker("view.add.site.select.hint", selection: $model.selectedSite) {
-                ForEach(0 ..< model.sites.count) { index in
-                    Text(model.sites[index].title).tag(index)
+        Picker("view.add.site.select.hint", selection: $model.selectedSite) {
+            ForEach(model.sites) { site in
+                Text(site.title).tag(site.id as ObjectIdentifier?)
+            }
+        }
+        .disabled(status != .configSite)
+        if status == .configSite && model.selectedSite != nil {
+            Button {
+                do {
+                    try model.selectSite()
+                } catch Model.ErrorType.invalidSelection {
+                    errorMessage = "view.add.error.invalidSelection"
+                    alertItem = .error
+                    return
+                } catch {
+                    
                 }
-            }
-            .disabled(model.status != .inputSite)
-        }
-        if model.status == .inputSite {
-            CardView.List.row(model.selectSite) {
-                Label("view.action.confirm", systemImage: "checkmark.circle")
+                update(status: .configUser)
+            } label: {
+                Label("view.action.confirm", systemImage: "checkmark")
             }
         }
     }
     
     @ViewBuilder
-    private var userField: some View {
-        CardView.Card {
-            CardView.List.header(Text("view.info.user.header"))
-            CardView.List.row {
-                TextField("User", text: $model.username)
-                    .lineLimit(1)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .disabled(model.status != .inputUser)
-            }
-            if model.status == .inputUser {
-                CardView.List.row(model.queryUser) {
-                    Label("view.add.query", systemImage: "magnifyingglass")
+    private var userFields: some View {
+        TextField("view.add.user.add.hint", text: $model.username)
+            .lineLimit(1)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .disabled(status != .configUser)
+        if status <= .queryingContributions && !model.username.isEmpty {
+            Button {
+                Task.init {
+                    update(status: .queryingUser)
+                    var done = false
+                    do {
+                        try await model.queryUser()
+                        update(status: .queryingContributions)
+                        try await model.queryContributions()
+                        done = true
+                    } catch WikiUserRAW.QueryError.invalidURL {
+                        errorMessage = "view.add.error.invalidURL"
+                    } catch WikiUserRAW.QueryError.invalidResponse {
+                        errorMessage = "view.add.error.invalidResponse"
+                    } catch WikiUserRAW.QueryError.userNotFound {
+                        errorMessage = "view.add.error.userNotFound"
+                    } catch WikiUserRAW.QueryError.invalidResponseContent {
+                        errorMessage = "view.add.error.invalidResponseContent"
+                    } catch {
+                        // Should never happen:
+                        //   Model.ErrorType.emptyUsername
+                        //   Model.ErrorType.noSiteData
+                        //   Model.ErrorType.noUserData
+                        errorMessage = .init(error.localizedDescription)
+                    }
+                    if !done {
+                        alertItem = .error
+                    }
+                    update(status: done ? .allDone : .configUser)
                 }
+            } label: {
+                let querying = status != .configUser
+                Label("view.add.query", systemImage: "magnifyingglass")
+                    .opacity(querying ? 0 : 1)
+                    .overlay {
+                        if querying {
+                            ProgressView()
+                        }
+                    }
             }
+        }
+        if status >= .queryingContributions, let user = model.user {
+            row(titleKey: "view.info.user.uid", systemImage: "number", text: .init("\(user.userId)"))
+            row(titleKey: "view.info.user.since", systemImage: "play", text: .init(user.registration, style: .date))
+            row(titleKey: "view.info.user.edits", systemImage: "pencil", text: .init("\(user.edits)"))
         }
     }
     
     @ViewBuilder
-    private var siteInfo: some View {
-        CardView.Card {
-            if let site = model.site {
-                CardView.List.header(
-                    Text("view.info.site.header"),
-                    RemoteImage(site.favicon)
-                        .clipShape(Circle())
-                        .frame(width: 16, height: 16)
-                )
-            } else {
-                CardView.List.header(Text("view.info.site.header"))
-            }
-            CardView.List.row(Label("view.info.site.title", systemImage: "house"), Text(model.site?.title ?? ""))
-            if let language = locale.localizedString(forLanguageCode: model.site?.language ?? "") {
-                CardView.List.row(Label("view.info.site.language", systemImage: "globe"), Text(language))
-            }
+    private func row(titleKey: LocalizedStringKey, systemImage name: String, text: Text) -> some View {
+        HStack {
+            Label(titleKey, systemImage: name)
+            Spacer()
+            text
         }
     }
     
-    @ViewBuilder
-    private var userInfo: some View {
-        CardView.Card {
-            CardView.List.header(Text("view.info.user.header"))
-            CardView.List.row(Label("view.info.user.uid", systemImage: "number"), Text("\(model.user?.userId ?? 0)"))
-            CardView.List.row(Label("view.info.user.registration", systemImage: "play"), Text(model.user?.registration ?? .init(), style: .date))
-            CardView.List.row(Label("view.info.user.edits", systemImage: "pencil"), Text("\(model.user?.edits ?? 0)"))
-        }
+    @MainActor
+    private func update(status: Status) {
+        self.status = status
     }
 }
 
 #if DEBUG
-struct AddView_Previews: PreviewProvider {
+struct AddForm_Previews: PreviewProvider {
     static var previews: some View {
         AddForm()
     }
 }
 #endif
 
-fileprivate class AddViewModel: ObservableObject {
+fileprivate class Model: ObservableObject {
     
-    enum Status: Int, Comparable {
-        case inputSite              = 0
-        case queryingSiteInfo       = 1
-        case inputUser              = 2
-        case queryingUserInfo       = 3
-        case queryingContributions  = 4
-        case allDone                = 10
+    enum ErrorType: Error {
+        case invalidSelection
         
-        static func < (lhs: AddViewModel.Status, rhs: AddViewModel.Status) -> Bool {
-            lhs.rawValue < rhs.rawValue
-        }
+        case emptyURL
+        case invalidURL
+        
+        case emptyUsername
+        case noSiteData
+        case noUserData
     }
     
     enum SiteMethod {
@@ -211,13 +278,10 @@ fileprivate class AddViewModel: ObservableObject {
         case select
     }
     
-    @Published var status = Status.inputSite
     @Published var siteMethod: SiteMethod
-    @Published var selectedSite: Int = 0
+    @Published var selectedSite: ObjectIdentifier?
     @Published var url = ""
     @Published var username = ""
-    
-    @Published var presentingAlert = false
     
     let sites: [ WikiSite ] = Dia.shared.list()
         .filter { $0.usersCount > 0 }
@@ -225,94 +289,65 @@ fileprivate class AddViewModel: ObservableObject {
     
     var site: WikiSite? = nil
     var user: WikiUserRAW? = nil
-    var alertMessage: LocalizedStringKey = ""
     
     init() {
         siteMethod = sites.isEmpty ? .add : .select
+        selectedSite = sites.first?.id
     }
     
-    var querying: Bool {
-        status == .queryingSiteInfo
-            || status == .queryingUserInfo
-            || status == .queryingContributions
+    var urlIsValid: Bool {
+        URL(string: url) != nil
     }
     
-    func selectSite() {
-        if selectedSite >= sites.count {
-            selectedSite = 0
-            alert("Invalid Selection")
-            return
+    func selectSite() throws {
+        guard
+            let selection = selectedSite,
+            let site = sites.first(where: { $0.id == selection })
+        else {
+            throw ErrorType.invalidSelection
         }
-        site = sites[selectedSite]
-        self.status = .inputUser
+        self.site = site
     }
     
-    func querySite() {
-        // Check
-        if url.isEmpty {
-            alert("view.add.alert.urlEmpty")
-            return
+    func querySite(with context: NSManagedObjectContext) async throws {
+        guard !url.isEmpty else {
+            throw ErrorType.emptyURL
         }
-        url = url
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .replacingOccurrences(of: "/api\\.php$", with: "", options: .regularExpression)
-        guard let urlString = url.url else {
-            alert("view.add.alert.urlInvalid")
-            return
+        guard
+            let cleanURL = url
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .replacingOccurrences(of: "/api\\.php$", with: "", options: .regularExpression)
+                .url
+        else {
+            throw ErrorType.invalidURL
         }
-        url = urlString.absoluteString
-        status = .queryingSiteInfo
-        if let site = Dia.shared.site(of: url) {
-            self.site = site
-            self.status = .inputUser
+        url = cleanURL.absoluteString
+        if let existingSite = Dia.shared.site(of: url) {
+            site = existingSite
             return
         }
         let raw = WikiSiteRAW(url)
-        Task.init {
-            do {
-                try await raw.query()
-            } catch {
-                DispatchQueue.main.async {
-                    self.alert("view.add.alert.querySiteFailed")
-                    self.status = .inputSite
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                self.site = .from(raw, context: Dia.shared.context)
-                self.status = .inputUser
-            }
-        }
+        try await raw.query()
+        site = .from(raw, context: context)
     }
     
-    func queryUser() {
-        if username.isEmpty {
-            alert("view.add.alert.usernameEmpty")
-            return
+    func queryUser() async throws {
+        guard !username.isEmpty else {
+            throw ErrorType.emptyUsername
         }
         guard let solidSite = site else {
-            alert("view.add.alert.noSite")
-            status = .inputSite
-            return
+            throw ErrorType.noSiteData
         }
-        status = .queryingUserInfo
         let raw = WikiUserRAW(username, solidSite)
-        Task.init {
-            do {
-                try await raw.query(user: true, contributions: false)
-                DispatchQueue.main.async {
-                    self.status = .queryingContributions
-                }
-                self.user = raw
-                try await raw.query(user: false, contributions: true)
-                DispatchQueue.main.async {
-                    self.status = .allDone
-                }
-            } catch {
-                self.alert("view.add.alert.queryUserFailed")
-                self.status = .inputUser
-            }
+        try await raw.query(user: true, contributions: false)
+        user = raw
+    }
+    
+    func queryContributions() async throws {
+        guard let raw = user else {
+            throw ErrorType.noUserData
         }
+        try await raw.query(user: false, contributions: true)
     }
     
     func save() {
@@ -328,10 +363,5 @@ fileprivate class AddViewModel: ObservableObject {
             Dia.shared.delete(solidSite)
         }
         Dia.shared.save()
-    }
-    
-    private func alert(_ message: LocalizedStringKey) {
-        alertMessage = message
-        presentingAlert = true
     }
 }
