@@ -84,7 +84,6 @@
 		844834CC262F211A00839DC2 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844834C9262F211A00839DC2 /* URLSession.swift */; };
 		844834CD262F211A00839DC2 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844834C9262F211A00839DC2 /* URLSession.swift */; };
 		8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE35262BDF97003A3C47 /* WikistCommands.swift */; };
-		8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8464CE4A262C08B0003A3C47 /* TipView.swift */; };
 		84AC6A4A26272B68000F2635 /* AppIconDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A4826272B68000F2635 /* AppIconDark@2x.png */; };
 		84AC6A4B26272B68000F2635 /* AppIconDark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A4926272B68000F2635 /* AppIconDark@3x.png */; };
 		84AC6A5326272C66000F2635 /* AppIconDark_83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AC6A5226272C66000F2635 /* AppIconDark_83.5@2x.png */; };
@@ -118,8 +117,6 @@
 		84E030B2262375F00054A01C /* WikiUserRAW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030B0262375F00054A01C /* WikiUserRAW.swift */; };
 		84E030BF262380E20054A01C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030BE262380E20054A01C /* UserDetails.swift */; };
 		84E030C0262380E20054A01C /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030BE262380E20054A01C /* UserDetails.swift */; };
-		84E030CB26242C360054A01C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030CA26242C360054A01C /* CardView.swift */; };
-		84E030CC26242C360054A01C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030CA26242C360054A01C /* CardView.swift */; };
 		84E030D42625AC530054A01C /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
 		84E030D52625AC530054A01C /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */; };
 		84E030D92625BD3B0054A01C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E030D82625BD3B0054A01C /* URL.swift */; };
@@ -342,7 +339,6 @@
 		84483483262F0CE900839DC2 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		844834C9262F211A00839DC2 /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		8464CE35262BDF97003A3C47 /* WikistCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikistCommands.swift; sourceTree = "<group>"; };
-		8464CE4A262C08B0003A3C47 /* TipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipView.swift; sourceTree = "<group>"; };
 		84AC6A4826272B68000F2635 /* AppIconDark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@2x.png"; sourceTree = "<group>"; };
 		84AC6A4926272B68000F2635 /* AppIconDark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark@3x.png"; sourceTree = "<group>"; };
 		84AC6A5226272C66000F2635 /* AppIconDark_83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIconDark_83.5@2x.png"; sourceTree = "<group>"; };
@@ -360,7 +356,6 @@
 		84E030AB262372B00054A01C /* WikiSiteRAW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiSiteRAW.swift; sourceTree = "<group>"; };
 		84E030B0262375F00054A01C /* WikiUserRAW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiUserRAW.swift; sourceTree = "<group>"; };
 		84E030BE262380E20054A01C /* UserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
-		84E030CA26242C360054A01C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		84E030D32625AC530054A01C /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
 		84E030D82625BD3B0054A01C /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		84E030E02625C3CF0054A01C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -506,7 +501,6 @@
 				843BF4102622BAAF0065D9FF /* macOS.entitlements */,
 				843BF40F2622BAAF0065D9FF /* Info.plist */,
 				8464CE35262BDF97003A3C47 /* WikistCommands.swift */,
-				8464CE49262C089D003A3C47 /* Views */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -553,14 +547,6 @@
 			isa = PBXGroup;
 			children = (
 				84EA14482626CD90002B7636 /* PreferencesView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		8464CE49262C089D003A3C47 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				8464CE4A262C08B0003A3C47 /* TipView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -621,7 +607,6 @@
 		84E030C926242C130054A01C /* Basic */ = {
 			isa = PBXGroup;
 			children = (
-				84E030CA26242C360054A01C /* CardView.swift */,
 				840AED7026ABAA5300107658 /* ViewModifiers.swift */,
 			);
 			path = Basic;
@@ -1004,7 +989,6 @@
 				843BF42A2622C2D70065D9FF /* UserList.swift in Sources */,
 				841BA797262BD2C50083E19C /* SKProduct.swift in Sources */,
 				84E030682623504F0054A01C /* DailyContribution.swift in Sources */,
-				84E030CB26242C360054A01C /* CardView.swift in Sources */,
 				840AED7126ABAA5400107658 /* ViewModifiers.swift in Sources */,
 				84E030B1262375F00054A01C /* WikiUserRAW.swift in Sources */,
 				843BF4132622BAAF0065D9FF /* ContentView.swift in Sources */,
@@ -1042,9 +1026,7 @@
 				84E030692623504F0054A01C /* DailyContribution.swift in Sources */,
 				8464CE36262BDF97003A3C47 /* WikistCommands.swift in Sources */,
 				841BA789262B22A80083E19C /* Support.swift in Sources */,
-				84E030CC26242C360054A01C /* CardView.swift in Sources */,
 				84381A57263035350057FCD4 /* WikiUserMeta.swift in Sources */,
-				8464CE4B262C08B0003A3C47 /* TipView.swift in Sources */,
 				84E030B2262375F00054A01C /* WikiUserRAW.swift in Sources */,
 				843BF4142622BAAF0065D9FF /* ContentView.swift in Sources */,
 				84483472262F06CC00839DC2 /* String.swift in Sources */,

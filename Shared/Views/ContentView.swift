@@ -18,9 +18,6 @@ struct ContentView: View {
         var id: Int { self.hashValue }
     }
     
-    #if os(macOS)
-    @ObservedObject private var support = Support.shared
-    #endif
     @State private var sheetItem: SheetItem? = nil
     
     var body: some View {
