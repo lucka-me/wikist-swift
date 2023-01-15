@@ -1,78 +1,146 @@
 /* 
-  File.strings
+  Localizable.strings
   Wikist
 
-  Created by Lucka on 18/4/2021.
+  Created by Lucka on 1/1/2023.
   
 */
-/* View */
-// Shared: Modal Actions
-"view.action.cancel"    = "取消";
-"view.action.confirm"   = "确认";
-"view.action.dismiss"   = "关闭";
 
-// Shared: Informations
-"view.info.site.homepage"   = "主页";
-"view.info.site.language"   = "语言";
-"view.info.user.uid"    = "用户 ID";
-"view.info.user.registration"   = "注册时间";
-"view.info.user.since"  = "注册时间";
-"view.info.user.edits"  = "编辑数";
-"view.info.user.days %lld"  = "%lld天";
-"view.info.user.lastYear"  = "过去一年";
-"view.info.user.userPage"   = "用户页";
+"AddUserView.Add" = "添加";
+"AddUserView.Title" = "添加用户";
+"AddUserView.User" = "用户";
+"AddUserView.User.Username" = "用户名";
+"AddUserView.Wiki" = "维基";
+"AddUserView.Wiki.NotSelected" = "未选择";
+"AddUserView.Wiki.Select" = "选择";
 
-// Shared: Tip
-"view.tip"   = "支持开发者";
-"view.tip.choose"   = "选择打赏级别";
-"view.tip.thanks"   = "非常感谢您的支持！";
+"AddWikiView.Add" = "添加";
+"AddWikiView.Footer" = "Wikist会根据URL搜索API。";
+"AddWikiView.Title" = "添加维基";
+"AddWikiView.URL" = "URL";
 
-// AddView
-"view.add.query"    = "查询";
-"view.add.title"    = "添加";
-"view.add.site.header"  = "维基";
-"view.add.site.method"  = "方式";
-"view.add.site.method.add"  = "添加";
-"view.add.site.method.select"   = "选择";
-"view.add.site.add.hint"    = "API 接口";
-"view.add.site.add.help.title"  = "API 接口";
-"view.add.site.add.help.message"    = "API 接口用于从 MediaWiki 站点查询信息。\n它以 /api.php 结尾并且通常位于 / 或 /w 路径下。\n例如维基百科的接口是 https://zh.wikipedia.org/w/api.php。\n其中 /api.php 的部分可以省略。";
-"view.add.site.select.hint" = "站点";
-"view.add.site.title"  = "标题";
-"view.add.user.header"  = "用户";
-"view.add.user.add.hint"    = "用户名";
-"view.add.alert.urlEmpty"   = "URL是空的。";
-"view.add.alert.urlInvalid" = "URL无效。";
-"view.add.alert.usernameEmpty"  = "用户名是空的。";
-"view.add.alert.noSite" = "没有站点信息。";
-"view.add.alert.querySiteFailed"    = "无法查询站点信息。";
-"view.add.alert.queryUserFailed"    = "无法查询用户信息。";
-"view.add.alert.queryContributionsFailed"   = "无法查询用户贡献。";
+"ContentView.Lists" = "列表";
+"ContentView.Lists.Users" = "用户";
+"ContentView.Lists.Wikis" = "维基";
+"ContentView.Settings" = "设置";
 
-// ContentView
-"view.list" = "列表";
-"view.preferences"  = "偏好设置";
-"view.list.add" = "添加";
-"view.list.toggleSidebar"   = "开关边栏";
-"view.list.empty.select"    = "从列表中选择";
-"view.list.empty.or"    = "或";
-"view.list.empty.add"   = "添加维基&用户";
+"OnboardingView.Charts" = "图表";
+"OnboardingView.Charts.Description" = "用可视化贡献。";
+"OnboardingView.FullHistory" = "完整历史";
+"OnboardingView.FullHistory.Description" = "跟踪注册以来的所有贡献。";
+"OnboardingView.GetStart" = "开始使用";
+"OnboardingView.Migrate" = "迁移";
+"OnboardingView.Reborn" = "重生";
+"OnboardingView.Reborn.Description" = "使用最新的Swift和技术重新设计并重写。";
+"OnboardingView.Title" = "新功能";
 
-// PreferencesView
-"view.preferences.appearance"   = "样式";
-"view.preferences.appearance.changeIcon"   = "更改图标";
-"view.preferences.about"    = "关于";
-"view.preferences.about.sourceCode"   = "源代码";
-"view.preferences.about.version %@"  = "版本 %@";
+"UserDetailsView.Actions.UserPage" = "用户页";
+"UserDetailsView.Charts" = "图表";
+"UserDetailsView.DefaultTitle" = "匿名";
+"UserDetailsView.DefaultWiki" = "维基";
+"UserDetailsView.Highlights.Contributions" = "贡献";
+"UserDetailsView.Highlights.Contributions.RemoveAll" = "移除全部";
+"UserDetailsView.Highlights.Days" = "天数";
+"UserDetailsView.Highlights.Registration" = "注册时间";
+"UserDetailsView.Highlights.UserID" = "用户ID";
+"UserDetailsView.Namespace.Main" = "（主）";
+"UserDetailsView.Namespace.Other" = "（其它）";
+"UserDetailsView.Statistics" = "统计";
+"UserDetailsView.Statistics.Overall" = "综合";
+"UserDetailsView.Statistics.Overall.CreatedPages" = "创建页面";
+"UserDetailsView.Statistics.Overall.ModificationSize" = "更改大小";
+"UserDetailsView.Statistics.Overall.MostActive" = "最活跃";
+"UserDetailsView.Strike" = "连续编辑";
+"UserDetailsView.Strike.Current" = "当前";
+"UserDetailsView.Strike.Days" = "天";
+"UserDetailsView.Strike.Longest" = "最长";
 
-// UserDetails
-"view.details.update"   = "更新";
+"UserListView.Title" = "用户";
+"UserListView.Delete" = "删除";
 
-// List
-"view.list.delete"  = "删除";
-"view.list.loading" = "加载中";
+"WikiDetailsView.Actions.AddUser" = "添加用户";
+"WikiDetailsView.Actions.MainPage" = "主页";
+"WikiDetailsView.DefaultTitle" = "无标题";
+"WikiDetailsView.Highlights.Generator" = "生成器";
+"WikiDetailsView.Highlights.Language" = "语言";
+"WikiDetailsView.Statistics" = "统计";
+"WikiDetailsView.Statistics.Pages" = "页面";
+"WikiDetailsView.Statistics.Articles" = "文章";
+"WikiDetailsView.Statistics.Edits" = "编辑";
+"WikiDetailsView.Statistics.Images" = "图片";
+"WikiDetailsView.Statistics.Users" = "用户";
+"WikiDetailsView.Users" = "用户";
 
-// ContributionsMatrixWidget
-"widget.matrix.name"    = "贡献矩阵小组件";
-"widget.matrix.desc"    = "展示贡献矩阵。";
-"widget.matrix.noUser"  = "没有用户";
+"WikiListView.AddUser" = "添加用户";
+"WikiListView.Delete" = "删除";
+"WikiListView.Row.DefaultTitle" = "无标题";
+"WikiListView.Row.DefaultAPI" = "未知";
+"WikiListView.Title" = "维基";
+
+// Basic
+"ContributionsCell.Help %lld %@" = "%2$@有%lld次贡献";
+"ContributionsCell.Help.Zero %@" = "%@没有贡献";
+
+"ThemedButton.Add" = "添加";
+"ThemedButton.Confirm" = "确认";
+"ThemedButton.Dismiss" = "关闭";
+"ThemedButton.Refresh" = "刷新";
+
+// Settings
+"SettingsView.About" = "关于";
+"SettingsView.Data" = "数据";
+"SettingsView.Title" = "设置";
+
+"AboutSection.OnBoarding" = "新功能";
+"AboutSection.ChangeAppIcon" = "更换应用图标";
+"AboutSection.SourceCode" = "源代码";
+"AboutSection.Tips" = "打赏";
+
+"DataView.Migrate" = "迁移";
+"DataView.ResidualData" = "残留数据";
+"DataView.ResidualData.Clear" = "清除";
+"DataView.ResidualData.Footer" = "包含部分已删除用户的贡献以及维基的附属数据，可以安全地删除它们。";
+"DataView.Title" = "数据";
+
+"AppIconSelector.Selection" = "已选择";
+"AppIconSelector.Title" = "更换应用图标";
+
+// StatisticsChart
+"ContributionsByHourChart.AllContributions" = "全部贡献";
+"ContributionsByHourChart.BriefTitle" = "贡献/小时";
+"ContributionsByHourChart.Chart.XAxis" = "小时";
+"ContributionsByHourChart.Chart.YAxis" = "贡献";
+"ContributionsByHourChart.Range.All" = "全部";
+"ContributionsByHourChart.Range.Year" = "年";
+"ContributionsByHourChart.Range.Month" = "月";
+"ContributionsByHourChart.Range.Selector.Next" = "前一部分";
+"ContributionsByHourChart.Range.Selector.Previous" = "后一部分";
+"ContributionsByHourChart.Range.Week" = "周";
+"ContributionsByHourChart.Title" = "每小时贡献数";
+
+"ContributionsByNamespaceChart.BriefChart.Group" = "命名空间";
+"ContributionsByNamespaceChart.BriefChart.YAxis" = "贡献";
+"ContributionsByNamespaceChart.BriefTitle" = "贡献/空间";
+"ContributionsByNamespaceChart.Chart.XAxis" = "贡献";
+"ContributionsByNamespaceChart.Chart.YAxis" = "命名空间";
+"ContributionsByNamespaceChart.Count" = "数量";
+"ContributionsByNamespaceChart.Filter" = "筛选";
+"ContributionsByNamespaceChart.Namespace.Main" = "（主）";
+"ContributionsByNamespaceChart.Percentage" = "百分比";
+"ContributionsByNamespaceChart.Title" = "各命名空间的贡献";
+
+"ModificationSizeChart.AllModifications" = "全部更改";
+"ModificationSizeChart.BriefTitle" = "更改";
+"ModificationSizeChart.Chart.Addition" = "添加";
+"ModificationSizeChart.Chart.Deletion" = "删除";
+"ModificationSizeChart.Chart.XAxis" = "月";
+"ModificationSizeChart.Chart.YAxis" = "大小";
+"ModificationSizeChart.Range.LastTwelveMonths" = "12个月";
+"ModificationSizeChart.Range.Selector.Next" = "前一部分";
+"ModificationSizeChart.Range.Selector.Previous" = "后一部分";
+"ModificationSizeChart.Range.Year" = "年";
+"ModificationSizeChart.Title" = "更改大小";
+
+// Widgets
+"ContributionsMatrixWidget.Description" = "展示用户的贡献矩阵。";
+"ContributionsMatrixWidget.Name" = "贡献矩阵小组件";

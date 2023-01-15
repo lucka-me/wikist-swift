@@ -89,6 +89,5 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-# Info.plist Preprocessor
-
-info_plist_preprocessor.h
+# Filesystem
+.DS_Store

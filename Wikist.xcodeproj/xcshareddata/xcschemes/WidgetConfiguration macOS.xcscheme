@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1250"
+   LastUpgradeVersion = "1420"
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84EA13492626974E002B7636"
+               BlueprintIdentifier = "847BD4F82969C786008D48B1"
                BuildableName = "WidgetConfiguration macOS.appex"
                BlueprintName = "WidgetConfiguration macOS"
                ReferencedContainer = "container:Wikist.xcodeproj">
@@ -29,9 +29,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "843BF40C2622BAAF0065D9FF"
+               BlueprintIdentifier = "84FEFD4D285F539000BCC3AD"
                BuildableName = "Wikist.app"
-               BlueprintName = "macOS"
+               BlueprintName = "Wikist"
                ReferencedContainer = "container:Wikist.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -61,22 +61,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843BF40C2622BAAF0065D9FF"
+            BlueprintIdentifier = "84FEFD4D285F539000BCC3AD"
             BuildableName = "Wikist.app"
-            BlueprintName = "macOS"
+            BlueprintName = "Wikist"
             ReferencedContainer = "container:Wikist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-com.apple.CoreData.Logging.stderr 0"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-com.apple.CoreData.CloudKitDebug 0"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -84,14 +74,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES"
+      askForAppToLaunch = "Yes"
       launchAutomaticallySubstyle = "2">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843BF40C2622BAAF0065D9FF"
+            BlueprintIdentifier = "84FEFD4D285F539000BCC3AD"
             BuildableName = "Wikist.app"
-            BlueprintName = "macOS"
+            BlueprintName = "Wikist"
             ReferencedContainer = "container:Wikist.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

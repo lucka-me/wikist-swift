@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Shared
+//  Wikist
 //
 //  Created by Lucka on 11/4/2021.
 //
@@ -9,93 +9,90 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private enum SheetItem: Identifiable {
-        case addSheet
-        #if os(iOS)
-        case preferences
-        #endif
-        
-        var id: Int { self.hashValue }
+    private enum SidebarSelection : Hashable {
+        case users
+        case wikis
+#if os(iOS)
+        case settings
+#endif
     }
     
-    @State private var sheetItem: SheetItem? = nil
+    @FetchRequest(
+        entity: User.entity(), sortDescriptors: [ ]
+    ) private var usersRequest: FetchedResults<User>
+    @FetchRequest(
+        entity: Wiki.entity(), sortDescriptors: [ ]
+    ) private var wikisRequest: FetchedResults<Wiki>
     
+    @State private var isOnboardingSheetPresented = false
+    @State private var navigationPath = NavigationPath()
+    @State private var sidebarSelection: SidebarSelection? = .users
+    @State private var userCount = 0
+    @State private var wikiCount = 0
+    
+    private let currentBuild = Bundle.main.version
+
     var body: some View {
-        NavigationView {
-            UserList()
-                .navigationTitle("view.list")
-                .sheet(item: $sheetItem) { item in
-                    #if os(macOS)
-                    sheetContent(of: item)
-                        .frame(minWidth: 350, minHeight: 400)
-                    #else
-                    NavigationView {
-                        sheetContent(of: item)
-                    }
-                    .navigationViewStyle(.stack)
-                    #endif
+        NavigationSplitView {
+            List(selection: $sidebarSelection) {
+                Section("ContentView.Lists") {
+                    Label("ContentView.Lists.Users", systemImage: "person")
+                        .badge(userCount)
+                        .tag(SidebarSelection.users)
+                    Label("ContentView.Lists.Wikis", systemImage: "globe")
+                        .badge(wikiCount)
+                        .tag(SidebarSelection.wikis)
                 }
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            sheetItem = .addSheet
-                        } label: {
-                            Label("view.list.add", systemImage: "plus")
-                        }
+#if os(iOS)
+                Label("ContentView.Settings", systemImage: "gear")
+                    .tag(SidebarSelection.settings)
+#endif
+            }
+            .navigationTitle("Wikist")
+            .listStyle(.sidebar)
+        } detail: {
+            NavigationStack(path: $navigationPath) {
+                Group {
+                    switch sidebarSelection {
+                    case .users:
+                        UserListView()
+                    case .wikis:
+                        WikiListView()
+#if os(iOS)
+                    case .settings:
+                        SettingsView()
+#endif
+                    case .none:
+                        UserListView()
                     }
-                    #if os(macOS)
-                    ToolbarItem {
-                        Button(action: toggleSidebar) {
-                            Label("view.list.toggleSidebar", systemImage: "sidebar.left")
-                        }
-                    }
-                    #else
-                    ToolbarItem(placement: .navigation) {
-                        Button {
-                            sheetItem = .preferences
-                        } label: {
-                            Label("view.preferences", systemImage: "gear")
-                        }
-                    }
-                    #endif
                 }
-            
-            VStack {
-                Text("view.list.empty.select")
-                Text("view.list.empty.or")
-                    .foregroundColor(.secondary)
-                Button {
-                    sheetItem = .addSheet
-                } label: {
-                    Label("view.list.empty.add", systemImage: "plus")
+                .navigationDestination(for: User.self) { user in
+                    UserDetailsView(user)
+                }
+                .navigationDestination(for: Wiki.self) { wiki in
+                    WikiDetailsView(wiki)
                 }
             }
         }
-    }
-    
-    @ViewBuilder
-    private func sheetContent(of item: SheetItem) -> some View {
-        switch item {
-            case .addSheet:
-                AddForm()
-            #if os(iOS)
-            case .preferences:
-                PreferencesView()
-            #endif
+        .sheet(isPresented: $isOnboardingSheetPresented) {
+            
+        } content: {
+            OnboardingView()
+        }
+        .onReceive(usersRequest.publisher.count()) { newValue in
+            userCount = newValue
+        }
+        .onReceive(wikisRequest.publisher.count()) { newValue in
+            wikiCount = newValue
         }
     }
-    
-    #if os(macOS)
-    private func toggleSidebar() {
-        NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-    }
-    #endif
 }
 
 #if DEBUG
-struct ContentView_Previews: PreviewProvider {
+struct ContentViewPreviews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.managedObjectContext, Persistence.preview.container.viewContext)
     }
 }
 #endif
