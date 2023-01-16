@@ -75,9 +75,14 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $isOnboardingSheetPresented) {
-            
-        } content: {
             OnboardingView()
+        }
+        .onAppear {
+            let version = Bundle.main.version
+            if UserDefaults.standard.value(for: .onboardingVersion) < version {
+                isOnboardingSheetPresented = true
+                UserDefaults.standard.set(version, for: .onboardingVersion)
+            }
         }
         .onReceive(usersRequest.publisher.count()) { newValue in
             userCount = newValue
