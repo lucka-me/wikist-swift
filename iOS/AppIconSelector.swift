@@ -26,7 +26,7 @@ struct AppIconSelector: View {
                 set(icon)
             } label: {
                 HStack {
-                    Image(uiImage: .init(named: icon.rawValue) ?? .init())
+                    Image(icon.rawValue + "-Preview")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .mask {
