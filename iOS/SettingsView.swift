@@ -8,17 +8,26 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
-        List {
-            NavigationLink {
-                DataView()
-            } label: {
-                Label("SettingsView.Data", systemImage: "externaldrive")
+        NavigationStack {
+            List {
+                NavigationLink {
+                    DataView()
+                } label: {
+                    Label("SettingsView.Data", systemImage: "externaldrive")
+                }
+                
+                AboutSection()
             }
-            
-            AboutSection()
+            .navigationTitle("SettingsView.Title")
+            .toolbar {
+                ThemedButton.dismiss {
+                    dismiss()
+                }
+            }
         }
-        .navigationTitle("SettingsView.Title")
     }
 }
 

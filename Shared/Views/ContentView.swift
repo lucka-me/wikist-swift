@@ -12,9 +12,6 @@ struct ContentView: View {
     private enum SidebarSelection : Hashable {
         case users
         case wikis
-#if os(iOS)
-        case settings
-#endif
     }
     
     @FetchRequest(
@@ -29,6 +26,9 @@ struct ContentView: View {
     @State private var sidebarSelection: SidebarSelection? = .users
     @State private var userCount = 0
     @State private var wikiCount = 0
+#if os(iOS)
+    @State private var isSettingsSheetPresented = false
+#endif
     
     private let currentBuild = Bundle.main.version
 
@@ -43,13 +43,18 @@ struct ContentView: View {
                         .badge(wikiCount)
                         .tag(SidebarSelection.wikis)
                 }
-#if os(iOS)
-                Label("ContentView.Settings", systemImage: "gear")
-                    .tag(SidebarSelection.settings)
-#endif
             }
             .navigationTitle("Wikist")
             .listStyle(.sidebar)
+#if os(iOS)
+            .toolbar {
+                Button {
+                    isSettingsSheetPresented.toggle()
+                } label: {
+                    Label("ContentView.Settings", systemImage: "gear")
+                }
+            }
+#endif
         } detail: {
             NavigationStack(path: $navigationPath) {
                 Group {
@@ -58,10 +63,6 @@ struct ContentView: View {
                         UserListView()
                     case .wikis:
                         WikiListView()
-#if os(iOS)
-                    case .settings:
-                        SettingsView()
-#endif
                     case .none:
                         UserListView()
                     }
@@ -77,6 +78,11 @@ struct ContentView: View {
         .sheet(isPresented: $isOnboardingSheetPresented) {
             OnboardingView()
         }
+#if os(iOS)
+        .sheet(isPresented: $isSettingsSheetPresented) {
+            SettingsView()
+        }
+#endif
         .onAppear {
             let version = Bundle.main.version
             if UserDefaults.standard.value(for: .onboardingVersion) < version {
