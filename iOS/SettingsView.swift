@@ -21,10 +21,13 @@ struct SettingsView: View {
                 
                 AboutSection()
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("SettingsView.Title")
             .toolbar {
-                ThemedButton.dismiss {
-                    dismiss()
+                ToolbarItem(placement: .cancellationAction) {
+                    ThemedButton.dismiss {
+                        dismiss()
+                    }
                 }
             }
         }
