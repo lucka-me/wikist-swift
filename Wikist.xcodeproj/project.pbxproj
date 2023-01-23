@@ -23,6 +23,7 @@
 		8409A4D1292CFB7C00056467 /* AddWikiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409A4D0292CFB7C00056467 /* AddWikiView.swift */; };
 		8409A4D3292FCD3700056467 /* WikiDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409A4D2292FCD3700056467 /* WikiDetailsView.swift */; };
 		8409A4D82930E97A00056467 /* TitleUnderIconLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409A4D72930E97A00056467 /* TitleUnderIconLabelStyle.swift */; };
+		8429E97D297E2B160085E8E0 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8429E97C297E2B160085E8E0 /* AppIcon.swift */; };
 		84304A28288430FD00018ABD /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84304A27288430FD00018ABD /* OnboardingView.swift */; };
 		84304A2A28844CB200018ABD /* EqualWidthHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84304A2928844CB200018ABD /* EqualWidthHStack.swift */; };
 		84304A2E288465F800018ABD /* ThemedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84304A2D288465F800018ABD /* ThemedButton.swift */; };
@@ -219,6 +220,7 @@
 		8409A4D0292CFB7C00056467 /* AddWikiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWikiView.swift; sourceTree = "<group>"; };
 		8409A4D2292FCD3700056467 /* WikiDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikiDetailsView.swift; sourceTree = "<group>"; };
 		8409A4D72930E97A00056467 /* TitleUnderIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleUnderIconLabelStyle.swift; sourceTree = "<group>"; };
+		8429E97C297E2B160085E8E0 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		84304A27288430FD00018ABD /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		84304A2928844CB200018ABD /* EqualWidthHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EqualWidthHStack.swift; sourceTree = "<group>"; };
 		84304A2D288465F800018ABD /* ThemedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedButton.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 		84304A1F2883F89100018ABD /* Basic */ = {
 			isa = PBXGroup;
 			children = (
+				8429E97C297E2B160085E8E0 /* AppIcon.swift */,
 				846F7EAB287AD45E0087E40B /* BriefCard.swift */,
 				84038A7029312E220021A51D /* CardModifier.swift */,
 				84038A742931F60B0021A51D /* ChipModifier.swift */,
@@ -925,6 +928,7 @@
 				84F50EFD28702CFE000BCC10 /* Wiki+Task.swift in Sources */,
 				84038A792931FD410021A51D /* SimpleChip.swift in Sources */,
 				84B61504293E3773006D65FC /* Persistence+Migrate.swift in Sources */,
+				8429E97D297E2B160085E8E0 /* AppIcon.swift in Sources */,
 				8466A5642973EA9300CD0A1A /* Widget.intentdefinition in Sources */,
 				846F7EAC287AD45E0087E40B /* BriefCard.swift in Sources */,
 				84F854FD294A1C0E00937873 /* Bundle+Version.swift in Sources */,

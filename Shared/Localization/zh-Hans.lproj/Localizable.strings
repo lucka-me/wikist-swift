@@ -26,13 +26,13 @@
 
 "OnboardingView.Charts" = "图表";
 "OnboardingView.Charts.Description" = "用图表可视化贡献。";
+"OnboardingView.Continue" = "继续";
 "OnboardingView.FullHistory" = "完整历史";
 "OnboardingView.FullHistory.Description" = "跟踪注册以来的所有贡献。";
-"OnboardingView.GetStart" = "开始使用";
 "OnboardingView.Migrate" = "迁移";
 "OnboardingView.Reborn" = "重生";
 "OnboardingView.Reborn.Description" = "使用最新的Swift和技术重新设计并重写。";
-"OnboardingView.Title" = "新功能";
+"OnboardingView.Title" = "欢迎使用Wikist";
 
 "UserDetailsView.Actions.UserPage" = "用户页";
 "UserDetailsView.Charts" = "图表";

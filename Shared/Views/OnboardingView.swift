@@ -19,55 +19,54 @@ struct OnboardingView: View {
     @State private var migrateStage: Persistence.MigrateStage =
         Persistence.legacyStoreExists ? .available : .unavailable
     
-
     var body: some View {
         VStack {
 #if os(macOS)
             content
 #else
-            ViewThatFits(in: .vertical) {
-                VStack {
-                    title
-                        .padding(.vertical, 40)
-                    content
-                }
-                VStack {
-                    title
-                        .padding(.vertical, 20)
-                    ScrollView(.vertical) {
-                        content
-                    }
-                }
+            ScrollView(.vertical) {
+                content
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
+            
             Spacer()
-            startButton
+            continueButton
 #endif
         }
 #if os(macOS)
-        .frame(minWidth: 320, idealWidth: 480, maxWidth: 640, maxHeight: 640, alignment: .top)
+        .frame(minWidth: 320, maxWidth: 640, maxHeight: 640, alignment: .top)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                startButton
+                continueButton
             }
         }
 #endif
-        .padding()
+        .padding([ .horizontal, .bottom ])
         .alert(isPresented: $isAlertPresented, error: migrateError) { }
     }
     
     @ViewBuilder
-    private var title: some View {
+    private var content: some View {
+        Image(AppIcon.current.previewName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+#if os(iOS)
+            .mask {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(.secondary.opacity(0.5), lineWidth: 1)
+            }
+#endif
+            .frame(width: 96, height: 96, alignment: .center)
+            .padding(.top, 40)
         Text("OnboardingView.Title")
             .font(.largeTitle)
             .fontWeight(.bold)
-    }
-    
-    @ViewBuilder
-    private var content: some View {
-        Grid(horizontalSpacing: 20, verticalSpacing: 20) {
-#if os(macOS)
-            title
-#endif
+            .padding(.bottom, 40)
+        
+        Grid(alignment: .topLeading, horizontalSpacing: 20, verticalSpacing: 20) {
             row("OnboardingView.Reborn", descriptions: "OnboardingView.Reborn.Description") {
                 Image(systemName: "swift")
                     .foregroundStyle(Color(red: 0xF0 / 0xFF, green: 0x51 / 0xFF, blue: 0x38 / 0xFF).gradient)
@@ -104,13 +103,13 @@ struct OnboardingView: View {
     }
     
     @ViewBuilder
-    private var startButton: some View {
+    private var continueButton: some View {
         Button {
             dismiss()
         } label: {
-            Text("OnboardingView.GetStart")
+            Text("OnboardingView.Continue")
 #if os(iOS)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: 640)
 #endif
         }
         .buttonStyle(.borderedProminent)

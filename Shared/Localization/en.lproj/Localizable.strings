@@ -26,13 +26,13 @@
 
 "OnboardingView.Charts" = "Charts";
 "OnboardingView.Charts.Description" = "Visualize contributions with charts.";
+"OnboardingView.Continue" = "Continue";
 "OnboardingView.FullHistory" = "Full history";
 "OnboardingView.FullHistory.Description" = "Track all contributions since the registration.";
-"OnboardingView.GetStart" = "Get Start";
 "OnboardingView.Migrate" = "Migrate";
 "OnboardingView.Reborn" = "Reborn";
 "OnboardingView.Reborn.Description" = "Re-designed and re-written with latest Swift and technology.";
-"OnboardingView.Title" = "What's New";
+"OnboardingView.Title" = "Welcome to Wikist";
 
 "UserDetailsView.Actions.UserPage" = "User Page";
 "UserDetailsView.Charts" = "Charts";

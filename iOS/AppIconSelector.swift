@@ -7,17 +7,7 @@
 
 import SwiftUI
 
-struct AppIconSelector: View {
-    
-    private enum AppIcon: String, CaseIterable, Identifiable {
-        case primary = "AppIcon"
-        case primaryDark = "AppIcon-Dark"
-        case classic = "AppIcon-Classic"
-        case classicDark = "AppIcon-Classic-Dark"
-        
-        var id: String { self.rawValue }
-    }
-    
+struct AppIconSelector: View {    
     @State private var selection = AppIcon.primary
     
     var body: some View {
@@ -26,7 +16,7 @@ struct AppIconSelector: View {
                 set(icon)
             } label: {
                 HStack {
-                    Image(icon.rawValue + "-Preview")
+                    Image(icon.previewName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .mask {
@@ -47,14 +37,7 @@ struct AppIconSelector: View {
             }
         }
         .onAppear {
-            if
-                let iconName = UIApplication.shared.alternateIconName,
-                let icon = AppIcon(rawValue: iconName)
-            {
-                selection = icon
-            } else {
-                selection = .primary
-            }
+            selection = .current
         }
         .navigationTitle("AppIconSelector.Title")
     }
