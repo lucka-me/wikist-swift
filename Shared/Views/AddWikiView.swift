@@ -95,6 +95,11 @@ struct AddWikiView: View {
     private func tryAdd() async {
         isQuerying = true
         defer { isQuerying = false }
+        var urlText = urlText
+        // If the URL contains no scheme, URLComponents will generate url as scheme:host, without the slashes
+        if !urlText.starts(with: /.*?\/\//) {
+            urlText = "https://" + urlText
+        }
         do {
             guard
                 let encodedText = urlText.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
@@ -103,7 +108,10 @@ struct AddWikiView: View {
                 throw TaskError.invalidURL(url: urlText)
             }
             
-            host.set(scheme: "https")
+            if host.scheme != "https" {
+                host.set(scheme: "https")
+            }
+            
             var components = url.pathComponents.filter { $0 != "/" }
             
             var api: URL? = nil
