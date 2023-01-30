@@ -2,7 +2,7 @@
   "images" : [
     {
       "filename" : "iOS.png",
-      "idiom" : "iphone"
+      "idiom" : "universal"
     },
     {
       "filename" : "macOS.png",

@@ -1,6 +1,6 @@
 # Wikist
 
-![](Shared/Assets.xcassets/AppIcon.appiconset/macOS_128.png)
+![App Icon](Shared/Assets.xcassets/AppIcon.appiconset/macOS_128.png)
 
 [![Lines of code](https://img.shields.io/tokei/lines/github/lucka-me/wikist-swift)](# "Repository")
 
@@ -8,7 +8,9 @@ Contributions matrix and statistics of Wiki editors.
 
 ## Installation
 
-[![](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us)](https://apps.apple.com/app/id1563425734)
+[![App Store](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us)](https://apps.apple.com/app/id1563425734 "App Store")
+
+The packages are also available as archives of the [latest release](https://github.com/lucka-me/wikist-swift/releases/latest "Latest release").
 
 ### Requirements
 - macOS: 13.0 or above
@@ -20,7 +22,8 @@ Contributions matrix and statistics of Wiki editors.
 - Contribution matrix (heatmap)
     - Widgets for sure!
 - Additional statistics for users and wikis
-- Interactive charts to visualize contributions
+- Interactive charts to visualize all contributions
+- Sync with iCloud
 
 ## Inspirations
 
