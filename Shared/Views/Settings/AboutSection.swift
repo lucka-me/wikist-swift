@@ -12,7 +12,9 @@ struct AboutSection: View {
     
     @State private var isOnboardingSheetPresented = false
     @State private var isTipDialogPresented = false
+    @State private var isTipResultAlertPresented = false
     @State private var products: [ Product ] = [ ]
+    @State private var purchasedProductName: String = ""
     
     var body: some View {
         Section {
@@ -67,6 +69,11 @@ struct AboutSection: View {
                 }
             }
         }
+        .alert("AboutSection.Tips.Alert.Title", isPresented: $isTipResultAlertPresented) {
+            
+        } message: {
+            Text(purchasedProductName)
+        }
         .task {
             guard AppStore.canMakePayments else { return }
             do {
@@ -89,6 +96,10 @@ struct AboutSection: View {
             return
         }
         await transaction.finish()
+        await MainActor.run {
+            purchasedProductName = product.displayName
+            isTipResultAlertPresented = true
+        }
     }
 }
 
@@ -104,6 +115,6 @@ struct AboutSectionPreviews: PreviewProvider {
 #endif
 
 fileprivate enum TipProduct: String, CaseIterable {
-    case tier1 = "dev.lucka.Wikist.IAP.supportTire1"
-    case tier2 = "dev.lucka.Wikist.IAP.supportTire2"
+    case tier1 = "dev.lucka.Wikist.IAP.Tip.Tier1"
+    case tier2 = "dev.lucka.Wikist.IAP.Tip.Tier2"
 }

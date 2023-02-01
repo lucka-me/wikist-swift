@@ -98,6 +98,7 @@
 "AboutSection.ChangeAppIcon" = "Change App Icon";
 "AboutSection.SourceCode" = "Source Code";
 "AboutSection.Tips" = "Tips";
+"AboutSection.Tips.Alert.Title" = "Thank You!";
 
 "DataView.Migrate" = "Migrate";
 "DataView.ResidualData" = "Residual Data";

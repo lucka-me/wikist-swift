@@ -95,6 +95,7 @@
 "AboutSection.ChangeAppIcon" = "更换应用图标";
 "AboutSection.SourceCode" = "源代码";
 "AboutSection.Tips" = "打赏";
+"AboutSection.Tips.Alert.Title" = "感谢您！";
 
 "DataView.Migrate" = "迁移";
 "DataView.ResidualData" = "残留数据";
