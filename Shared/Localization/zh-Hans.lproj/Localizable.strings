@@ -6,6 +6,15 @@
   
 */
 
+// Data
+"User.TaskError.DataInterrupted" = "数据损坏。";
+"User.TaskError.UserNotFound" = "未查询到用户信息。";
+
+"Wiki.TaskError.InvalidQuery" = "请求无效。";
+"Wiki.TaskError.InvalidResponse @lld" = "API 返回 @lld";
+"Wiki.TaskError.InvalidURL" = "URL 无效。";
+
+// Views
 "AddUserView.Add" = "添加";
 "AddUserView.Title" = "添加用户";
 "AddUserView.User" = "用户";
@@ -16,6 +25,9 @@
 
 "AddWikiView.Add" = "添加";
 "AddWikiView.Footer" = "Wikist会根据URL搜索API。";
+"AddWikiView.TaskError.Existed %@ %@" = "已存在 API 为 %2$@ 的维基「%1$@」。";
+"AddWikiView.TaskError.InvalidURL %@" = "URL %@ 无效";
+"AddWikiView.TaskError.NotFound" = "找不到维基 API。";
 "AddWikiView.Title" = "添加维基";
 "AddWikiView.URL" = "URL";
 
@@ -77,7 +89,7 @@
 "WikiListView.Row.DefaultAPI" = "未知";
 "WikiListView.Title" = "维基";
 
-// Basic
+// Views - Basic
 "ContributionsCell.Help %lld %@" = "%2$@有%lld次贡献";
 "ContributionsCell.Help.Zero %@" = "%@没有贡献";
 
@@ -86,7 +98,7 @@
 "ThemedButton.Dismiss" = "关闭";
 "ThemedButton.Refresh" = "刷新";
 
-// Settings
+// Views - Settings
 "SettingsView.About" = "关于";
 "SettingsView.Data" = "数据";
 "SettingsView.Title" = "设置";
@@ -105,7 +117,7 @@
 "AppIconSelector.Selection" = "已选择";
 "AppIconSelector.Title" = "更换应用图标";
 
-// StatisticsChart
+// Views - StatisticsChart
 "ContributionsByHourChart.AllContributions" = "全部贡献";
 "ContributionsByHourChart.BriefTitle" = "贡献/小时";
 "ContributionsByHourChart.Chart.XAxis" = "小时";

@@ -12,21 +12,22 @@ struct AddWikiView: View {
     private enum TaskError: Error, LocalizedError {
         case invalidURL(url: String)
         case notFound
-        case existed(wiki: Wiki)
+        case existed(title: String, api: String)
         case wikiTaskFailed(error: Wiki.TaskError)
         case genericError(error: Error)
         
         var errorDescription: String? {
+            
             switch self {
-            case .invalidURL(url: let url):
-                return "The URL \(url) is invalid."
+            case .invalidURL(let url):
+                return .init(localized: "AddWikiView.TaskError.InvalidURL \(url)")
             case .notFound:
-                return "Unable to find the API of the Wiki."
-            case .existed(wiki: let wiki):
-                return "The Wiki is existed as \(wiki.title ?? "Untitled") with API \(wiki.api?.absoluteString ?? "")"
-            case .wikiTaskFailed(error: let error):
+                return .init(localized: "AddWikiView.TaskError.NotFound")
+            case .existed(let title, let api):
+                return .init(localized: "AddWikiView.TaskError.Existed \(title) \(api)")
+            case .wikiTaskFailed(let error):
                 return error.errorDescription
-            case .genericError(error: let error):
+            case .genericError(let error):
                 return error.localizedDescription
             }
         }
@@ -154,7 +155,7 @@ struct AddWikiView: View {
             }
             
             if let wiki = await Wiki.findExistedWiki(for: api, in: viewContext) {
-                throw TaskError.existed(wiki: wiki)
+                throw TaskError.existed(title: wiki.title ?? "Untitled", api: api.absoluteString)
             }
             guard !Task.isCancelled else { return }
             

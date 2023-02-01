@@ -25,11 +25,11 @@ extension Wiki {
         var errorDescription: String? {
             switch self {
             case .invalidQuery:
-                return "The query is invalid."
-            case .invalidResponse(code: let code):
-                return "The API responsed with code \(code)."
+                return .init(localized: "Wiki.TaskError.InvalidQuery")
+            case .invalidResponse(let code):
+                return .init(localized: "Wiki.TaskError.InvalidResponse \(code).")
             case .invalidURL:
-                return "The URL is invalid."
+                return .init(localized: "Wiki.TaskError.InvalidURL")
             }
         }
     }

@@ -6,7 +6,17 @@
   
 */
 
+// Data
+"User.TaskError.DataInterrupted" = "The data is interrupted.";
+"User.TaskError.UserNotFound" = "Unable to query information of the user.";
+
+"Wiki.TaskError.InvalidQuery" = "The query is invalid.";
+"Wiki.TaskError.InvalidResponse @lld" = "The API responded with code @lld";
+"Wiki.TaskError.InvalidURL" = "The URL is invalid.";
+
+// Views
 "AddUserView.Add" = "Add";
+"AddUserView.TaskError.NotFound %@" = "The user %@ is not found.";
 "AddUserView.Title" = "Add User";
 "AddUserView.User" = "User";
 "AddUserView.User.Username" = "Username";
@@ -16,6 +26,9 @@
 
 "AddWikiView.Add" = "Add";
 "AddWikiView.Footer" = "Wikist will search the API path with the URL.";
+"AddWikiView.TaskError.Existed %@ %@" = "The Wiki is existed as %1$@ with API %2$@.";
+"AddWikiView.TaskError.InvalidURL %@" = "The URL %@ is invalid.";
+"AddWikiView.TaskError.NotFound" = "MediaWiki API is not found.";
 "AddWikiView.Title" = "Add Wiki";
 "AddWikiView.URL" = "URL";
 
@@ -77,7 +90,7 @@
 "WikiListView.Row.DefaultAPI" = "Unknown";
 "WikiListView.Title" = "Wikis";
 
-// Basic
+// Views - Basic
 "ContributionsCell.Help %lld %@" = "%1$lld contributions at %2$@";
 "ContributionsCell.Help.Zero %@" = "No contribution at %@";
 
@@ -89,7 +102,7 @@
 "UserBriefView.DefaultUser" = "Anonymous";
 "UserBriefView.DefaultWiki" = "Untitled";
 
-// Settings
+// Views - Settings
 "SettingsView.About" = "About";
 "SettingsView.Data" = "Data";
 "SettingsView.Title" = "Settings";
@@ -108,7 +121,7 @@
 "AppIconSelector.Selection" = "Selected";
 "AppIconSelector.Title" = "Change App Icon";
 
-// StatisticsChart
+// Views - StatisticsChart
 "ContributionsByHourChart.AllContributions" = "All Contributions";
 "ContributionsByHourChart.BriefTitle" = "Contrib. / Hour";
 "ContributionsByHourChart.Chart.XAxis" = "Hour";

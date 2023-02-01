@@ -17,7 +17,7 @@ struct AddUserView: View {
         var errorDescription: String? {
             switch self {
             case .notFound(username: let username):
-                return "The user \(username) not found"
+                return .init(localized: "AddUserView.TaskError.NotFound \(username)")
             case .genericError(error: let error):
                 return error.localizedDescription
             }
