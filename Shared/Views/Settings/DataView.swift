@@ -63,7 +63,11 @@ struct DataView: View {
         }
         .formStyle(.grouped)
         .navigationTitle("DataView.Title")
-        .alert(isPresented: $isAlertPresented, error: migrateError) { }
+        .alert(isPresented: $isAlertPresented, error: migrateError) { _ in } message: { error in
+            if let reason = error.failureReason {
+                Text(reason)
+            }
+        }
     }
     
     @MainActor

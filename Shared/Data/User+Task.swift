@@ -21,6 +21,15 @@ extension User {
                 return .init(localized: "User.TaskError.UserNotFound")
             }
         }
+        
+        var failureReason: String? {
+            switch self {
+            case .dataInterrupted:
+                return .init(localized: "User.TaskError.DataInterrupted.Reason")
+            case .userNotFound:
+                return .init(localized: "User.TaskError.UserNotFound.Reason")
+            }
+        }
     }
 }
 

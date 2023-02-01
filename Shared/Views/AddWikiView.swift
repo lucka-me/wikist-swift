@@ -10,21 +10,35 @@ import SwiftUI
 struct AddWikiView: View {
     
     private enum TaskError: Error, LocalizedError {
-        case invalidURL(url: String)
+        case invalidURL
         case notFound
         case existed(title: String, api: String)
         case wikiTaskFailed(error: Wiki.TaskError)
         case genericError(error: Error)
         
         var errorDescription: String? {
-            
             switch self {
-            case .invalidURL(let url):
-                return .init(localized: "AddWikiView.TaskError.InvalidURL \(url)")
+            case .invalidURL:
+                return .init(localized: "AddWikiView.TaskError.InvalidURL")
             case .notFound:
                 return .init(localized: "AddWikiView.TaskError.NotFound")
+            case .existed(_, _):
+                return .init(localized: "AddWikiView.TaskError.Existed")
+            case .wikiTaskFailed(let error):
+                return error.errorDescription
+            case .genericError(let error):
+                return error.localizedDescription
+            }
+        }
+        
+        var failureReason: String? {
+            switch self {
+            case .invalidURL:
+                return .init(localized: "AddWikiView.TaskError.InvalidURL.Reason")
+            case .notFound:
+                return .init(localized: "AddWikiView.TaskError.NotFound.Reason")
             case .existed(let title, let api):
-                return .init(localized: "AddWikiView.TaskError.Existed \(title) \(api)")
+                return .init(localized: "AddWikiView.TaskError.Existed.Reason \(title) \(api)")
             case .wikiTaskFailed(let error):
                 return error.errorDescription
             case .genericError(let error):
@@ -81,7 +95,11 @@ struct AddWikiView: View {
 #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
 #endif
-            .alert(isPresented: $isAlertPresented, error: taskError) { }
+            .alert(isPresented: $isAlertPresented, error: taskError) { _ in } message: { error in
+                if let reason = error.failureReason {
+                    Text(reason)
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     ThemedButton.dismiss {
@@ -106,7 +124,7 @@ struct AddWikiView: View {
                 let encodedText = urlText.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
                 let url = URL(string: encodedText)?.removingAllQuries(),
                 var host = url.removingAllPaths() else {
-                throw TaskError.invalidURL(url: urlText)
+                throw TaskError.invalidURL
             }
             
             if host.scheme != "https" {

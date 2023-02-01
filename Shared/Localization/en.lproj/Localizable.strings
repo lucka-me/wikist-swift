@@ -7,16 +7,25 @@
 */
 
 // Data
-"User.TaskError.DataInterrupted" = "The data is interrupted.";
-"User.TaskError.UserNotFound" = "Unable to query information of the user.";
+"Persistence.MigrateError.GenericError" = "Error";
 
-"Wiki.TaskError.InvalidQuery" = "The query is invalid.";
-"Wiki.TaskError.InvalidResponse @lld" = "The API responded with code @lld";
-"Wiki.TaskError.InvalidURL" = "The URL is invalid.";
+"User.TaskError.DataInterrupted" = "Data Interrupted.";
+"User.TaskError.DataInterrupted.Reason" = "Username or wiki is missing.";
+"User.TaskError.UserNotFound" = "User Not Found";
+"User.TaskError.UserNotFound.Reason" = "Unable to query information of the user.";
+
+"Wiki.TaskError.InvalidQuery" = "Invalid Query";
+"Wiki.TaskError.InvalidQuery.Reason" = "Unable to construct URL from the query.";
+"Wiki.TaskError.InvalidResponse @lld" = "Response @lld";
+"Wiki.TaskError.InvalidResponse.Reason @lld" = "The API responded with code @lld";
+"Wiki.TaskError.InvalidURL" = "Invalid URL";
+"Wiki.TaskError.InvalidURL.Reason" = "Unable to parse the URL.";
 
 // Views
 "AddUserView.Add" = "Add";
-"AddUserView.TaskError.NotFound %@" = "The user %@ is not found.";
+"AddUserView.TaskError.GenericError" = "Error";
+"AddUserView.TaskError.NotFound" = "Not Found";
+"AddUserView.TaskError.NotFound.Reason %@" = "It seems that the user \"%@\" does not exist in the wiki.";
 "AddUserView.Title" = "Add User";
 "AddUserView.User" = "User";
 "AddUserView.User.Username" = "Username";
@@ -26,9 +35,12 @@
 
 "AddWikiView.Add" = "Add";
 "AddWikiView.Footer" = "Wikist will search the API path with the URL.";
-"AddWikiView.TaskError.Existed %@ %@" = "The Wiki is existed as %1$@ with API %2$@.";
-"AddWikiView.TaskError.InvalidURL %@" = "The URL %@ is invalid.";
-"AddWikiView.TaskError.NotFound" = "MediaWiki API is not found.";
+"AddWikiView.TaskError.Existed" = "Existed";
+"AddWikiView.TaskError.Existed.Reason %@ %@" = "The Wiki is existed as \"%1$@\" with API %2$@.";
+"AddWikiView.TaskError.InvalidURL" = "Invalid URL";
+"AddWikiView.TaskError.InvalidURL.Reason" = "Unable to convert the input to a URL.";
+"AddWikiView.TaskError.NotFound" = "Not Found";
+"AddWikiView.TaskError.NotFound.Reason" = "MediaWiki API is not found.";
 "AddWikiView.Title" = "Add Wiki";
 "AddWikiView.URL" = "URL";
 
