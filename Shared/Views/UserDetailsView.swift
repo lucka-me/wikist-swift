@@ -93,15 +93,25 @@ struct UserDetailsView: View {
         .task {
             try? await persistence.attachRefreshTask(of: user.objectID) { @MainActor in
                 self.isRefreshing = true
-            }
-            if let statistics = await makeStatistics() {
-                await MainActor.run {
+                if let statistics = await makeStatistics() {
                     withAnimation {
                         self.statistics = statistics
                         isStatisticsReady = true
-                        self.isRefreshing = false
                     }
                 }
+            }
+            if isRefreshing {
+                self.isRefreshing = false
+            }
+            if !isStatisticsReady {
+                if let statistics = await makeStatistics() {
+                    await MainActor.run {
+                        withAnimation {
+                            self.statistics = statistics
+                        }
+                    }
+                }
+                isStatisticsReady = true
             }
         }
         .onReceive(contributions.publisher.count()) { count in
@@ -179,16 +189,10 @@ struct UserDetailsView: View {
                     .monospaced()
             }
             .contextMenu {
-                Button(role: .destructive) {
-                    do {
-                        try user.removeAllContributions()
-                        try viewContext.save()
-                    } catch {
-                        // TODO: Alert
-                        print(error)
+                if !isRefreshing {
+                    Button(role: .destructive, action: tryClearContributions) {
+                        Label("UserDetailsView.Highlights.Contributions.Clear", systemImage: "trash")
                     }
-                } label: {
-                    Label("UserDetailsView.Highlights.Contributions.RemoveAll", systemImage: "trash")
                 }
             }
         }
@@ -386,6 +390,25 @@ struct UserDetailsView: View {
         }
         
         return Task.isCancelled ? nil : statistics
+    }
+    
+    private func tryClearContributions() {
+        guard !isRefreshing, let uuid = user.uuid else { return }
+        isRefreshing = true
+        Task {
+            do {
+                try await persistence.clearContributions(of: uuid)
+                try await viewContext.perform {
+                    try viewContext.save()
+                }
+            } catch {
+                // TODO: Alert
+                print(error)
+            }
+            await MainActor.run {
+                isRefreshing = false
+            }
+        }
     }
 }
 
