@@ -179,7 +179,9 @@ extension User {
                     }
                 }
                 bufferedContributions.removeAll(keepingCapacity: true)
-                bufferCapacity = Int(1.6 * Double(bufferCapacity))
+                if bufferCapacity < 5000 {
+                    bufferCapacity += 500
+                }
             } while continueToken != nil && !Task.isCancelled
         }
     }
