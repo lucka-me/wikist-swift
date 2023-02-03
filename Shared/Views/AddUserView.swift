@@ -48,7 +48,7 @@ struct AddUserView: View {
     )
     private var wikis: FetchedResults<Wiki>
     
-    @FocusState private var usernameTextFieldIsFocused: Bool
+    @FocusState private var isUsernameTextFieldFocused: Bool
     
     @State private var isAddWikiSheetPresented = false
     @State private var isAlertPresented = false
@@ -97,7 +97,7 @@ struct AddUserView: View {
                 Section("AddUserView.User") {
                     TextField("AddUserView.User.Username", text: $username)
                         .lineLimit(1)
-                        .focused($usernameTextFieldIsFocused)
+                        .focused($isUsernameTextFieldFocused)
                         .onSubmit {
                             Task { await tryAdd() }
                         }
@@ -127,7 +127,7 @@ struct AddUserView: View {
                 AddWikiView(wiki: $selectedWiki)
             }
             .onChange(of: selectedWiki) { _ in
-                usernameTextFieldIsFocused = true
+                isUsernameTextFieldFocused = true
             }
         }
         .alert(isPresented: $isAlertPresented, error: taskError) { _ in } message: { error in
@@ -137,7 +137,7 @@ struct AddUserView: View {
         }
         .onAppear {
             if selectedWiki != nil {
-                usernameTextFieldIsFocused = true
+                isUsernameTextFieldFocused = true
             }
         }
     }
