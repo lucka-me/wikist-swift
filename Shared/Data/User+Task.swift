@@ -166,19 +166,11 @@ extension User {
                                 return false
                             }
                         )
-                        request.resultType = .objectIDs
-                        guard
-                            let result = try managedObjectContext.execute(request) as? NSBatchInsertResult,
-                            let ids = result.result as? [ NSManagedObjectID ] else {
-                            return
-                        }
-                        NSManagedObjectContext.mergeChanges(
-                            fromRemoteContextSave: [ NSInsertedObjectsKey: ids ],
-                            into: [ managedObjectContext, viewContext ]
-                        )
-                        if managedObjectContext.hasChanges {
-                            try managedObjectContext.save()
-                        }
+                        request.resultType = .count
+                        try managedObjectContext.execute(request)
+                    }
+                    await MainActor.run {
+                        NotificationCenter.default.post(name: .ContributionsUpdated, object: uuid as NSUUID)
                     }
                 }
                 bufferedContributions.removeAll(keepingCapacity: true)
@@ -189,6 +181,13 @@ extension User {
             if Task.isCancelled {
                 group.cancelAll()
             }
+            if managedObjectContext.hasChanges {
+                try managedObjectContext.save()
+            }
         }
     }
+}
+
+extension Notification.Name {
+    static let ContributionsUpdated = Notification.Name("WikistContributionsUpdated")
 }
