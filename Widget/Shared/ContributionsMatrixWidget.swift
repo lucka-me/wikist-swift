@@ -55,7 +55,7 @@ fileprivate struct EntryView: View {
                 .foregroundColor(.secondary)
                 .font(.caption)
             }
-            ContributionsMatrix { entry.countsByDay[$0] ?? 0 }
+            ContributionsMatrix(fits: .horizontal) { entry.countsByDay[$0] ?? 0 }
         }
         .padding()
     }
