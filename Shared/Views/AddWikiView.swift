@@ -59,6 +59,10 @@ struct AddWikiView: View {
     @State private var taskError: TaskError? = nil
     @State private var urlText: String = ""
     
+    init() {
+        self._wiki = .constant(nil)
+    }
+    
     init(wiki: Binding<Wiki?>) {
         self._wiki = wiki
     }

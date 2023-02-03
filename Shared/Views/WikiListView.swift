@@ -20,7 +20,6 @@ struct WikiListView: View {
     
     @State private var isAddWikiSheetPresented = false
     @State private var isRefreshing = false
-    @State private var selection: Wiki? = nil
     @State private var wikiToAddUser: Wiki? = nil
     
     var body: some View {
@@ -58,7 +57,7 @@ struct WikiListView: View {
             }
         }
         .sheet(isPresented: $isAddWikiSheetPresented) {
-            AddWikiView(wiki: $selection)
+            AddWikiView()
         }
         .sheet(item: $wikiToAddUser, onDismiss: viewContext.rollback) { wiki in
             AddUserView(wiki: wiki)
