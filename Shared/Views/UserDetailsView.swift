@@ -103,20 +103,9 @@ struct UserDetailsView: View {
                 }
             }
         }
-        .onReceive(
-            NotificationCenter.default.publisher(for: .ContributionsUpdated)
-        ) { notification in
-            guard
-                isStatisticsReady,
-                let uuid = user.uuid,
-                let notificationUUID = notification.object as? NSUUID,
-                notificationUUID.compare(uuid) == .orderedSame
-            else {
-                return
-            }
-            Task {
-                await updateStatistics()
-            }
+        .onContributionsUpdated(userID: user.uuid) {
+            guard isStatisticsReady else { return }
+            await updateStatistics()
         }
     }
     

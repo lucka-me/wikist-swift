@@ -60,19 +60,7 @@ struct UserBriefView: View {
                 await updateStatistics()
             }
         }
-        .onReceive(
-            NotificationCenter.default.publisher(for: .ContributionsUpdated)
-        ) { notification in
-            guard
-                let notificationUUID = notification.object as? NSUUID,
-                notificationUUID.compare(user.uuid!) == .orderedSame
-            else {
-                return
-            }
-            Task {
-                await updateStatistics()
-            }
-        }
+        .onContributionsUpdated(userID: user.uuid, perform: updateStatistics)
     }
     
     private func updateStatistics() async {
