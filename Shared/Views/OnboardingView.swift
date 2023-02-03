@@ -42,7 +42,11 @@ struct OnboardingView: View {
         }
 #endif
         .padding([ .horizontal, .bottom ])
-        .alert(isPresented: $isAlertPresented, error: migrateError) { }
+        .alert(isPresented: $isAlertPresented, error: migrateError) { _ in } message: { error in
+            if let reason = error.failureReason {
+                Text(reason)
+            }
+        }
     }
     
     @ViewBuilder

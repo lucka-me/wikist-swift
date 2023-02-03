@@ -12,13 +12,27 @@ struct AddUserView: View {
     
     private enum TaskError: Error, LocalizedError {
         case notFound(username: String)
+        case wikiTaskFailed(error: Wiki.TaskError)
         case genericError(error: Error)
         
         var errorDescription: String? {
             switch self {
-            case .notFound(username: let username):
-                return "The user \(username) not found"
-            case .genericError(error: let error):
+            case .notFound(_):
+                return .init(localized: "AddUserView.TaskError.NotFound")
+            case .wikiTaskFailed(let error):
+                return error.errorDescription
+            case .genericError(_):
+                return .init(localized: "AddUserView.TaskError.GenericError")
+            }
+        }
+        
+        var failureReason: String? {
+            switch self {
+            case .notFound(let username):
+                return .init(localized: "AddUserView.TaskError.NotFound.Reason \(username)")
+            case .wikiTaskFailed(let error):
+                return error.failureReason
+            case .genericError(let error):
                 return error.localizedDescription
             }
         }
@@ -116,6 +130,11 @@ struct AddUserView: View {
                 usernameTextFieldIsFocused = true
             }
         }
+        .alert(isPresented: $isAlertPresented, error: taskError) { _ in } message: { error in
+            if let reason = error.failureReason {
+                Text(reason)
+            }
+        }
         .onAppear {
             if selectedWiki != nil {
                 usernameTextFieldIsFocused = true
@@ -144,6 +163,9 @@ struct AddUserView: View {
             dismiss()
         } catch let error as TaskError {
             self.taskError = error
+            self.isAlertPresented = true
+        } catch let error as Wiki.TaskError {
+            self.taskError = .wikiTaskFailed(error: error)
             self.isAlertPresented = true
         } catch {
             self.taskError = .genericError(error: error)

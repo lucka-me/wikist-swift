@@ -22,7 +22,14 @@ extension Persistence {
         
         var errorDescription: String? {
             switch self {
-            case .genericError(error: let error):
+            case .genericError(_):
+                return .init(localized: "Persistence.MigrateError.GenericError")
+            }
+        }
+        
+        var failureReason: String? {
+            switch self {
+            case .genericError(let error):
                 return error.localizedDescription
             }
         }

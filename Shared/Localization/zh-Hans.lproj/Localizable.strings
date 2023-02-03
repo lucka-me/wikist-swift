@@ -6,7 +6,26 @@
   
 */
 
+// Data
+"Persistence.MigrateError.GenericError" = "错误";
+
+"User.TaskError.DataInterrupted" = "数据损坏";
+"User.TaskError.DataInterrupted.Reason" = "用户名或维基数据丢失。";
+"User.TaskError.UserNotFound" = "未找到用户";
+"User.TaskError.UserNotFound.Reason" = "未查询到用户信息。";
+
+"Wiki.TaskError.InvalidQuery" = "请求无效";
+"Wiki.TaskError.InvalidQuery.Reason" = "无法使用请求构建URL。";
+"Wiki.TaskError.InvalidResponse @lld" = "返回 @lld";
+"Wiki.TaskError.InvalidResponse.Reason @lld" = "API返回状态@lld";
+"Wiki.TaskError.InvalidURL" = "URL无效";
+"Wiki.TaskError.InvalidURL.Reason" = "无法解析URL。";
+
+// Views
 "AddUserView.Add" = "添加";
+"AddUserView.TaskError.GenericError" = "错误";
+"AddUserView.TaskError.NotFound" = "未找到";
+"AddUserView.TaskError.NotFound.Reason %@" = "维基中似乎不存在用户「%@」。";
 "AddUserView.Title" = "添加用户";
 "AddUserView.User" = "用户";
 "AddUserView.User.Username" = "用户名";
@@ -16,6 +35,12 @@
 
 "AddWikiView.Add" = "添加";
 "AddWikiView.Footer" = "Wikist会根据URL搜索API。";
+"AddWikiView.TaskError.Existed" = "维基已存在";
+"AddWikiView.TaskError.Existed.Reason %@ %@" = "已存在API为%2$@的维基「%1$@」。";
+"AddWikiView.TaskError.InvalidURL" = "URL无效";
+"AddWikiView.TaskError.InvalidURL.Reason" = "无法将输入的内容转换为 URL。";
+"AddWikiView.TaskError.NotFound" = "未找到";
+"AddWikiView.TaskError.NotFound.Reason" = "未能在此URL的路径中找到MediaWiki API。";
 "AddWikiView.Title" = "添加维基";
 "AddWikiView.URL" = "URL";
 
@@ -77,7 +102,7 @@
 "WikiListView.Row.DefaultAPI" = "未知";
 "WikiListView.Title" = "维基";
 
-// Basic
+// Views - Basic
 "ContributionsCell.Help %lld %@" = "%2$@有%lld次贡献";
 "ContributionsCell.Help.Zero %@" = "%@没有贡献";
 
@@ -86,7 +111,7 @@
 "ThemedButton.Dismiss" = "关闭";
 "ThemedButton.Refresh" = "刷新";
 
-// Settings
+// Views - Settings
 "SettingsView.About" = "关于";
 "SettingsView.Data" = "数据";
 "SettingsView.Title" = "设置";
@@ -106,7 +131,7 @@
 "AppIconSelector.Selection" = "已选择";
 "AppIconSelector.Title" = "更换应用图标";
 
-// StatisticsChart
+// Views - StatisticsChart
 "ContributionsByHourChart.AllContributions" = "全部贡献";
 "ContributionsByHourChart.BriefTitle" = "贡献/小时";
 "ContributionsByHourChart.Chart.XAxis" = "小时";

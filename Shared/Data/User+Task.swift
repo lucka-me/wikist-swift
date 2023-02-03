@@ -16,9 +16,18 @@ extension User {
         var errorDescription: String? {
             switch self {
             case .dataInterrupted:
-                return "The data is interrupted."
+                return .init(localized: "User.TaskError.DataInterrupted")
             case .userNotFound:
-                return "Unable to query information of the user."
+                return .init(localized: "User.TaskError.UserNotFound")
+            }
+        }
+        
+        var failureReason: String? {
+            switch self {
+            case .dataInterrupted:
+                return .init(localized: "User.TaskError.DataInterrupted.Reason")
+            case .userNotFound:
+                return .init(localized: "User.TaskError.UserNotFound.Reason")
             }
         }
     }
