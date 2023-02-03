@@ -75,7 +75,6 @@ fileprivate struct ChartView: View {
         }
         
         self._contributions = .init(
-            entity: Contribution.entity(),
             sortDescriptors: [ ],
             predicate: .init(format: "%K == %@", #keyPath(Contribution.userID), user.uuid! as NSUUID)
         )

@@ -31,7 +31,6 @@ struct UserBriefView: View {
         let startOfFiveDaysAgo = Calendar.current.startOfDay(forNext: -4, of: .init())!
         
         self._contributions = .init(
-            entity: Contribution.entity(),
             sortDescriptors: [ ],
             predicate: .init(
                 format: "%K == %@ AND %K >= %@",

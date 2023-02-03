@@ -48,8 +48,7 @@ struct UserDetailsView: View {
         self.user = user
         
         self._contributions = .init(
-            entity: Contribution.entity(),
-            sortDescriptors: [ .init(keyPath: \Contribution.timestamp, ascending: false) ],
+            sortDescriptors: [ .init(\.timestamp, order: .reverse) ],
             predicate: .init(format: "%K == %@", #keyPath(Contribution.userID), user.uuid! as NSUUID)
         )
     }

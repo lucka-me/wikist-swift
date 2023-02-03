@@ -25,8 +25,7 @@ struct WikiDetailsView: View {
         self.wiki = wiki
         
         self._users = .init(
-            entity: User.entity(),
-            sortDescriptors: [ .init(keyPath: \User.name, ascending: false) ],
+            sortDescriptors: [ .init(\.name, order: .forward) ],
             predicate: .init(format: "%K == %@", #keyPath(User.wiki), self.wiki)
         )
     }

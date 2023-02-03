@@ -150,8 +150,7 @@ fileprivate struct ChartView: View {
         self._range = .init(initialValue: monthRange)
         
         self._contributions = .init(
-            entity: Contribution.entity(),
-            sortDescriptors: [ .init(keyPath: \Contribution.timestamp, ascending: false) ],
+            sortDescriptors: [ ],
             predicate: .init(
                 format: "%K == %@ AND %K != 0 AND %K >= %@ AND %K < %@",
                 #keyPath(Contribution.userID), user.uuid! as NSUUID,
