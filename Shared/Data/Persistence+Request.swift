@@ -51,7 +51,7 @@ extension Persistence {
 }
 
 extension Persistence {
-    func clearContributions(of userID: UUID, mergeChanges: Bool = true) async throws {
+    func clearContributions(of userID: UUID, mergeChanges: Bool = false) async throws {
         let context = container.refreshContext
         let fetchRequest = Contribution.fetchRequest() as NSFetchRequest<NSFetchRequestResult>
         fetchRequest.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)

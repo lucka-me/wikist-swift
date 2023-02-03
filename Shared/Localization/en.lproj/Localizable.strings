@@ -39,7 +39,6 @@
 "UserDetailsView.DefaultTitle" = "Anonymous";
 "UserDetailsView.DefaultWiki" = "Wiki";
 "UserDetailsView.Highlights.Contributions" = "Contributions";
-"UserDetailsView.Highlights.Contributions.Clear" = "Clear";
 "UserDetailsView.Highlights.Days" = "Days";
 "UserDetailsView.Highlights.Registration" = "Registration";
 "UserDetailsView.Highlights.UserID" = "User ID";

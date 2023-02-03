@@ -187,13 +187,6 @@ struct UserDetailsView: View {
                 Text(contributions.count, format: .number)
                     .monospaced()
             }
-            .contextMenu {
-                if !isRefreshing {
-                    Button(role: .destructive, action: tryClearContributions) {
-                        Label("UserDetailsView.Highlights.Contributions.Clear", systemImage: "trash")
-                    }
-                }
-            }
         }
     }
     
@@ -389,25 +382,6 @@ struct UserDetailsView: View {
         }
         
         return Task.isCancelled ? nil : statistics
-    }
-    
-    private func tryClearContributions() {
-        guard !isRefreshing, let uuid = user.uuid else { return }
-        isRefreshing = true
-        Task {
-            do {
-                try await persistence.clearContributions(of: uuid)
-                try await viewContext.perform {
-                    try viewContext.save()
-                }
-            } catch {
-                // TODO: Alert
-                print(error)
-            }
-            await MainActor.run {
-                isRefreshing = false
-            }
-        }
     }
 }
 

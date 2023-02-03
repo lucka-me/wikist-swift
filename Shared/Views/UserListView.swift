@@ -94,7 +94,7 @@ struct UserListView: View {
                 try await withThrowingTaskGroup(of: Void.self) { group in
                     for userID in userIDs {
                         group.addTask {
-                            try await persistence.clearContributions(of: userID, mergeChanges: false)
+                            try await persistence.clearContributions(of: userID)
                         }
                     }
                     try await group.waitForAll()

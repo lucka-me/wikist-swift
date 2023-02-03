@@ -39,7 +39,6 @@
 "UserDetailsView.DefaultTitle" = "匿名";
 "UserDetailsView.DefaultWiki" = "维基";
 "UserDetailsView.Highlights.Contributions" = "贡献";
-"UserDetailsView.Highlights.Contributions.Clear" = "清除";
 "UserDetailsView.Highlights.Days" = "天数";
 "UserDetailsView.Highlights.Registration" = "注册时间";
 "UserDetailsView.Highlights.UserID" = "用户ID";
