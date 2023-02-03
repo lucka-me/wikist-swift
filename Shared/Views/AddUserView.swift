@@ -88,6 +88,12 @@ struct AddUserView: View {
                             }
                         }
                     }
+#if os(iOS)
+                    if let api = selectedWiki?.api {
+                        Text(api.absoluteString)
+                            .foregroundStyle(.secondary)
+                    }
+#endif
                     Button("AddUserView.Add") {
                         isAddWikiSheetPresented.toggle()
                     }
