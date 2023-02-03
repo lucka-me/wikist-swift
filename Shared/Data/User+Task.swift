@@ -182,10 +182,13 @@ extension User {
                     }
                 }
                 bufferedContributions.removeAll(keepingCapacity: true)
-                if bufferCapacity < 5000 {
+                if bufferCapacity < 2000 {
                     bufferCapacity += 500
                 }
             } while continueToken != nil && !Task.isCancelled
+            if Task.isCancelled {
+                group.cancelAll()
+            }
         }
     }
 }
