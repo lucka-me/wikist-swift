@@ -10,10 +10,11 @@ import SwiftUI
 
 struct AboutSection: View {
     
-    @ObservedObject private var tipsManager = TipsManager.shared
-    
     @State private var isOnboardingSheetPresented = false
     @State private var isTipDialogPresented = false
+    @State private var isTipResultAlertPresented = false
+    @State private var products: [ Product ] = [ ]
+    @State private var purchasedProductName: String = ""
     
     var body: some View {
         Section {
@@ -36,7 +37,7 @@ struct AboutSection: View {
             }
 #endif
             
-            if tipsManager.canMakePayment {
+            if AppStore.canMakePayments {
                 Button {
                     isTipDialogPresented.toggle()
                 } label: {
@@ -60,11 +61,44 @@ struct AboutSection: View {
             OnboardingView()
         }
         .confirmationDialog("AboutSection.Tips", isPresented: $isTipDialogPresented) {
-            ForEach(tipsManager.products, id: \.productIdentifier) { product in
-                Button(product.localizedText) {
-                    tipsManager.purchase(product)
+            ForEach(products) { product in
+                Button("\(product.displayName) - \(product.displayPrice)") {
+                    Task {
+                        await tryPurchase(product)
+                    }
                 }
             }
+        }
+        .alert("AboutSection.Tips.Alert.Title", isPresented: $isTipResultAlertPresented) {
+            
+        } message: {
+            Text(purchasedProductName)
+        }
+        .task {
+            guard AppStore.canMakePayments else { return }
+            do {
+                let products = try await Product.products(for: TipProduct.allCases.map { $0.rawValue })
+                await MainActor.run {
+                    self.products = products
+                }
+            } catch {
+                
+            }
+        }
+    }
+    
+    private func tryPurchase(_ product: Product) async {
+        guard
+            let result = try? await product.purchase(),
+            case let .success(verification) = result,
+            case let .verified(transaction) = verification
+        else {
+            return
+        }
+        await transaction.finish()
+        await MainActor.run {
+            purchasedProductName = product.displayName
+            isTipResultAlertPresented = true
         }
     }
 }
@@ -80,67 +114,7 @@ struct AboutSectionPreviews: PreviewProvider {
 }
 #endif
 
-fileprivate class TipsManager: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    
-    static let shared = TipsManager()
-    
-    static let tier1ProductIdentifier = "dev.lucka.Wikist.IAP.supportTire1"
-    static let tier2ProductIdentifier = "dev.lucka.Wikist.IAP.supportTire2"
-    
-    @Published var products: [ SKProduct ] = [ ]
-    @Published var purchased = false
-    
-    deinit {
-        SKPaymentQueue.default().remove(self)
-    }
-    
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        DispatchQueue.main.async { [ self ] in
-            products = response.products
-        }
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [ SKPaymentTransaction ]) {
-        DispatchQueue.main.async { [ self ] in
-            for transaction in transactions {
-                if transaction.transactionState == .purchased {
-                    purchased = true
-                }
-            }
-        }
-    }
-    
-    func purchase(_ product: SKProduct) {
-        let payment = SKPayment(product: product)
-        SKPaymentQueue.default().add(payment)
-    }
-    
-    var canMakePayment: Bool {
-        SKPaymentQueue.canMakePayments()
-    }
-    
-    private override init() {
-        super.init()
-        SKPaymentQueue.default().add(self)
-        if canMakePayment {
-            let request = SKProductsRequest(
-                productIdentifiers: [ Self.tier1ProductIdentifier, Self.tier2ProductIdentifier ]
-            )
-            request.delegate = self
-            request.start()
-        }
-    }
-}
-
-extension SKProduct {
-    var localizedPrice: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = priceLocale
-        return formatter.string(from: price) ?? "\(price)"
-    }
-    
-    var localizedText: String {
-        "\(localizedTitle) - \(localizedPrice)"
-    }
+fileprivate enum TipProduct: String, CaseIterable {
+    case tier1 = "dev.lucka.Wikist.IAP.Tip.Tier1"
+    case tier2 = "dev.lucka.Wikist.IAP.Tip.Tier2"
 }
