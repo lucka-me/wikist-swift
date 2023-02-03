@@ -91,14 +91,17 @@ extension User {
         
         var queryItems: [ URLQueryItem ]
         
-        init(_ user: String, end: Date) {
+        init(_ user: String, start: Date?) {
             queryItems = [
                 .init(name: "list", value: "usercontribs"),
                 .init(name: "ucuser", value: user),
                 .init(name: "ucprop", value: "ids|title|timestamp|sizediff|flags"),
+                .init(name: "ucdir", value: "newer"),
                 .init(name: "uclimit", value: "500"),
-                .init(name: "ucend", value: ISO8601DateFormatter.shared.string(from: end)),
             ]
+            if let start {
+                queryItems.append(.init(name: "ucstart", value: ISO8601DateFormatter.shared.string(from: start)))
+            }
         }
         
         mutating func next(_ token: String) {
@@ -115,7 +118,7 @@ extension User {
         let latestContribution = await managedObjectContext.perform { self.latestContribution }
 
         var query = UserContributionQuery(
-            name, end: latestContribution?.timestamp?.advanced(by: 1) ?? registration ?? Date(timeIntervalSince1970: 0)
+            name, start: latestContribution?.timestamp?.advanced(by: 1)
         )
         var continueToken: String? = nil
         
