@@ -72,7 +72,6 @@
 		847BD4A929697227008D48B1 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ED9C8128707C200089221F /* FileManager.swift */; };
 		847BD4AC296977DB008D48B1 /* URLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ED9C7F287044650089221F /* URLResponse.swift */; };
 		847BD4AD296977ED008D48B1 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84ED9C7D2870437B0089221F /* URL.swift */; };
-		847BD4AE29697823008D48B1 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
 		847BD4AF2969783E008D48B1 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F47152880610A00705500 /* Calendar.swift */; };
 		847BD4B029697854008D48B1 /* Wiki+Derived.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84038A7C29321CBB0021A51D /* Wiki+Derived.swift */; };
 		847BD4B12969785D008D48B1 /* WikiNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F4A67E2962A5E4001809EC /* WikiNamespace.swift */; };
@@ -121,9 +120,10 @@
 		847BD51E2969C8C6008D48B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84F4A67A2961E539001809EC /* Localizable.strings */; };
 		847BD51F2969C8D7008D48B1 /* ContributionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7E962878700A0087E40B /* ContributionsCell.swift */; };
 		847BD5202969C8D9008D48B1 /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA5287AC48A0087E40B /* ContributionsMatrix.swift */; };
-		847BD5212969C8E6008D48B1 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
 		847F47162880610A00705500 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F47152880610A00705500 /* Calendar.swift */; };
 		847F471B2881D6B500705500 /* ContributionsByHourChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F471A2881D6B500705500 /* ContributionsByHourChart.swift */; };
+		8483E525298D427200B27A62 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
+		8483E526298D427300B27A62 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
 		849F98AF288BBE3D0006CC7D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F98AE288BBE3D0006CC7D /* SettingsView.swift */; platformFilter = ios; };
 		84AB6D9E29344F2900179266 /* StatisticsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB6D9D29344F2900179266 /* StatisticsChart.swift */; };
 		84B61502293E36BC006D65FC /* Legacy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84B61500293E36BC006D65FC /* Legacy.xcdatamodeld */; };
@@ -352,27 +352,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		84304A1F2883F89100018ABD /* Basic */ = {
+		84304A1F2883F89100018ABD /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				8429E97C297E2B160085E8E0 /* AppIcon.swift */,
 				846F7EAB287AD45E0087E40B /* BriefCard.swift */,
-				84038A7029312E220021A51D /* CardModifier.swift */,
-				84038A742931F60B0021A51D /* ChipModifier.swift */,
 				846F7E962878700A0087E40B /* ContributionsCell.swift */,
 				846F7EA5287AC48A0087E40B /* ContributionsMatrix.swift */,
-				84304A2928844CB200018ABD /* EqualWidthHStack.swift */,
-				84038A7A293202100021A51D /* FlexHStack.swift */,
-				846F7EA9287ACBD80087E40B /* Modifiers.swift */,
-				84038A722931ED080021A51D /* MonospacedIconAndTitleLabelStyle.swift */,
-				84038A762931FBC00021A51D /* MonospacedIconOnlyLabelStyle.swift */,
 				84038A782931FD410021A51D /* SimpleChip.swift */,
 				84038A8429327EF10021A51D /* StatisticsGrid.swift */,
 				84304A2D288465F800018ABD /* ThemedButton.swift */,
-				8409A4D72930E97A00056467 /* TitleUnderIconLabelStyle.swift */,
 				8409A4CB292BAA3400056467 /* UserBriefView.swift */,
 			);
-			path = Basic;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		8466A5692973EB3100CD0A1A /* Localization */ = {
@@ -497,6 +489,35 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		84DEE08C298D3D2400299FA6 /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				846F7EA9287ACBD80087E40B /* Modifiers.swift */,
+				84038A7029312E220021A51D /* CardModifier.swift */,
+				84038A742931F60B0021A51D /* ChipModifier.swift */,
+			);
+			path = ViewModifiers;
+			sourceTree = "<group>";
+		};
+		84DEE08D298D3D5200299FA6 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				84304A2928844CB200018ABD /* EqualWidthHStack.swift */,
+				84038A7A293202100021A51D /* FlexHStack.swift */,
+			);
+			path = Layouts;
+			sourceTree = "<group>";
+		};
+		84DEE08E298D3D7800299FA6 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				84038A722931ED080021A51D /* MonospacedIconAndTitleLabelStyle.swift */,
+				84038A762931FBC00021A51D /* MonospacedIconOnlyLabelStyle.swift */,
+				8409A4D72930E97A00056467 /* TitleUnderIconLabelStyle.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
 		84ED9C7C287043650089221F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,10 +553,13 @@
 				8409A4C9292BA98B00056467 /* UserListView.swift */,
 				8409A4D2292FCD3700056467 /* WikiDetailsView.swift */,
 				8409A4CE292CF4DD00056467 /* WikiListView.swift */,
-				84304A1F2883F89100018ABD /* Basic */,
+				84304A1F2883F89100018ABD /* Components */,
 				846F7E9F2879AF330087E40B /* Environments */,
+				84DEE08D298D3D5200299FA6 /* Layouts */,
 				84D0DFE4293F9C2C007ACF8F /* Settings */,
 				847F47172881D4BB00705500 /* StatisticsCharts */,
+				84DEE08E298D3D7800299FA6 /* Styles */,
+				84DEE08C298D3D2400299FA6 /* ViewModifiers */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -845,13 +869,13 @@
 				847BD4B329697884008D48B1 /* WikiAuxiliary+Initializer.swift in Sources */,
 				847BD4AC296977DB008D48B1 /* URLResponse.swift in Sources */,
 				847BD48729695BFE008D48B1 /* ContributionsMatrixWidget.swift in Sources */,
-				847BD4AE29697823008D48B1 /* Modifiers.swift in Sources */,
 				847BD4A129695E02008D48B1 /* Wikist.xcdatamodeld in Sources */,
 				847BD49B29695DD9008D48B1 /* PersistentContainer.swift in Sources */,
 				847BD4B12969785D008D48B1 /* WikiNamespace.swift in Sources */,
 				847BD4AD296977ED008D48B1 /* URL.swift in Sources */,
 				847BD49A29695DD0008D48B1 /* Persistence.swift in Sources */,
 				847BD4B42969B74E008D48B1 /* WikiAuxiliary+Derived.swift in Sources */,
+				8483E525298D427200B27A62 /* Modifiers.swift in Sources */,
 				847BD49E29695DEA008D48B1 /* User+Task.swift in Sources */,
 				847BD4D82969BD2B008D48B1 /* Image.swift in Sources */,
 				847BD4B029697854008D48B1 /* Wiki+Derived.swift in Sources */,
@@ -894,7 +918,7 @@
 				847BD51D2969C8C2008D48B1 /* Image.swift in Sources */,
 				847BD5182969C8AF008D48B1 /* FileManager.swift in Sources */,
 				847BD5132969C89D008D48B1 /* WikiAuxiliary+Initializer.swift in Sources */,
-				847BD5212969C8E6008D48B1 /* Modifiers.swift in Sources */,
+				8483E526298D427300B27A62 /* Modifiers.swift in Sources */,
 				847BD51B2969C8B7008D48B1 /* URL.swift in Sources */,
 				847BD50C2969C868008D48B1 /* User+Derived.swift in Sources */,
 				847BD51F2969C8D7008D48B1 /* ContributionsCell.swift in Sources */,
