@@ -85,7 +85,7 @@ struct ContentView: View {
 #endif
         .onAppear {
             let version = Bundle.main.version
-            if UserDefaults.standard.value(for: .onboardingVersion) < version {
+            if UserDefaults.standard.value(for: .onboardingVersion) == 0 {
                 isOnboardingSheetPresented = true
                 UserDefaults.standard.set(version, for: .onboardingVersion)
             }

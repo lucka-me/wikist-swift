@@ -36,7 +36,7 @@
 "AddWikiView.Add" = "Add";
 "AddWikiView.Footer" = "
 API usually ends with \"/api.php\", you can also enter the domain or URL of any page, Wikist will search the API automatically.
-Please notice that due to [App Transport Security policy]((https://developer.apple.com/documentation/security/preventing_insecure_network_connections)), HTTPS is required for security.
+Please notice that due to [App Transport Security policy](https://developer.apple.com/documentation/security/preventing_insecure_network_connections), HTTPS is required for security.
 ";
 "AddWikiView.TaskError.Existed" = "Existed";
 "AddWikiView.TaskError.Existed.Reason %@ %@" = "The Wiki is existed as \"%1$@\" with API %2$@.";
