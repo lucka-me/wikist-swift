@@ -48,12 +48,12 @@ fileprivate struct ChartView: View {
         case percentage
     }
     
-    private struct Statistics {
+    fileprivate struct Statistics {
         var contributionsCount: Int = 0
         var data: ChartBuilder.BriefData = [ ]
     }
     
-    @FetchRequest private var contributions: FetchedResults<Contribution>
+    @Environment(\.persistence) private var persistence
     
     @ScaledMetric(relativeTo: .caption) private var chartHeight = 20
     
@@ -67,17 +67,7 @@ fileprivate struct ChartView: View {
     
     init(user: User) {
         self.user = user
-        
-        if let namespaces = user.wiki?.auxiliary?.namespaces {
-            self.namespaces = namespaces
-        } else {
-            self.namespaces = [ : ]
-        }
-        
-        self._contributions = .init(
-            sortDescriptors: [ ],
-            predicate: .init(format: "%K == %@", #keyPath(Contribution.userID), user.uuid! as NSUUID)
-        )
+        self.namespaces = user.wiki?.auxiliary?.namespaces ?? [ : ]
     }
     
     var body: some View {
@@ -135,16 +125,13 @@ fileprivate struct ChartView: View {
         .toolbar {
             filterMenu
         }
-        .onAppear {
-            statistics = makeStatistics()
+        .task {
+            await updateStatistics()
             enabledNamespaces = .init(statistics.data.map { $0.namespace.id })
             isReady = true
         }
-        .onReceive(contributions.publisher.count()) { count in
-            guard isReady && statistics.contributionsCount != count else { return }
-            withAnimation(.easeInOut) {
-                self.statistics = makeStatistics()
-            }
+        .onContributionsUpdated(userID: user.uuid) {
+            await updateStatistics()
         }
     }
     
@@ -181,20 +168,44 @@ fileprivate struct ChartView: View {
         }
     }
     
-    private func makeStatistics() -> Statistics {
-        var statistics = Statistics(contributionsCount: contributions.count)
-        let countsByNamespace: [ Int32 : Int ] = contributions.reduce(into: [ : ]) { result, item in
-            result[item.namespace, default: 0] += 1
+    @MainActor
+    private func updateStatistics() async {
+        guard
+            let userID = user.uuid,
+            let statistics = await persistence.makeStatistics(of: userID, namespaces: namespaces)
+        else {
+            return
         }
-        statistics.data = countsByNamespace
-            .sorted { $0.value > $1.value }
-            .compactMap { item in
-                guard var namespace = namespaces[item.key] else { return nil }
-                if namespace.name.isEmpty {
-                    namespace.name = .init(localized: "ContributionsByNamespaceChart.Namespace.Main")
-                }
-                return .init(namespace: namespace, count: item.value)
+        withAnimation(.easeInOut) {
+            self.statistics = statistics
+        }
+    }
+}
+
+fileprivate extension Persistence {
+    func makeStatistics(
+        of userID: UUID,
+        namespaces: [ Int32 : WikiNamespace ]
+    ) async -> ChartView.Statistics? {
+        let request = Contribution.fetchRequest()
+        request.propertiesToFetch = [ #keyPath(Contribution.namespace) ]
+        request.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)
+        return await container.performBackgroundTask { context in
+            guard let contributions = try? context.fetch(request) else { return nil }
+            var statistics = ChartView.Statistics(contributionsCount: contributions.count)
+            let countsByNamespace: [ Int32 : Int ] = contributions.reduce(into: [ : ]) { result, item in
+                result[item.namespace, default: 0] += 1
             }
-        return statistics
+            statistics.data = countsByNamespace
+                .sorted { $0.value > $1.value }
+                .compactMap { item in
+                    guard var namespace = namespaces[item.key] else { return nil }
+                    if namespace.name.isEmpty {
+                        namespace.name = .init(localized: "ContributionsByNamespaceChart.Namespace.Main")
+                    }
+                    return .init(namespace: namespace, count: item.value)
+                }
+            return statistics
+        }
     }
 }

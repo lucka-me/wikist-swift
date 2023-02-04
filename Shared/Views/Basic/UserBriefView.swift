@@ -98,9 +98,7 @@ fileprivate extension Persistence {
             #keyPath(Contribution.timestamp), startOfFiveDaysAgo as NSDate
         )
         return await container.performBackgroundTask { context in
-            guard let contributions = try? context.fetch(request) else {
-                return nil
-            }
+            guard let contributions = try? context.fetch(request) else { return nil }
             var statistics = UserBriefView.Statistics(contributionsCount: contributions.count)
             let today = Date()
             var countsByDay: [ Date : Int ] = (-4 ... 0).reduce(into: [ : ]) {

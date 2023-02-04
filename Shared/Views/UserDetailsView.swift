@@ -294,9 +294,7 @@ fileprivate extension Persistence {
         request.sortDescriptors = [ .init(keyPath: \Contribution.timestamp, ascending: false) ]
         request.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)
         return await container.performBackgroundTask { context in
-            guard let contributions = try? context.fetch(request) else {
-                return nil
-            }
+            guard let contributions = try? context.fetch(request) else { return nil }
             var statistics = UserDetailsView.Statistics(contributionsCount: contributions.count)
             
             let monthNow = calendar.month(of: today)

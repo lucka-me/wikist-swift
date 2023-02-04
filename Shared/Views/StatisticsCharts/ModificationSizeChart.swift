@@ -114,24 +114,23 @@ fileprivate struct BriefChartView: View {
 fileprivate struct ChartView: View {
     
     private typealias DataItem = ChartBuilder.DataItem
-    private typealias ChartData = ChartBuilder.BriefData
+    fileprivate typealias ChartData = ChartBuilder.BriefData
     
     private enum RangeType {
         case lastTwelveMonths
         case year
     }
     
-    private struct Statistics {
+    fileprivate struct Statistics {
         var range: ClosedMonthRange? = nil
         var total = ChartBuilder.Modification(addition: 0, deletion: 0)
         var contributionsCount: Int = 0
         var data: ChartData = [ ]
     }
     
-    @FetchRequest private var contributions: FetchedResults<Contribution>
-    
     @Environment(\.calendar) private var calendar
     @Environment(\.layoutDirection) private var layoutDirection
+    @Environment(\.persistence) private var persistence
     
     @State private var range: ClosedMonthRange
     @State private var rangeType = RangeType.lastTwelveMonths
@@ -145,20 +144,8 @@ fileprivate struct ChartView: View {
         
         let monthNow = Calendar.current.month(of: .init())
         let monthRange = monthNow.advanced(by: -11) ... monthNow
-        let dateRange = Calendar.current.dateRange(from: monthRange.lowerBound, to: monthRange.upperBound)!
         
         self._range = .init(initialValue: monthRange)
-        
-        self._contributions = .init(
-            sortDescriptors: [ ],
-            predicate: .init(
-                format: "%K == %@ AND %K != 0 AND %K >= %@ AND %K < %@",
-                #keyPath(Contribution.userID), user.uuid! as NSUUID,
-                #keyPath(Contribution.sizeDiff),
-                #keyPath(Contribution.timestamp), dateRange.lowerBound as NSDate,
-                #keyPath(Contribution.timestamp), dateRange.upperBound as NSDate
-            )
-        )
     }
     
     var body: some View {
@@ -255,21 +242,15 @@ fileprivate struct ChartView: View {
             }
         }
         .onChange(of: range) { newValue in
-            let dateRange = calendar.dateRange(from: newValue.lowerBound, to: newValue.upperBound)!
-            contributions.nsPredicate = .init(
-                format: "%K == %@ AND %K != 0 AND %K >= %@ AND %K < %@",
-                #keyPath(Contribution.userID), user.uuid! as NSUUID,
-                #keyPath(Contribution.sizeDiff),
-                #keyPath(Contribution.timestamp), dateRange.lowerBound as NSDate,
-                #keyPath(Contribution.timestamp), dateRange.upperBound as NSDate
-            )
-        }
-        .onReceive(contributions.publisher.count()) { count in
-            guard statistics.contributionsCount != count || statistics.range != range else { return }
-            withAnimation(.easeInOut) {
-                selection = nil
-                updateStatistics()
+            Task {
+                await updateStatistics(in: newValue)
             }
+        }
+        .onContributionsUpdated(userID: user.uuid) {
+            await updateStatistics(in: range)
+        }
+        .task {
+            await updateStatistics(in: range)
         }
     }
     
@@ -352,26 +333,69 @@ fileprivate struct ChartView: View {
             )
     }
     
-    private func updateStatistics() {
-        var statistics = Statistics(range: range, contributionsCount: contributions.count)
-        defer {
+    @MainActor
+    private func updateStatistics(in range: ClosedMonthRange) async {
+        guard
+            let userID = user.uuid,
+            let statistics = await persistence.makeStatistics(of: userID, in: range, calendar: calendar)
+        else {
+            return
+        }
+        withAnimation(.easeInOut) {
+            selection = nil
             self.statistics = statistics
         }
-        
-        var modificationsByMonth: [ Month : ChartBuilder.Modification ] =
-        range.reduce(into: [ : ]) { $0[$1] = .init(addition: 0, deletion: 0) }
-        for contribution in contributions {
-            guard let timestamp = contribution.timestamp else { continue }
-            let month = calendar.month(of: timestamp)
-            if range.contains(month) {
-                modificationsByMonth[month]?.add(contribution.sizeDiff)
-                statistics.total.add(contribution.sizeDiff)
+    }
+}
+
+#if DEBUG
+struct ModificationSizeChartPreviews: PreviewProvider {
+    static let persistence = Persistence.preview
+    
+    static var previews: some View {
+        ChartView(user: Persistence.previewUser(with: persistence.container.viewContext))
+            .environment(\.managedObjectContext, persistence.container.viewContext)
+            .environment(\.persistence, persistence)
+    }
+}
+#endif
+
+fileprivate extension Persistence {
+    func makeStatistics(
+        of userID: UUID,
+        in range: ClosedMonthRange,
+        calendar: Calendar
+    ) async -> ChartView.Statistics? {
+        guard let dateRange = calendar.dateRange(from: range.lowerBound, to: range.upperBound) else { return nil }
+        let request = Contribution.fetchRequest()
+        request.propertiesToFetch = [ #keyPath(Contribution.sizeDiff), #keyPath(Contribution.timestamp) ]
+        request.predicate = .init(
+            format: "%K == %@ AND %K != 0 AND %K >= %@ AND %K < %@",
+            #keyPath(Contribution.userID), userID as NSUUID,
+            #keyPath(Contribution.sizeDiff),
+            #keyPath(Contribution.timestamp), dateRange.lowerBound as NSDate,
+            #keyPath(Contribution.timestamp), dateRange.upperBound as NSDate
+        )
+        return await container.performBackgroundTask { context in
+            guard let contributions = try? context.fetch(request) else { return nil }
+            var statistics = ChartView.Statistics(range: range, contributionsCount: contributions.count)
+            
+            var modificationsByMonth: [ Month : ChartBuilder.Modification ] =
+            range.reduce(into: [ : ]) { $0[$1] = .init(addition: 0, deletion: 0) }
+            for contribution in contributions {
+                guard let timestamp = contribution.timestamp else { continue }
+                let month = calendar.month(of: timestamp)
+                if range.contains(month) {
+                    modificationsByMonth[month]?.add(contribution.sizeDiff)
+                    statistics.total.add(contribution.sizeDiff)
+                }
             }
-        }
-        
-        let components = calendar.dateComponents([ .year, .month ], from: .init())
-        statistics.data = modificationsByMonth.sorted { $0.key < $1.key }.map { item in
-                .init(date: calendar.date(from: components.settingValue(item.key))!, modification: item.value)
+            
+            let components = calendar.dateComponents([ .year, .month ], from: .init())
+            statistics.data = modificationsByMonth.sorted { $0.key < $1.key }.map { item in
+                    .init(date: calendar.date(from: components.settingValue(item.key))!, modification: item.value)
+            }
+            return statistics
         }
     }
 }

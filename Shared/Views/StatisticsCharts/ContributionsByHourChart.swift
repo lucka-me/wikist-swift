@@ -6,6 +6,7 @@
 //
 
 import Charts
+import CoreData
 import SwiftUI
 
 struct ContributionsByHourChartBuilder: StatisticsChartBuilder {
@@ -70,7 +71,7 @@ fileprivate struct ChartView: View {
         case week
     }
 
-    private struct Statistics {
+    fileprivate struct Statistics {
         var range: DateRange? = nil
         var contributionsCount: Int = 0
         var data: ChartBuilder.BriefData = [ ]
@@ -78,8 +79,7 @@ fileprivate struct ChartView: View {
     
     @Environment(\.calendar) private var calendar
     @Environment(\.layoutDirection) private var layoutDirection
-    
-    @FetchRequest private var contributions: FetchedResults<Contribution>
+    @Environment(\.persistence) private var persistence
     
     @State private var range: DateRange? = nil
     @State private var rangeType = RangeType.all
@@ -91,11 +91,6 @@ fileprivate struct ChartView: View {
     
     init(user: User) {
         self.user = user
-        
-        self._contributions = .init(
-            sortDescriptors: [ ],
-            predicate: .init(format: "%K == %@", #keyPath(Contribution.userID), user.uuid! as NSUUID)
-        )
     }
     
     var body: some View {
@@ -126,7 +121,7 @@ fileprivate struct ChartView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 
-                Text(selection?.count ?? contributions.count, format: .number)
+                Text(selection?.count ?? statistics.contributionsCount, format: .number)
                     .font(.system(.title, design: .rounded, weight: .semibold))
             }
 
@@ -182,25 +177,20 @@ fileprivate struct ChartView: View {
             }
         }
         .onChange(of: range) { range in
-            if let range {
-                contributions.nsPredicate = .init(
-                    format: "%K == %@ AND %K >= %@ AND %K < %@",
-                    #keyPath(Contribution.userID), user.uuid! as NSUUID,
-                    #keyPath(Contribution.timestamp), range.lowerBound as NSDate,
-                    #keyPath(Contribution.timestamp), range.upperBound as NSDate
-                )
-            } else {
-                contributions.nsPredicate = .init(
-                    format: "%K == %@", #keyPath(Contribution.userID), user.uuid! as NSUUID
-                )
+            Task {
+                await updateStatistics(in: range)
             }
         }
-        .onReceive(contributions.publisher.count()) { count in
-            guard statistics.contributionsCount != count || statistics.range != range else { return }
-            withAnimation(.easeInOut) {
-                selection = nil
-                updateStatistics()
+        .onContributionsUpdated(userID: user.uuid) {
+            await updateStatistics(in: statistics.range)
+        }
+        .onReceiveCalendarDayChanged { day in
+            Task {
+                await updateStatistics(in: statistics.range, today: day)
             }
+        }
+        .task {
+            await updateStatistics(in: nil)
         }
     }
     
@@ -287,19 +277,17 @@ fileprivate struct ChartView: View {
             )
     }
     
-    private func updateStatistics() {
-        var statistics = Statistics(range: range, contributionsCount: contributions.count)
-        defer {
+    @MainActor
+    private func updateStatistics(in range: DateRange?, today: Date = .init()) async {
+        guard
+            let userID = user.uuid,
+            let statistics = await persistence.makeStatistics(of: userID, in: range, today: today, calendar: calendar)
+        else {
+            return
+        }
+        withAnimation(.easeInOut) {
+            selection = nil
             self.statistics = statistics
-        }
-        var countsByHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
-        for contribution in contributions {
-            guard let timestamp = contribution.timestamp else { continue }
-            countsByHour[calendar.component(.hour, from: timestamp), default: 0] += 1
-        }
-        let today = Date()
-        statistics.data = countsByHour.sorted { $0.key < $1.key }.map { item in
-            .init(hour: calendar.date(bySettingHour: item.key, minute: 0, second: 0, of: today)!, count: item.value)
         }
     }
 }
@@ -311,6 +299,42 @@ struct ContributionsByHourChartPreviews: PreviewProvider {
     static var previews: some View {
         ChartView(user: Persistence.previewUser(with: persistence.container.viewContext))
             .environment(\.managedObjectContext, persistence.container.viewContext)
+            .environment(\.persistence, persistence)
     }
 }
 #endif
+
+fileprivate extension Persistence {
+    func makeStatistics(
+        of userID: UUID,
+        in range: DateRange?,
+        today: Date,
+        calendar: Calendar
+    ) async -> ChartView.Statistics? {
+        let request = Contribution.fetchRequest()
+        request.propertiesToFetch = [ #keyPath(Contribution.timestamp) ]
+        if let range {
+            request.predicate = .init(
+                format: "%K == %@ AND %K >= %@ AND %K < %@",
+                #keyPath(Contribution.userID), userID as NSUUID,
+                #keyPath(Contribution.timestamp), range.lowerBound as NSDate,
+                #keyPath(Contribution.timestamp), range.upperBound as NSDate
+            )
+        } else {
+            request.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)
+        }
+        return await container.performBackgroundTask { context in
+            guard let contributions = try? context.fetch(request) else { return nil }
+            var statistics = ChartView.Statistics(range: range, contributionsCount: contributions.count)
+            var countsByHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
+            for contribution in contributions {
+                guard let timestamp = contribution.timestamp else { continue }
+                countsByHour[calendar.component(.hour, from: timestamp), default: 0] += 1
+            }
+            statistics.data = countsByHour.sorted { $0.key < $1.key }.map { item in
+                .init(hour: calendar.date(bySettingHour: item.key, minute: 0, second: 0, of: today)!, count: item.value)
+            }
+            return statistics
+        }
+    }
+}
