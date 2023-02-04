@@ -33,8 +33,10 @@
 "AddUserView.Wiki.NotSelected" = "未选择";
 "AddUserView.Wiki.Select" = "选择";
 
-"AddWikiView.Add" = "添加";
-"AddWikiView.Footer" = "Wikist会根据URL搜索API。";
+"AddWikiView.Add" = "添加";"AddWikiView.Footer" = "
+API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL，Wikist会自动搜索API。
+请注意，根据[App Transport Security](https://developer.apple.com/documentation/security/preventing_insecure_network_connections)的要求，必须使用HTTPS以保障安全。
+";
 "AddWikiView.TaskError.Existed" = "维基已存在";
 "AddWikiView.TaskError.Existed.Reason %@ %@" = "已存在API为%2$@的维基「%1$@」。";
 "AddWikiView.TaskError.InvalidURL" = "URL无效";

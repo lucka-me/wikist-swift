@@ -18,6 +18,12 @@ struct ContributionsMatrix: View {
     @State private var today = Date()
     
     let countOf: (Date) -> Int
+    let axisToFit: Axis
+    
+    init(fits axis: Axis, countOf: @escaping (Date) -> Int) {
+        self.countOf = countOf
+        self.axisToFit = axis
+    }
     
     var body: some View {
         GeometryReader { proxy in
@@ -82,7 +88,7 @@ struct ContributionsMatrix: View {
     private func weeks(in size: CGSize, spacing: CGFloat) -> [ Int ] {
         let width = size.width + spacing
         let height = size.height + spacing
-        let colums = Int(ceil(width / height * 7))
+        let colums = Int(axisToFit == .horizontal ? ceil(width / height * 7) : floor(width / height * 7))
         return .init(0 ..< colums).reversed()
     }
 }
@@ -92,7 +98,7 @@ struct ContributionsMatrixPreviews: PreviewProvider {
     static let persistence = Persistence.preview
 
     static var previews: some View {
-        ContributionsMatrix { _ in .random(in: 0 ... 100) }
+        ContributionsMatrix(fits: .vertical) { _ in .random(in: 0 ... 100) }
     }
 }
 #endif

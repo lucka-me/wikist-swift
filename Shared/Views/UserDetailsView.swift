@@ -49,7 +49,7 @@ struct UserDetailsView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading) {
-                ContributionsMatrix { statistics.countsByDay[$0] ?? 0 }
+                ContributionsMatrix(fits: .vertical) { statistics.countsByDay[$0] ?? 0 }
                     .frame(
                         maxWidth: .infinity,
                         idealHeight: 20 * 7 + ContributionsMatrix.regularSpacing * 6,

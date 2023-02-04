@@ -52,12 +52,16 @@ struct AddWikiView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FocusState private var urlTextFieldIsFocused: Bool
+    @FocusState private var isURLTextFieldFocused: Bool
     
     @State private var isAlertPresented = false
     @State private var isQuerying = false
     @State private var taskError: TaskError? = nil
     @State private var urlText: String = ""
+    
+    init() {
+        self._wiki = .constant(nil)
+    }
     
     init(wiki: Binding<Wiki?>) {
         self._wiki = wiki
@@ -73,7 +77,7 @@ struct AddWikiView: View {
                         .keyboardType(.URL)
 #endif
                         .disableAutocorrection(true)
-                        .focused($urlTextFieldIsFocused)
+                        .focused($isURLTextFieldFocused)
                         .onSubmit {
                             Task { await tryAdd() }
                         }
@@ -106,6 +110,9 @@ struct AddWikiView: View {
                         dismiss()
                     }
                 }
+            }
+            .onAppear {
+                isURLTextFieldFocused = true
             }
         }
     }
