@@ -100,14 +100,17 @@ extension User {
         
         var queryItems: [ URLQueryItem ]
         
-        init(_ user: String, end: Date) {
+        init(_ user: String, start: Date?) {
             queryItems = [
                 .init(name: "list", value: "usercontribs"),
                 .init(name: "ucuser", value: user),
                 .init(name: "ucprop", value: "ids|title|timestamp|sizediff|flags"),
+                .init(name: "ucdir", value: "newer"),
                 .init(name: "uclimit", value: "500"),
-                .init(name: "ucend", value: ISO8601DateFormatter.shared.string(from: end)),
             ]
+            if let start {
+                queryItems.append(.init(name: "ucstart", value: ISO8601DateFormatter.shared.string(from: start)))
+            }
         }
         
         mutating func next(_ token: String) {
@@ -124,7 +127,7 @@ extension User {
         let latestContribution = await managedObjectContext.perform { self.latestContribution }
 
         var query = UserContributionQuery(
-            name, end: latestContribution?.timestamp?.advanced(by: 1) ?? registration ?? Date(timeIntervalSince1970: 0)
+            name, start: latestContribution?.timestamp?.advanced(by: 1)
         )
         var continueToken: String? = nil
         
@@ -172,24 +175,28 @@ extension User {
                                 return false
                             }
                         )
-                        request.resultType = .objectIDs
-                        guard
-                            let result = try managedObjectContext.execute(request) as? NSBatchInsertResult,
-                            let ids = result.result as? [ NSManagedObjectID ] else {
-                            return
-                        }
-                        NSManagedObjectContext.mergeChanges(
-                            fromRemoteContextSave: [ NSInsertedObjectsKey: ids ],
-                            into: [ managedObjectContext, viewContext ]
-                        )
-                        if managedObjectContext.hasChanges {
-                            try managedObjectContext.save()
-                        }
+                        request.resultType = .count
+                        try managedObjectContext.execute(request)
+                    }
+                    await MainActor.run {
+                        NotificationCenter.default.post(name: .ContributionsUpdated, object: uuid as NSUUID)
                     }
                 }
                 bufferedContributions.removeAll(keepingCapacity: true)
-                bufferCapacity = Int(1.6 * Double(bufferCapacity))
+                if bufferCapacity < 2000 {
+                    bufferCapacity += 500
+                }
             } while continueToken != nil && !Task.isCancelled
+            if Task.isCancelled {
+                group.cancelAll()
+            }
+            if managedObjectContext.hasChanges {
+                try managedObjectContext.save()
+            }
         }
     }
+}
+
+extension Notification.Name {
+    static let ContributionsUpdated = Notification.Name("WikistContributionsUpdated")
 }
