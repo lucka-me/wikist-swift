@@ -42,7 +42,6 @@
 		8466A5732973EB4900CD0A1A /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8466A5762973EB4900CD0A1A /* Widget.strings */; };
 		8466A5742973EB4900CD0A1A /* Widget.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8466A5762973EB4900CD0A1A /* Widget.strings */; };
 		846F7E972878700A0087E40B /* ContributionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7E962878700A0087E40B /* ContributionsCell.swift */; };
-		846F7E9928787D4C0087E40B /* User+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7E9828787D4C0087E40B /* User+Request.swift */; };
 		846F7E9D287899C30087E40B /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7E9C287899C30087E40B /* ISO8601DateFormatter.swift */; };
 		846F7EA12879AF4D0087E40B /* PersistenceEnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA02879AF4D0087E40B /* PersistenceEnvironmentKey.swift */; };
 		846F7EA3287A80E70087E40B /* Wiki+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA2287A80E70087E40B /* Wiki+Request.swift */; };
@@ -122,8 +121,7 @@
 		847BD5202969C8D9008D48B1 /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA5287AC48A0087E40B /* ContributionsMatrix.swift */; };
 		847F47162880610A00705500 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F47152880610A00705500 /* Calendar.swift */; };
 		847F471B2881D6B500705500 /* ContributionsByHourChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847F471A2881D6B500705500 /* ContributionsByHourChart.swift */; };
-		8483E525298D427200B27A62 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
-		8483E526298D427300B27A62 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
+		8483E528298D5F3A00B27A62 /* Persistence+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483E527298D5F3900B27A62 /* Persistence+Request.swift */; };
 		849F98AF288BBE3D0006CC7D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849F98AE288BBE3D0006CC7D /* SettingsView.swift */; platformFilter = ios; };
 		84AB6D9E29344F2900179266 /* StatisticsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB6D9D29344F2900179266 /* StatisticsChart.swift */; };
 		84B61502293E36BC006D65FC /* Legacy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84B61500293E36BC006D65FC /* Legacy.xcdatamodeld */; };
@@ -236,7 +234,6 @@
 		8466A5752973EB4900CD0A1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Widget.strings; sourceTree = "<group>"; };
 		8466A5772973EB4C00CD0A1A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Widget.strings"; sourceTree = "<group>"; };
 		846F7E962878700A0087E40B /* ContributionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsCell.swift; sourceTree = "<group>"; };
-		846F7E9828787D4C0087E40B /* User+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Request.swift"; sourceTree = "<group>"; };
 		846F7E9C287899C30087E40B /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
 		846F7EA02879AF4D0087E40B /* PersistenceEnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceEnvironmentKey.swift; sourceTree = "<group>"; };
 		846F7EA2287A80E70087E40B /* Wiki+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Wiki+Request.swift"; sourceTree = "<group>"; };
@@ -271,6 +268,7 @@
 		847BD4FF2969C786008D48B1 /* WidgetConfiguration.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetConfiguration.entitlements; sourceTree = "<group>"; };
 		847F47152880610A00705500 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		847F471A2881D6B500705500 /* ContributionsByHourChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsByHourChart.swift; sourceTree = "<group>"; };
+		8483E527298D5F3900B27A62 /* Persistence+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Persistence+Request.swift"; sourceTree = "<group>"; };
 		849F98AE288BBE3D0006CC7D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		84AB6D9D29344F2900179266 /* StatisticsChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsChart.swift; sourceTree = "<group>"; };
 		84B61501293E36BC006D65FC /* Legacy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Legacy.xcdatamodel; sourceTree = "<group>"; };
@@ -583,11 +581,11 @@
 				84F854F829475D2D00937873 /* Contribution+Derived.swift */,
 				84FEFD53285F539000BCC3AD /* Persistence.swift */,
 				84B61503293E3773006D65FC /* Persistence+Migrate.swift */,
+				8483E527298D5F3900B27A62 /* Persistence+Request.swift */,
 				847BD4D02969B95B008D48B1 /* Persistence+Task.swift */,
 				84779FD729434E5E00424B97 /* PersistentContainer.swift */,
 				84038A8029325C1F0021A51D /* User+Derived.swift */,
 				84D7DFF628731D7600F0D1E9 /* User+Initializer.swift */,
-				846F7E9828787D4C0087E40B /* User+Request.swift */,
 				84F4F2932871373C0091461D /* User+Task.swift */,
 				84038A7C29321CBB0021A51D /* Wiki+Derived.swift */,
 				84D7DFF42871FE9D00F0D1E9 /* Wiki+Initializer.swift */,
@@ -996,7 +994,6 @@
 				84F4F29A2871A20C0091461D /* AddUserView.swift in Sources */,
 				84ED9C7E2870437B0089221F /* URL.swift in Sources */,
 				84304A2E288465F800018ABD /* ThemedButton.swift in Sources */,
-				846F7E9928787D4C0087E40B /* User+Request.swift in Sources */,
 				846F7EAA287ACBD80087E40B /* Modifiers.swift in Sources */,
 				84D0DFE6293F9C7E007ACF8F /* DataView.swift in Sources */,
 				84F4A67F2962A5E4001809EC /* WikiNamespace.swift in Sources */,
@@ -1006,6 +1003,7 @@
 				846F7EA6287AC48A0087E40B /* ContributionsMatrix.swift in Sources */,
 				8409A4D82930E97A00056467 /* TitleUnderIconLabelStyle.swift in Sources */,
 				8409A4D1292CFB7C00056467 /* AddWikiView.swift in Sources */,
+				8483E528298D5F3A00B27A62 /* Persistence+Request.swift in Sources */,
 				84D7DFF728731D7600F0D1E9 /* User+Initializer.swift in Sources */,
 				846F7EA3287A80E70087E40B /* Wiki+Request.swift in Sources */,
 				8409A4CC292BAA3400056467 /* UserBriefView.swift in Sources */,

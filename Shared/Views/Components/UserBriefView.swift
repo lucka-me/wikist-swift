@@ -5,19 +5,19 @@
 //  Created by Lucka on 21/11/2022.
 //
 
+import CoreData
 import SwiftUI
 
 struct UserBriefView: View {
     
-    private struct Statistics {
+    fileprivate struct Statistics {
         var contributionsCount: Int = -1
         var countsByDay: [ (Date, Int) ] = [ ]
     }
     
     @Environment(\.calendar) private var calendar
+    @Environment(\.persistence) private var persistence
     @Environment(\.managedObjectContext) private var viewContext
-    
-    @FetchRequest private var contributions: FetchedResults<Contribution>
     
     @State private var statistics = Statistics()
     
@@ -27,18 +27,6 @@ struct UserBriefView: View {
     init(_ user: User, showWikiTitle: Bool = true) {
         self.user = user
         self.showWikiTitle = showWikiTitle
-        
-        let startOfFiveDaysAgo = Calendar.current.startOfDay(forNext: -4, of: .init())!
-        
-        self._contributions = .init(
-            entity: Contribution.entity(),
-            sortDescriptors: [ ],
-            predicate: .init(
-                format: "%K == %@ AND %K >= %@",
-                #keyPath(Contribution.userID), user.uuid! as NSUUID,
-                #keyPath(Contribution.timestamp), startOfFiveDaysAgo as NSDate
-            )
-        )
     }
     
     var body: some View {
@@ -64,26 +52,21 @@ struct UserBriefView: View {
                     .mask { Circle() }
             }
         }
-        .onReceiveCalendarDayChanged { day in
-            guard let startOfFiveDaysAgo = calendar.startOfDay(forNext: -5, of: day) else { return }
-            contributions.nsPredicate = .init(
-                format: "%K == %@ AND %K >= %@",
-                #keyPath(Contribution.userID), user.uuid! as NSUUID,
-                #keyPath(Contribution.timestamp), startOfFiveDaysAgo as NSDate
-            )
+        .task {
+            await updateStatistics()
         }
-        .onReceive(contributions.publisher.count()) { count in
-            guard statistics.contributionsCount != count else { return }
-            var statistics = Statistics(contributionsCount: count)
-            let today = Date()
-            var countsByDay: [ Date : Int ] = (-4 ... 0).reduce(into: [ : ]) {
-                $0[calendar.startOfDay(forNext: $1, of: today)!] = 0
+        .onReceiveCalendarDayChanged { _ in
+            Task {
+                await updateStatistics()
             }
-            for contribution in contributions {
-                guard let timestamp = contribution.timestamp else { continue }
-                countsByDay[calendar.startOfDay(for: timestamp)]? += 1
-            }
-            statistics.countsByDay = countsByDay.sorted { $0.key < $1.key }
+        }
+        .onContributionsUpdated(userID: user.uuid, perform: updateStatistics)
+    }
+    
+    private func updateStatistics() async {
+        guard let userID = user.uuid else { return }
+        guard let statistics = await persistence.makeStatistics(of: userID, calendar: calendar) else { return }
+        await MainActor.run {
             withAnimation {
                 self.statistics = statistics
             }
@@ -101,3 +84,32 @@ struct UserBriefViewPreviews: PreviewProvider {
     }
 }
 #endif
+
+fileprivate extension Persistence {
+    func makeStatistics(
+        of userID: UUID,
+        calendar: Calendar
+    ) async -> UserBriefView.Statistics? {
+        guard let startOfFiveDaysAgo = calendar.startOfDay(forNext: -5, of: .init()) else { return nil }
+        let request = Contribution.fetchRequest()
+        request.predicate = .init(
+            format: "%K == %@ AND %K >= %@",
+            #keyPath(Contribution.userID), userID as NSUUID,
+            #keyPath(Contribution.timestamp), startOfFiveDaysAgo as NSDate
+        )
+        return await container.performBackgroundTask { context in
+            guard let contributions = try? context.fetch(request) else { return nil }
+            var statistics = UserBriefView.Statistics(contributionsCount: contributions.count)
+            let today = Date()
+            var countsByDay: [ Date : Int ] = (-4 ... 0).reduce(into: [ : ]) {
+                $0[calendar.startOfDay(forNext: $1, of: today)!] = 0
+            }
+            for contribution in contributions {
+                guard let timestamp = contribution.timestamp else { continue }
+                countsByDay[calendar.startOfDay(for: timestamp)]? += 1
+            }
+            statistics.countsByDay = countsByDay.sorted { $0.key < $1.key }
+            return statistics
+        }
+    }
+}

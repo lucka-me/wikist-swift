@@ -29,4 +29,21 @@ extension View {
             action(.init())
         }
     }
+    
+    func onContributionsUpdated(userID: UUID?, perform action: @escaping () async -> Void) -> some View {
+        self.onReceive(
+            NotificationCenter.default.publisher(for: .ContributionsUpdated)
+        ) { notification in
+            guard
+                let userID,
+                let notificationUUID = notification.object as? NSUUID,
+                notificationUUID.compare(userID) == .orderedSame
+            else {
+                return
+            }
+            Task {
+                await action()
+            }
+        }
+    }
 }

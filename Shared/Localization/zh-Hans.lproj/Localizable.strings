@@ -66,7 +66,6 @@ API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL
 "UserDetailsView.DefaultTitle" = "匿名";
 "UserDetailsView.DefaultWiki" = "维基";
 "UserDetailsView.Highlights.Contributions" = "贡献";
-"UserDetailsView.Highlights.Contributions.RemoveAll" = "移除全部";
 "UserDetailsView.Highlights.Days" = "天数";
 "UserDetailsView.Highlights.Registration" = "注册时间";
 "UserDetailsView.Highlights.UserID" = "用户ID";

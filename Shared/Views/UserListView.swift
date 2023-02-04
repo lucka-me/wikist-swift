@@ -34,29 +34,14 @@ struct UserListView: View {
 #if os(macOS)
                 .contextMenu {
                     Button("UserListView.Delete", role: .destructive) {
-                        viewContext.delete(user)
-                        do {
-                            try viewContext.save()
-                        } catch {
-                            //
-                            print(error)
-                        }
+                        tryDelete([ user ])
                     }
                 }
 #endif
             }
             .onDelete { indexes in
                 let deleteItems = indexes.map { users[$0] }
-                do {
-                    for item in deleteItems {
-                        try item.removeAllContributions()
-                        viewContext.delete(item)
-                    }
-                    try viewContext.save()
-                } catch {
-                    //
-                    print(error)
-                }
+                tryDelete(deleteItems)
             }
         }
         .refreshable { await refresh() }
@@ -92,6 +77,33 @@ struct UserListView: View {
                 group.addTask {
                     try? await persistence.refresh(user: id, with: timeZone)
                 }
+            }
+        }
+    }
+    
+    private func tryDelete(_ users: [ User ]) {
+        var userIDs: [ UUID ] = [ ]
+        for user in users {
+            if let userID = user.uuid {
+                userIDs.append(userID)
+            }
+            viewContext.delete(user)
+        }
+        Task {
+            do {
+                try await withThrowingTaskGroup(of: Void.self) { group in
+                    for userID in userIDs {
+                        group.addTask {
+                            try await persistence.clearContributions(of: userID)
+                        }
+                    }
+                    try await group.waitForAll()
+                }
+                try await viewContext.perform {
+                    try viewContext.save()
+                }
+            } catch {
+                print(error)
             }
         }
     }
