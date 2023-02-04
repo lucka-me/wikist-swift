@@ -48,6 +48,8 @@
 		846F7EA6287AC48A0087E40B /* ContributionsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA5287AC48A0087E40B /* ContributionsMatrix.swift */; };
 		846F7EAA287ACBD80087E40B /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
 		846F7EAC287AD45E0087E40B /* BriefCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EAB287AD45E0087E40B /* BriefCard.swift */; };
+		8473D400298E257A00EC7042 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
+		8473D401298E257A00EC7042 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846F7EA9287ACBD80087E40B /* Modifiers.swift */; };
 		84779FD829434E5E00424B97 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84779FD729434E5E00424B97 /* PersistentContainer.swift */; };
 		84779FDB2943B06F00424B97 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84779FDA2943B06F00424B97 /* SettingsView.swift */; platformFilters = (macos, ); };
 		84779FDD294460DC00424B97 /* ModificationSizeChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84779FDC294460DC00424B97 /* ModificationSizeChart.swift */; };
@@ -873,7 +875,7 @@
 				847BD4AD296977ED008D48B1 /* URL.swift in Sources */,
 				847BD49A29695DD0008D48B1 /* Persistence.swift in Sources */,
 				847BD4B42969B74E008D48B1 /* WikiAuxiliary+Derived.swift in Sources */,
-				8483E525298D427200B27A62 /* Modifiers.swift in Sources */,
+				8473D400298E257A00EC7042 /* Modifiers.swift in Sources */,
 				847BD49E29695DEA008D48B1 /* User+Task.swift in Sources */,
 				847BD4D82969BD2B008D48B1 /* Image.swift in Sources */,
 				847BD4B029697854008D48B1 /* Wiki+Derived.swift in Sources */,
@@ -916,7 +918,7 @@
 				847BD51D2969C8C2008D48B1 /* Image.swift in Sources */,
 				847BD5182969C8AF008D48B1 /* FileManager.swift in Sources */,
 				847BD5132969C89D008D48B1 /* WikiAuxiliary+Initializer.swift in Sources */,
-				8483E526298D427300B27A62 /* Modifiers.swift in Sources */,
+				8473D401298E257A00EC7042 /* Modifiers.swift in Sources */,
 				847BD51B2969C8B7008D48B1 /* URL.swift in Sources */,
 				847BD50C2969C868008D48B1 /* User+Derived.swift in Sources */,
 				847BD51F2969C8D7008D48B1 /* ContributionsCell.swift in Sources */,
