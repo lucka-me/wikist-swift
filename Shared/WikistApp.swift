@@ -25,12 +25,13 @@ struct WikistApp: App {
         }
         .onChange(of: scenePhase) { newValue in
             if newValue == .background {
-                Task {
-                    do {
-                        try await persistence.clearResidualData()
-                    } catch {
-                        print(error)
+                do {
+                    try persistence.clearResidualData()
+                    if persistence.container.viewContext.hasChanges {
+                        try persistence.container.viewContext.save()
                     }
+                } catch {
+                    print(error)
                 }
             }
         }

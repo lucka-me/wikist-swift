@@ -8,19 +8,15 @@
 import CoreData
 
 extension Persistence {
-    func clearResidualData() async throws {
-        let context = container.refreshContext
-        try await context.perform {
-            try self.clearResidualContributions(in: context)
-            try self.clearResidualWikiAuxiliaries(in: context)
-            try context.save()
-        }
+    func clearResidualData() throws {
+        try self.clearResidualContributions()
+        try self.clearResidualWikiAuxiliaries()
     }
-    
-    private func clearResidualContributions(in context: NSManagedObjectContext) throws {
+
+    private func clearResidualContributions() throws {
         let usersFetchRequest = User.fetchRequest()
         usersFetchRequest.propertiesToFetch = [ #keyPath(User.uuid) ]
-        let users = try context.fetch(usersFetchRequest)
+        let users = try container.viewContext.fetch(usersFetchRequest)
         let uuids: Set<UUID> = users.reduce(into: [ ]) { result, item in
             if let id = item.uuid { result.insert(id) }
         }
@@ -30,13 +26,13 @@ extension Persistence {
         )
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: contributionsFetchRequest)
         deleteRequest.resultType = .resultTypeCount
-        try context.execute(deleteRequest)
+        try container.viewContext.execute(deleteRequest)
     }
-    
-    private func clearResidualWikiAuxiliaries(in context: NSManagedObjectContext) throws {
+
+    private func clearResidualWikiAuxiliaries() throws {
         let wikisFetchRequest = Wiki.fetchRequest()
         wikisFetchRequest.propertiesToFetch = [ #keyPath(Wiki.uuid) ]
-        let wikis = try context.fetch(wikisFetchRequest)
+        let wikis = try container.viewContext.fetch(wikisFetchRequest)
         let uuids: Set<UUID> = wikis.reduce(into: [ ]) { result, item in
             if let id = item.uuid { result.insert(id) }
         }
@@ -46,7 +42,7 @@ extension Persistence {
         )
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: auxiliariesFetchRequest)
         deleteRequest.resultType = .resultTypeCount
-        try context.execute(deleteRequest)
+        try container.viewContext.execute(deleteRequest)
     }
 }
 
