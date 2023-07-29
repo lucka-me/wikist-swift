@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "847BD4DC2969C6A8008D48B1"
-               BuildableName = "WidgetExtension macOS.appex"
-               BlueprintName = "WidgetExtension macOS"
+               BlueprintIdentifier = "847BD47D29695BFE008D48B1"
+               BuildableName = "WidgetExtension.appex"
+               BlueprintName = "WidgetExtension"
                ReferencedContainer = "container:Wikist.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -58,14 +58,13 @@
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
       <RemoteRunnable
-         runnableDebuggingMode = "1"
-         BundleIdentifier = "com.apple.widgetkit.simulator"
-         RemotePath = "/System/Library/CoreServices/WidgetKit Simulator.app/Contents/MacOS/WidgetKit Simulator">
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.springboard">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "847BD4DC2969C6A8008D48B1"
-            BuildableName = "WidgetExtension macOS.appex"
-            BlueprintName = "WidgetExtension macOS"
+            BlueprintIdentifier = "847BD47D29695BFE008D48B1"
+            BuildableName = "WidgetExtension.appex"
+            BlueprintName = "WidgetExtension"
             ReferencedContainer = "container:Wikist.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
