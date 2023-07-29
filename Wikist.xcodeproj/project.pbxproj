@@ -209,10 +209,6 @@
 		847BD4D32969B9F3008D48B1 /* Persistence+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Preview.swift"; sourceTree = "<group>"; };
 		847BD4D52969BAF9008D48B1 /* WidgetConfiguration.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetConfiguration.entitlements; sourceTree = "<group>"; };
 		847BD4D62969BD2B008D48B1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		847BD4E62969C6A9008D48B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		847BD4E72969C6A9008D48B1 /* Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
-		847BD4FE2969C786008D48B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		847BD4FF2969C786008D48B1 /* WidgetConfiguration.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetConfiguration.entitlements; sourceTree = "<group>"; };
 		847F47152880610A00705500 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		847F471A2881D6B500705500 /* ContributionsByHourChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsByHourChart.swift; sourceTree = "<group>"; };
 		8483E527298D5F3900B27A62 /* Persistence+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Persistence+Request.swift"; sourceTree = "<group>"; };
@@ -324,9 +320,9 @@
 		847BD47929695B3F008D48B1 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
+				847BD49829695CE9008D48B1 /* WidgetExtension.entitlements */,
+				847BD48B29695BFF008D48B1 /* Info.plist */,
 				847BD4B72969B7BA008D48B1 /* Intents */,
-				847BD49629695C28008D48B1 /* iOS */,
-				847BD4F02969C70B008D48B1 /* macOS */,
 				847BD49529695C1D008D48B1 /* Shared */,
 			);
 			path = Widget;
@@ -343,20 +339,11 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		847BD49629695C28008D48B1 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				847BD49829695CE9008D48B1 /* WidgetExtension.entitlements */,
-				847BD48B29695BFF008D48B1 /* Info.plist */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
 		847BD4B72969B7BA008D48B1 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
-				847BD4CA2969B87A008D48B1 /* iOS */,
-				847BD4F42969C76C008D48B1 /* macOS */,
+				847BD4D52969BAF9008D48B1 /* WidgetConfiguration.entitlements */,
+				847BD4C22969B84B008D48B1 /* Info.plist */,
 				847BD4C92969B86C008D48B1 /* Shared */,
 			);
 			path = Intents;
@@ -368,33 +355,6 @@
 				847BD4C02969B84B008D48B1 /* IntentHandler.swift */,
 			);
 			path = Shared;
-			sourceTree = "<group>";
-		};
-		847BD4CA2969B87A008D48B1 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				847BD4D52969BAF9008D48B1 /* WidgetConfiguration.entitlements */,
-				847BD4C22969B84B008D48B1 /* Info.plist */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		847BD4F02969C70B008D48B1 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				847BD4E62969C6A9008D48B1 /* Info.plist */,
-				847BD4E72969C6A9008D48B1 /* Widget.entitlements */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		847BD4F42969C76C008D48B1 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				847BD4FE2969C786008D48B1 /* Info.plist */,
-				847BD4FF2969C786008D48B1 /* WidgetConfiguration.entitlements */,
-			);
-			path = macOS;
 			sourceTree = "<group>";
 		};
 		847F47172881D4BB00705500 /* StatisticsCharts */ = {
@@ -887,7 +847,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = Widget/iOS/WidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Widget/WidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -895,7 +855,7 @@
 				CURRENT_PROJECT_VERSION = 89;
 				DEVELOPMENT_TEAM = 4J48MW8HQS;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Widget/iOS/Info.plist;
+				INFOPLIST_FILE = Widget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -924,7 +884,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = Widget/iOS/WidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Widget/WidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -932,7 +892,7 @@
 				CURRENT_PROJECT_VERSION = 89;
 				DEVELOPMENT_TEAM = 4J48MW8HQS;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Widget/iOS/Info.plist;
+				INFOPLIST_FILE = Widget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -960,7 +920,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = Widget/Intents/iOS/WidgetConfiguration.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Widget/Intents/WidgetConfiguration.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -968,7 +928,7 @@
 				CURRENT_PROJECT_VERSION = 89;
 				DEVELOPMENT_TEAM = 4J48MW8HQS;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Widget/Intents/iOS/Info.plist;
+				INFOPLIST_FILE = Widget/Intents/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WidgetConfiguration;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -995,7 +955,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = Widget/Intents/iOS/WidgetConfiguration.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Widget/Intents/WidgetConfiguration.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -1003,7 +963,7 @@
 				CURRENT_PROJECT_VERSION = 89;
 				DEVELOPMENT_TEAM = 4J48MW8HQS;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Widget/Intents/iOS/Info.plist;
+				INFOPLIST_FILE = Widget/Intents/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WidgetConfiguration;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
