@@ -84,7 +84,7 @@ fileprivate struct ChartView: View {
     @State private var range: DateRange? = nil
     @State private var rangeType = RangeType.all
     
-    @State private var selection: DataItem? = nil
+    @State private var selection: Date? = nil
     @State private var statistics = Statistics()
     
     private let user: User
@@ -113,7 +113,7 @@ fileprivate struct ChartView: View {
             VStack(alignment: .leading) {
                 Group {
                     if let selection {
-                        Text(selection.hour, format: .dateTime.hour().minute())
+                        Text(selection, format: .dateTime.hour().minute())
                     } else {
                         Text("ContributionsByHourChart.AllContributions")
                     }
@@ -121,42 +121,16 @@ fileprivate struct ChartView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 
-                Text(selection?.count ?? statistics.contributionsCount, format: .number)
+                Text(selectedDataItem?.count ?? statistics.contributionsCount, format: .number)
                     .font(.system(.title, design: .rounded, weight: .semibold))
             }
 
             ChartBuilder.chartView(of: statistics.data, calendar: calendar)
-                .chartOverlay { chartProxy in
-                    GeometryReader { geometryProxy in
-                        Rectangle().fill(.clear).contentShape(Rectangle())
-                            .gesture(gesture(chartProxy: chartProxy, geometryProxy: geometryProxy))
-                    }
-                }
-                .chartBackground { chartProxy in
-                    GeometryReader { geonetryProxy in
-                        if let selection {
-                            let dateInterval = calendar.dateInterval(of: .hour, for: selection.hour)!
-                            let startPositionX1 = chartProxy.position(forX: dateInterval.start) ?? 0
-                            let startPositionX2 = chartProxy.position(forX: dateInterval.end) ?? 0
-                            let midStartPositionX =
-                                geonetryProxy[chartProxy.plotAreaFrame].origin.x
-                                + (startPositionX1 + startPositionX2) / 2
-                            let lineX =
-                                layoutDirection == .rightToLeft
-                                ? geonetryProxy.size.width - midStartPositionX
-                                : midStartPositionX
-                            let lineHeight = geonetryProxy[chartProxy.plotAreaFrame].maxY
-                            Rectangle()
-                                .fill(.tertiary)
-                                .frame(width: 2, height: lineHeight)
-                                .position(x: lineX, y: lineHeight / 2)
-                        }
-                    }
-                }
+                .chartXSelection(value: $selection)
         }
         .padding()
         .navigationTitle("ContributionsByHourChart.Title")
-        .onChange(of: rangeType) { type in
+        .onChange(of: rangeType) { _, type in
             let now = Date()
             if type == .all {
                 range = nil
@@ -176,7 +150,7 @@ fileprivate struct ChartView: View {
                 }
             }
         }
-        .onChange(of: range) { range in
+        .onChange(of: range) { _, range in
             Task {
                 await updateStatistics(in: range)
             }
@@ -239,42 +213,9 @@ fileprivate struct ChartView: View {
         .buttonStyle(.bordered)
     }
     
-    private func dataItem(
-        at point: CGPoint, chartProxy: ChartProxy, geometryProxy: GeometryProxy
-    ) -> DataItem? {
-        let relativeXPosition = point.x - geometryProxy[chartProxy.plotAreaFrame].origin.x
-        guard let date: Date = chartProxy.value(atX: relativeXPosition) else { return nil }
-        // Find the closest date element.
-        var minDistance: TimeInterval = .infinity
-        var index: Int? = nil
-        for dataIndex in statistics.data.indices {
-            let distance = statistics.data[dataIndex].hour.distance(to: date)
-            if abs(distance) < minDistance {
-                minDistance = abs(distance)
-                index = dataIndex
-            }
-        }
-        guard let index else { return nil }
-        return statistics.data[index]
-    }
-    
-    private func gesture(chartProxy: ChartProxy, geometryProxy: GeometryProxy) -> some Gesture {
-        SpatialTapGesture()
-            .onEnded { value in
-                let newSelection = dataItem(at: value.location, chartProxy: chartProxy, geometryProxy: geometryProxy)
-                if selection?.hour == newSelection?.hour {
-                    // If tapping the same element, clear the selection.
-                    selection = nil
-                } else {
-                    selection = newSelection
-                }
-            }
-            .exclusively(
-                before: DragGesture()
-                    .onChanged { value in
-                        selection = dataItem(at: value.location, chartProxy: chartProxy, geometryProxy: geometryProxy)
-                    }
-            )
+    private var selectedDataItem: DataItem? {
+        guard let selection else { return nil }
+        return statistics.data.first { $0.hour == selection }
     }
     
     @MainActor

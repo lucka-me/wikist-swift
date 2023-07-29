@@ -13,9 +13,9 @@ Contributions matrix and statistics of Wiki editors.
 The packages are also available as archives of the [latest release](https://github.com/lucka-me/wikist-swift/releases/latest "Latest release").
 
 ### Requirements
-- macOS: 13.0 or above
-- iOS / iPadOS: 16.1 or above
-- Xcode (for build): 14.0 or above
+- macOS: 14.0 or above
+- iOS / iPadOS: 17.0 or above
+- Xcode (for build): 15.0 or above
 
 ## Features
 - Supports most MediaWiki instances including Wikipedia and Fandom

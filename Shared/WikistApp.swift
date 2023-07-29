@@ -23,7 +23,7 @@ struct WikistApp: App {
                 .environment(\.managedObjectContext, persistence.container.viewContext)
                 .environment(\.persistence, persistence)
         }
-        .onChange(of: scenePhase) { newValue in
+        .onChange(of: scenePhase) { _, newValue in
             if newValue == .background {
                 do {
                     try persistence.clearResidualData()

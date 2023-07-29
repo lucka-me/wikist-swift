@@ -134,7 +134,7 @@ fileprivate struct ChartView: View {
     
     @State private var range: ClosedMonthRange
     @State private var rangeType = RangeType.lastTwelveMonths
-    @State private var selection: DataItem? = nil
+    @State private var selection: Date? = nil
     @State private var statistics = Statistics()
     
     private let user: User
@@ -166,7 +166,7 @@ fileprivate struct ChartView: View {
             VStack(alignment: .leading) {
                 Group {
                     if let selection {
-                        Text(selection.date, format: .dateTime.year().month())
+                        Text(selection, format: .dateTime.year().month())
                     } else {
                         Text("ModificationSizeChart.AllModifications")
                     }
@@ -174,10 +174,12 @@ fileprivate struct ChartView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 
+                let currentSelectedItem = selectedDataItem
+                
                 HStack {
                     Label {
                         Text(
-                            selection?.modification.addition ?? statistics.total.addition,
+                            currentSelectedItem?.modification.addition ?? statistics.total.addition,
                             format: .byteCount(style: .binary)
                         )
                     } icon: {
@@ -187,7 +189,7 @@ fileprivate struct ChartView: View {
                     Spacer()
                     Label {
                         Text(
-                            abs(selection?.modification.deletion ?? statistics.total.deletion),
+                            abs(currentSelectedItem?.modification.deletion ?? statistics.total.deletion),
                             format: .byteCount(style: .binary)
                         )
                     } icon: {
@@ -202,37 +204,11 @@ fileprivate struct ChartView: View {
                 .chartYAxis {
                     AxisMarks(format: .byteCount(style: .binary))
                 }
-                .chartOverlay { chartProxy in
-                    GeometryReader { geometryProxy in
-                        Rectangle().fill(.clear).contentShape(Rectangle())
-                            .gesture(gesture(chartProxy: chartProxy, geometryProxy: geometryProxy))
-                    }
-                }
-                .chartBackground { chartProxy in
-                    GeometryReader { geonetryProxy in
-                        if let selection {
-                            let dateInterval = calendar.dateInterval(of: .month, for: selection.date)!
-                            let startPositionX1 = chartProxy.position(forX: dateInterval.start) ?? 0
-                            let startPositionX2 = chartProxy.position(forX: dateInterval.end) ?? 0
-                            let midStartPositionX =
-                                geonetryProxy[chartProxy.plotAreaFrame].origin.x
-                                + (startPositionX1 + startPositionX2) / 2
-                            let lineX =
-                                layoutDirection == .rightToLeft
-                                ? geonetryProxy.size.width - midStartPositionX
-                                : midStartPositionX
-                            let lineHeight = geonetryProxy[chartProxy.plotAreaFrame].maxY
-                            Rectangle()
-                                .fill(.tertiary)
-                                .frame(width: 2, height: lineHeight)
-                                .position(x: lineX, y: lineHeight / 2)
-                        }
-                    }
-                }
+                .chartXSelection(value: $selection)
         }
         .padding()
         .navigationTitle("ModificationSizeChart.Title")
-        .onChange(of: rangeType) { newValue in
+        .onChange(of: rangeType) { _, newValue in
             let monthNow = calendar.month(of: .init())
             switch newValue {
             case .lastTwelveMonths:
@@ -241,7 +217,7 @@ fileprivate struct ChartView: View {
                 range = Month(year: monthNow.year, month: 1) ... Month(year: monthNow.year, month: 12)
             }
         }
-        .onChange(of: range) { newValue in
+        .onChange(of: range) { _, newValue in
             Task {
                 await updateStatistics(in: newValue)
             }
@@ -271,7 +247,7 @@ fileprivate struct ChartView: View {
                     .labelStyle(.iconOnly)
             }
             
-            if let range, rangeType != .lastTwelveMonths {
+            if rangeType != .lastTwelveMonths {
                 switch rangeType {
                 case .lastTwelveMonths: EmptyView()
                 case .year: Text(calendar.start(of: range.lowerBound)!, format: .dateTime.year())
@@ -295,42 +271,9 @@ fileprivate struct ChartView: View {
         .buttonStyle(.bordered)
     }
     
-    private func dataItem(
-        at point: CGPoint, chartProxy: ChartProxy, geometryProxy: GeometryProxy
-    ) -> DataItem? {
-        let relativeXPosition = point.x - geometryProxy[chartProxy.plotAreaFrame].origin.x
-        guard let date: Date = chartProxy.value(atX: relativeXPosition) else { return nil }
-        // Find the closest date element.
-        var minDistance: TimeInterval = .infinity
-        var index: Int? = nil
-        for dataIndex in statistics.data.indices {
-            let distance = statistics.data[dataIndex].date.distance(to: date)
-            if abs(distance) < minDistance {
-                minDistance = abs(distance)
-                index = dataIndex
-            }
-        }
-        guard let index else { return nil }
-        return statistics.data[index]
-    }
-    
-    private func gesture(chartProxy: ChartProxy, geometryProxy: GeometryProxy) -> some Gesture {
-        SpatialTapGesture()
-            .onEnded { value in
-                let newSelection = dataItem(at: value.location, chartProxy: chartProxy, geometryProxy: geometryProxy)
-                if selection?.date == newSelection?.date {
-                    // If tapping the same element, clear the selection.
-                    selection = nil
-                } else {
-                    selection = newSelection
-                }
-            }
-            .exclusively(
-                before: DragGesture()
-                    .onChanged { value in
-                        selection = dataItem(at: value.location, chartProxy: chartProxy, geometryProxy: geometryProxy)
-                    }
-            )
+    private var selectedDataItem: DataItem? {
+        guard let selection else { return nil }
+        return statistics.data.first { $0.date == selection }
     }
     
     @MainActor

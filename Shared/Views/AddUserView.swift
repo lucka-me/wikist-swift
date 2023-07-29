@@ -132,7 +132,7 @@ struct AddUserView: View {
             .sheet(isPresented: $isAddWikiSheetPresented) {
                 AddWikiView(wiki: $selectedWiki)
             }
-            .onChange(of: selectedWiki) { _ in
+            .onChange(of: selectedWiki) {
                 isUsernameTextFieldFocused = true
             }
         }
