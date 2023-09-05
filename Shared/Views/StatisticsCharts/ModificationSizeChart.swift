@@ -8,7 +8,11 @@
 import Charts
 import SwiftUI
 
-struct ModificationSizeChartBuilder: StatisticsChartBuilder {
+struct ModificationSizeChart: View {
+    private enum RangeType {
+        case lastTwelveMonths
+        case year
+    }
     
     struct Modification {
         var addition: Int64
@@ -28,105 +32,7 @@ struct ModificationSizeChartBuilder: StatisticsChartBuilder {
         var modification: Modification
     }
     
-    let briefTitleKey: LocalizedStringKey = "ModificationSizeChart.BriefTitle"
-    let briefSystemImage: String = "plus.forwardslash.minus"
-    
-    func makeBriefChart(data: [ DataItem ]) -> some View {
-        BriefChartView(data: data)
-    }
-    
-    func makeChart(user: User) -> some View {
-        ChartView(user: user)
-    }
-}
-
-extension StatisticsChart where Builder == ModificationSizeChartBuilder {
-    @ViewBuilder
-    static func modificationSize(user: User, briefData: Builder.BriefData) -> some View {
-        Self.init(user: user, briefData: briefData)
-    }
-}
-
-fileprivate extension ModificationSizeChartBuilder {
-    @ViewBuilder
-    static func chartView(of data: BriefData, calendar: Calendar) -> some View {
-        Chart(data, id: \.date) { item in
-            LineMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion),
-                series: .value("ModificationSizeChart.Chart.Deletion", "Deletion")
-            )
-            .foregroundStyle(.red)
-            .interpolationMethod(.monotone)
-            
-            AreaMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion)
-            )
-            .foregroundStyle(by: .value("ModificationSizeChart.Chart.Deletion", "Deletion"))
-            .interpolationMethod(.monotone)
-            
-            LineMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition),
-                series: .value("ModificationSizeChart.Chart.Addition", "Addition")
-            )
-            .foregroundStyle(.green)
-            .interpolationMethod(.monotone)
-
-            AreaMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition)
-            )
-            .foregroundStyle(by: .value("ModificationSizeChart.Chart.Addition", "Addition"))
-            .interpolationMethod(.monotone)
-        }
-        .chartForegroundStyleScale(
-            [
-                "Addition": .linearGradient(
-                    colors: [ .green.opacity(0.5), .clear ],
-                    startPoint: .top, endPoint: .bottom
-                ),
-                "Deletion": .linearGradient(
-                    colors: [ .red.opacity(0.5), .clear ],
-                    startPoint: .bottom, endPoint: .top
-                )
-            ]
-        )
-        .chartLegend(.hidden)
-    }
-}
-
-fileprivate typealias ChartBuilder = ModificationSizeChartBuilder
-
-fileprivate struct BriefChartView: View {
-    
-    @Environment(\.calendar) private var calendar
-    let data: ChartBuilder.BriefData
-    
-    var body: some View {
-        ChartBuilder.chartView(of: data, calendar: calendar)
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
-    }
-}
-
-fileprivate struct ChartView: View {
-    
-    private typealias DataItem = ChartBuilder.DataItem
-    fileprivate typealias ChartData = ChartBuilder.BriefData
-    
-    private enum RangeType {
-        case lastTwelveMonths
-        case year
-    }
-    
-    fileprivate struct Statistics {
-        var range: ClosedMonthRange? = nil
-        var total = ChartBuilder.Modification(addition: 0, deletion: 0)
-        var contributionsCount: Int = 0
-        var data: ChartData = [ ]
-    }
+    typealias BriefData = [ DataItem ]
     
     @Environment(\.calendar) private var calendar
     @Environment(\.layoutDirection) private var layoutDirection
@@ -200,7 +106,7 @@ fileprivate struct ChartView: View {
                 .font(.system(.title, design: .rounded, weight: .semibold))
             }
             
-            ChartBuilder.chartView(of: statistics.data, calendar: calendar)
+            ModificationSizeChart.chartView(of: statistics.data, calendar: calendar)
                 .chartYAxis {
                     AxisMarks(format: .byteCount(style: .binary))
                 }
@@ -291,24 +197,92 @@ fileprivate struct ChartView: View {
     }
 }
 
-#if DEBUG
-struct ModificationSizeChartPreviews: PreviewProvider {
-    static let persistence = Persistence.preview
+fileprivate struct BriefChartView: View {
     
-    static var previews: some View {
-        ChartView(user: Persistence.previewUser(with: persistence.container.viewContext))
-            .environment(\.managedObjectContext, persistence.container.viewContext)
-            .environment(\.persistence, persistence)
+    @Environment(\.calendar) private var calendar
+    let data: ModificationSizeChart.BriefData
+    
+    var body: some View {
+        ModificationSizeChart.chartView(of: data, calendar: calendar)
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
     }
 }
-#endif
+
+fileprivate struct Statistics {
+    var range: ClosedMonthRange? = nil
+    var total = ModificationSizeChart.Modification(addition: 0, deletion: 0)
+    var contributionsCount: Int = 0
+    var data: ModificationSizeChart.BriefData = [ ]
+}
+
+extension ModificationSizeChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "ModificationSizeChart.BriefTitle"
+    static let briefSystemImage: String = "plus.forwardslash.minus"
+    
+    static func card(data: BriefData, action: @escaping () -> Void) -> some View {
+        StatisticsChartCard(Self.self, action: action) {
+            BriefChartView(data: data)
+        }
+    }
+}
+
+fileprivate extension ModificationSizeChart {
+    @ViewBuilder
+    static func chartView(of data: BriefData, calendar: Calendar) -> some View {
+        Chart(data, id: \.date) { item in
+            LineMark(
+                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
+                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion),
+                series: .value("ModificationSizeChart.Chart.Deletion", "Deletion")
+            )
+            .foregroundStyle(.red)
+            .interpolationMethod(.monotone)
+            
+            AreaMark(
+                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
+                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion)
+            )
+            .foregroundStyle(by: .value("ModificationSizeChart.Chart.Deletion", "Deletion"))
+            .interpolationMethod(.monotone)
+            
+            LineMark(
+                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
+                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition),
+                series: .value("ModificationSizeChart.Chart.Addition", "Addition")
+            )
+            .foregroundStyle(.green)
+            .interpolationMethod(.monotone)
+
+            AreaMark(
+                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
+                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition)
+            )
+            .foregroundStyle(by: .value("ModificationSizeChart.Chart.Addition", "Addition"))
+            .interpolationMethod(.monotone)
+        }
+        .chartForegroundStyleScale(
+            [
+                "Addition": .linearGradient(
+                    colors: [ .green.opacity(0.5), .clear ],
+                    startPoint: .top, endPoint: .bottom
+                ),
+                "Deletion": .linearGradient(
+                    colors: [ .red.opacity(0.5), .clear ],
+                    startPoint: .bottom, endPoint: .top
+                )
+            ]
+        )
+        .chartLegend(.hidden)
+    }
+}
 
 fileprivate extension Persistence {
     func makeStatistics(
         of userID: UUID,
         in range: ClosedMonthRange,
         calendar: Calendar
-    ) async -> ChartView.Statistics? {
+    ) async -> Statistics? {
         guard let dateRange = calendar.dateRange(from: range.lowerBound, to: range.upperBound) else { return nil }
         let request = Contribution.fetchRequest()
         request.propertiesToFetch = [ #keyPath(Contribution.sizeDiff), #keyPath(Contribution.timestamp) ]
@@ -321,9 +295,9 @@ fileprivate extension Persistence {
         )
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = ChartView.Statistics(range: range, contributionsCount: contributions.count)
+            var statistics = Statistics(range: range, contributionsCount: contributions.count)
             
-            var modificationsByMonth: [ Month : ChartBuilder.Modification ] =
+            var modificationsByMonth: [ Month : ModificationSizeChart.Modification ] =
             range.reduce(into: [ : ]) { $0[$1] = .init(addition: 0, deletion: 0) }
             for contribution in contributions {
                 guard let timestamp = contribution.timestamp else { continue }

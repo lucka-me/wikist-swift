@@ -9,23 +9,6 @@ import CoreData
 import SwiftUI
 
 struct UserDetailsView: View {
-    fileprivate struct Statistics {
-        var contributionsCount: Int = 0
-        
-        var countsByDay: [ Date : Int ] = [ : ]
-        
-        var modificationSize: Int64 = 0
-        var createdCount: Int = 0
-        var mostActiveHour: Int? = nil
-        
-        var currentStrike: DateRange? = nil
-        var longestStrike: DateRange? = nil
-        
-        var countsByHour: ContributionsByHourChartBuilder.BriefData = [ ]
-        var modificationsByMonth: ModificationSizeChartBuilder.BriefData = [ ]
-        var countsByNamespace: ContributionsByNamespaceChartBuilder.BriefData = [ ]
-    }
-    
     @Environment(\.calendar) private var calendar
     @Environment(\.openURL) private var openURL
     @Environment(\.persistence) private var persistence
@@ -36,6 +19,7 @@ struct UserDetailsView: View {
     @State private var isRefreshing = false
     @State private var isShowingRegistration = true
     @State private var isStatisticsReady = false
+    @State private var presentedChartType: StatisticsChartType? = nil
     @State private var statistics = Statistics()
     @State private var statisticsTask: Task<(), Never>? = nil
     @State private var today = Date()
@@ -79,6 +63,32 @@ struct UserDetailsView: View {
                         Task { await tryRefresh() }
                     }
                 }
+            }
+        }
+        .sheet(item: $presentedChartType) { charType in
+            NavigationStack {
+                Group {
+                    switch charType {
+                    case .contributionsByHour:
+                        ContributionsByHourChart(user: user)
+                    case .contributionsByNamespace:
+                        ContributionsByNamespaceChart(user: user)
+                    case .modificationSize:
+                        ModificationSizeChart(user: user)
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        ThemedButton.dismiss {
+                            presentedChartType = nil
+                        }
+                    }
+                }
+#if os(macOS)
+                .frame(minWidth: 320, minHeight: 320)
+#else
+                .navigationBarTitleDisplayMode(.inline)
+#endif
             }
         }
         .onReceiveCalendarDayChanged { day in
@@ -232,11 +242,17 @@ struct UserDetailsView: View {
     private var chartsSection: some View {
         Section {
             LazyVGrid(columns: [ .init(.adaptive(minimum: 140))], alignment: .leading) {
-                StatisticsChart.contributionsByHour(user: user, briefData: statistics.countsByHour)
-                if !statistics.countsByNamespace.isEmpty {
-                    StatisticsChart.contributionsByNamespace(user: user, briefData: statistics.countsByNamespace)
+                ContributionsByHourChart.card(data: statistics.countsByHour) {
+                    presentedChartType = .contributionsByHour
                 }
-                StatisticsChart.modificationSize(user: user, briefData: statistics.modificationsByMonth)
+                if !statistics.countsByNamespace.isEmpty {
+                    ContributionsByNamespaceChart.card(data: statistics.countsByNamespace) {
+                        presentedChartType = .contributionsByNamespace
+                    }
+                }
+                ModificationSizeChart.card(data: statistics.modificationsByMonth) {
+                    presentedChartType = .modificationSize
+                }
             }
         } header: {
             Text("UserDetailsView.Charts")
@@ -283,26 +299,51 @@ struct UserDetailsViewPreviews: PreviewProvider {
 }
 #endif
 
+fileprivate enum StatisticsChartType : Int, Identifiable {
+    case contributionsByHour
+    case contributionsByNamespace
+    case modificationSize
+
+    var id: Int { self.rawValue }
+}
+
+fileprivate struct Statistics {
+    var contributionsCount: Int = 0
+    
+    var countsByDay: [ Date : Int ] = [ : ]
+    
+    var modificationSize: Int64 = 0
+    var createdCount: Int = 0
+    var mostActiveHour: Int? = nil
+    
+    var currentStrike: DateRange? = nil
+    var longestStrike: DateRange? = nil
+    
+    var countsByHour: ContributionsByHourChart.BriefData = [ ]
+    var modificationsByMonth: ModificationSizeChart.BriefData = [ ]
+    var countsByNamespace: ContributionsByNamespaceChart.BriefData = [ ]
+}
+
 fileprivate extension Persistence {
     func makeStatistics(
         of userID: UUID,
         today: Date,
         calendar: Calendar,
         namespaces: [ Int32 : WikiNamespace ]?
-    ) async -> UserDetailsView.Statistics? {
+    ) async -> Statistics? {
         let request = Contribution.fetchRequest()
         request.sortDescriptors = [ .init(keyPath: \Contribution.timestamp, ascending: false) ]
         request.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = UserDetailsView.Statistics(contributionsCount: contributions.count)
+            var statistics = Statistics(contributionsCount: contributions.count)
             
             let monthNow = calendar.month(of: today)
             let lastTwelveMonths = monthNow.advanced(by: -11) ... monthNow
 
             var strikes: [ DateRange ] = [ ]
             var countsByHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
-            var modificationsByMonth: [ Month : ModificationSizeChartBuilder.Modification ] =
+            var modificationsByMonth: [ Month : ModificationSizeChart.Modification ] =
                 lastTwelveMonths.reduce(into: [ : ]) { $0[$1] = .init(addition: 0, deletion: 0) }
             var countsByNamespace: [ Int32 : Int ] = [ : ]
             
@@ -362,7 +403,7 @@ fileprivate extension Persistence {
             }
             
             if let namespaces {
-                var data: ContributionsByNamespaceChartBuilder.BriefData = countsByNamespace
+                var data: ContributionsByNamespaceChart.BriefData = countsByNamespace
                     .sorted { $0.value < $1.value }
                     .compactMap { item in
                         guard var namespace = namespaces[item.key] else { return nil }

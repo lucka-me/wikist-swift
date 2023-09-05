@@ -9,60 +9,11 @@ import Charts
 import CoreData
 import SwiftUI
 
-struct ContributionsByHourChartBuilder: StatisticsChartBuilder {
+struct ContributionsByHourChart: View {
     struct DataItem {
         var hour: Date
         var count: Int
     }
-    
-    let briefTitleKey: LocalizedStringKey = "ContributionsByHourChart.BriefTitle"
-    let briefSystemImage: String = "clock"
-    
-    func makeBriefChart(data: [ DataItem ]) -> some View {
-        BriefChartView(data: data)
-    }
-    
-    func makeChart(user: User) -> some View {
-        ChartView(user: user)
-    }
-}
-
-extension StatisticsChart where Builder == ContributionsByHourChartBuilder {
-    @ViewBuilder
-    static func contributionsByHour(user: User, briefData: Builder.BriefData) -> some View {
-        Self.init(user: user, briefData: briefData)
-    }
-}
-
-fileprivate extension ContributionsByHourChartBuilder {
-    @ViewBuilder
-    static func chartView(of data: BriefData, calendar: Calendar) -> some View {
-        Chart(data, id: \.hour) { item in
-            BarMark(
-                x: .value("ContributionsByHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
-                y: .value("ContributionsByHourChart.Chart.YAxis", item.count)
-            )
-        }
-    }
-}
-
-fileprivate typealias ChartBuilder = ContributionsByHourChartBuilder
-
-fileprivate struct BriefChartView: View {
-    
-    @Environment(\.calendar) private var calendar
-    let data: ChartBuilder.BriefData
-    
-    var body: some View {
-        ChartBuilder.chartView(of: data, calendar: calendar)
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
-    }
-}
-
-fileprivate struct ChartView: View {
-    
-    private typealias DataItem = ChartBuilder.DataItem
     
     private enum RangeType {
         case all
@@ -70,12 +21,8 @@ fileprivate struct ChartView: View {
         case month
         case week
     }
-
-    fileprivate struct Statistics {
-        var range: DateRange? = nil
-        var contributionsCount: Int = 0
-        var data: ChartBuilder.BriefData = [ ]
-    }
+    
+    typealias BriefData = [ DataItem ]
     
     @Environment(\.calendar) private var calendar
     @Environment(\.layoutDirection) private var layoutDirection
@@ -125,7 +72,7 @@ fileprivate struct ChartView: View {
                     .font(.system(.title, design: .rounded, weight: .semibold))
             }
 
-            ChartBuilder.chartView(of: statistics.data, calendar: calendar)
+            ContributionsByHourChart.chartView(of: statistics.data, calendar: calendar)
                 .chartXSelection(value: $selection)
         }
         .padding()
@@ -233,17 +180,46 @@ fileprivate struct ChartView: View {
     }
 }
 
-#if DEBUG
-struct ContributionsByHourChartPreviews: PreviewProvider {
-    static let persistence = Persistence.preview
+fileprivate struct BriefChartView: View {
+    @Environment(\.calendar) private var calendar
     
-    static var previews: some View {
-        ChartView(user: Persistence.previewUser(with: persistence.container.viewContext))
-            .environment(\.managedObjectContext, persistence.container.viewContext)
-            .environment(\.persistence, persistence)
+    let data: ContributionsByHourChart.BriefData
+    
+    var body: some View {
+        ContributionsByHourChart.chartView(of: data, calendar: calendar)
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
     }
 }
-#endif
+
+fileprivate struct Statistics {
+    var range: DateRange? = nil
+    var contributionsCount: Int = 0
+    var data: ContributionsByHourChart.BriefData = [ ]
+}
+
+extension ContributionsByHourChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "ContributionsByHourChart.BriefTitle"
+    static let briefSystemImage: String = "clock"
+    
+    static func card(data: BriefData, action: @escaping () -> Void) -> some View {
+        StatisticsChartCard(Self.self, action: action) {
+            BriefChartView(data: data)
+        }
+    }
+}
+
+fileprivate extension ContributionsByHourChart {
+    @ViewBuilder
+    static func chartView(of data: BriefData, calendar: Calendar) -> some View {
+        Chart(data, id: \.hour) { item in
+            BarMark(
+                x: .value("ContributionsByHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
+                y: .value("ContributionsByHourChart.Chart.YAxis", item.count)
+            )
+        }
+    }
+}
 
 fileprivate extension Persistence {
     func makeStatistics(
@@ -251,7 +227,7 @@ fileprivate extension Persistence {
         in range: DateRange?,
         today: Date,
         calendar: Calendar
-    ) async -> ChartView.Statistics? {
+    ) async -> Statistics? {
         let request = Contribution.fetchRequest()
         request.propertiesToFetch = [ #keyPath(Contribution.timestamp) ]
         if let range {
@@ -266,7 +242,7 @@ fileprivate extension Persistence {
         }
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = ChartView.Statistics(range: range, contributionsCount: contributions.count)
+            var statistics = Statistics(range: range, contributionsCount: contributions.count)
             var countsByHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
             for contribution in contributions {
                 guard let timestamp = contribution.timestamp else { continue }

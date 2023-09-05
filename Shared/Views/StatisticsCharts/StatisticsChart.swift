@@ -7,67 +7,41 @@
 
 import SwiftUI
 
-struct StatisticsChart<Builder: StatisticsChartBuilder>: View {
+protocol StatisticsChart {
+    associatedtype BriefData
+    associatedtype Card: View
     
-    @State private var isSheetPresented = false
+    static var briefTitleKey: LocalizedStringKey { get }
+    static var briefSystemImage: String { get }
     
-    private let briefData: Builder.BriefData
-    private let builder = Builder()
-    private let user: User
+    static func card(data: BriefData, action: @escaping () -> Void) -> Card
+}
+
+struct StatisticsChartCard<Chart: StatisticsChart, Content: View>: View {
+    private let action: () -> Void
+    private let content: () -> Content
     
-    init(user: User, briefData: Builder.BriefData) {
-        self.user = user
-        self.briefData = briefData
+    init(
+        _: Chart.Type,
+        action: @escaping () -> Void,
+        content: @escaping () -> Content
+    ) {
+        self.action = action
+        self.content = content
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            Label(builder.briefTitleKey, systemImage: builder.briefSystemImage)
+            Label(Chart.briefTitleKey, systemImage: Chart.briefSystemImage)
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
                 .labelStyle(.monospacedIconAndTitle)
             Spacer(minLength: 4)
-            builder.makeBriefChart(data: briefData)
+            content()
         }
         .card()
         .aspectRatio(1, contentMode: .fit)
-        .onTapGesture {
-            isSheetPresented.toggle()
-        }
-        .sheet(isPresented: $isSheetPresented) {
-            NavigationStack {
-                builder.makeChart(user: user)
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            ThemedButton.dismiss {
-                                isSheetPresented.toggle()
-                            }
-                        }
-                    }
-#if os(macOS)
-                    .frame(minWidth: 320, minHeight: 320)
-#else
-                    .navigationBarTitleDisplayMode(.inline)
-#endif
-            }
-        }
+        .onTapGesture(perform: action)
     }
-}
-
-protocol StatisticsChartBuilder {
-    associatedtype BriefData
-    associatedtype BriefChartContent: View
-    associatedtype ChartContent: View
-    
-    var briefTitleKey: LocalizedStringKey { get }
-    var briefSystemImage: String { get }
-    
-    init()
-    
-    @ViewBuilder
-    func makeBriefChart(data: BriefData) -> BriefChartContent
-    
-    @ViewBuilder
-    func makeChart(user: User) -> ChartContent
 }

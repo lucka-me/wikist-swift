@@ -8,50 +8,18 @@
 import Charts
 import SwiftUI
 
-struct ContributionsByNamespaceChartBuilder: StatisticsChartBuilder {
+struct ContributionsByNamespaceChart: View {
     struct DataItem {
         var namespace: WikiNamespace
         var count: Int
     }
-    
-    let briefTitleKey: LocalizedStringKey = "ContributionsByNamespaceChart.BriefTitle"
-    let briefSystemImage: String = "square.stack.3d.up"
-    
-    func makeBriefChart(data: [ DataItem ]) -> some View {
-        Chart(data, id: \.namespace.id) { item in
-            BarMark(y: .value("ContributionsByNamespaceChart.BriefChart.YAxis", item.count))
-                .foregroundStyle(by: .value("ContributionsByNamespaceChart.BriefChart.Group", item.namespace.name))
-        }
-        .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
-        .chartLegend(position: .trailing)
-    }
-    
-    func makeChart(user: User) -> some View {
-        ChartView(user: user)
-    }
-}
-
-extension StatisticsChart where Builder == ContributionsByNamespaceChartBuilder {
-    @ViewBuilder
-    static func contributionsByNamespace(user: User, briefData: Builder.BriefData) -> some View {
-        Self.init(user: user, briefData: briefData)
-    }
-}
-
-fileprivate typealias ChartBuilder = ContributionsByNamespaceChartBuilder
-
-fileprivate struct ChartView: View {
     
     private enum ValueType {
         case count
         case percentage
     }
     
-    fileprivate struct Statistics {
-        var contributionsCount: Int = 0
-        var data: ChartBuilder.BriefData = [ ]
-    }
+    typealias BriefData = [ DataItem ]
     
     @Environment(\.persistence) private var persistence
     
@@ -182,17 +150,39 @@ fileprivate struct ChartView: View {
     }
 }
 
+fileprivate struct Statistics {
+    var contributionsCount: Int = 0
+    var data: ContributionsByNamespaceChart.BriefData = [ ]
+}
+
+extension ContributionsByNamespaceChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "ContributionsByNamespaceChart.BriefTitle"
+    static let briefSystemImage: String = "square.stack.3d.up"
+    
+    static func card(data: BriefData, action: @escaping () -> Void) -> some View {
+        StatisticsChartCard(Self.self, action: action) {
+            Chart(data, id: \.namespace.id) { item in
+                BarMark(y: .value("ContributionsByNamespaceChart.BriefChart.YAxis", item.count))
+                    .foregroundStyle(by: .value("ContributionsByNamespaceChart.BriefChart.Group", item.namespace.name))
+            }
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
+            .chartLegend(position: .trailing)
+        }
+    }
+}
+
 fileprivate extension Persistence {
     func makeStatistics(
         of userID: UUID,
         namespaces: [ Int32 : WikiNamespace ]
-    ) async -> ChartView.Statistics? {
+    ) async -> Statistics? {
         let request = Contribution.fetchRequest()
         request.propertiesToFetch = [ #keyPath(Contribution.namespace) ]
         request.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = ChartView.Statistics(contributionsCount: contributions.count)
+            var statistics = Statistics(contributionsCount: contributions.count)
             let countsByNamespace: [ Int32 : Int ] = contributions.reduce(into: [ : ]) { result, item in
                 result[item.namespace, default: 0] += 1
             }
