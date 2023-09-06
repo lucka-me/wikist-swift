@@ -98,7 +98,7 @@ struct NamespacesChart: View {
                             x: .value("NamespacesChart.Chart.XAxis", item.count),
                             y: .value("NamespacesChart.Chart.YAxis", item.namespace.name)
                         )
-                        .annotation(position: .overlay, alignment: .trailing) {
+                        .annotation(position: .trailing, alignment: .trailing) {
                             Text(item.count, format: .number)
                                 .font(.caption)
                                 .foregroundColor(.secondary)
