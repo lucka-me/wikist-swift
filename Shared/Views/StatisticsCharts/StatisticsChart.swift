@@ -31,16 +31,13 @@ struct StatisticsChartCard<Chart: StatisticsChart, Content: View>: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        GroupBox(content: content) {
             Label(Chart.briefTitleKey, systemImage: Chart.briefSystemImage)
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
                 .labelStyle(.monospacedIconAndTitle)
-            Spacer(minLength: 4)
-            content()
         }
-        .card()
         .aspectRatio(1, contentMode: .fit)
         .onTapGesture(perform: action)
     }

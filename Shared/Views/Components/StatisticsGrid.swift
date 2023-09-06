@@ -10,9 +10,10 @@ import SwiftUI
 struct StatisticsGrid {
     @ViewBuilder
     static func card<Content: View>(@ViewBuilder content: () -> Content) -> some View {
-        Grid(verticalSpacing: 6, content: content)
-            .card()
-            .fixedSize(horizontal: false, vertical: true)
+        GroupBox {
+            Grid(verticalSpacing: 6, content: content)
+        }
+        .fixedSize(horizontal: false, vertical: true)
     }
     
     @ViewBuilder
