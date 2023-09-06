@@ -1,5 +1,5 @@
 //
-//  ContributionsByHourChart.swift
+//  HoursChart.swift
 //  Wikist
 //
 //  Created by Lucka on 16/7/2022.
@@ -9,7 +9,7 @@ import Charts
 import CoreData
 import SwiftUI
 
-struct ContributionsByHourChart: View {
+struct HoursChart: View {
     struct DataItem {
         var hour: Date
         var count: Int
@@ -43,10 +43,10 @@ struct ContributionsByHourChart: View {
     var body: some View {
         VStack(alignment: .leading) {
             Picker(selection: $rangeType.animation(.easeInOut)) {
-                Text("ContributionsByHourChart.Range.All").tag(RangeType.all)
-                Text("ContributionsByHourChart.Range.Year").tag(RangeType.year)
-                Text("ContributionsByHourChart.Range.Month").tag(RangeType.month)
-                Text("ContributionsByHourChart.Range.Week").tag(RangeType.week)
+                Text("HoursChart.Range.All").tag(RangeType.all)
+                Text("HoursChart.Range.Year").tag(RangeType.year)
+                Text("HoursChart.Range.Month").tag(RangeType.month)
+                Text("HoursChart.Range.Week").tag(RangeType.week)
             } label: {
                 EmptyView()
             }
@@ -62,7 +62,7 @@ struct ContributionsByHourChart: View {
                     if let selection {
                         Text(selection, format: .dateTime.hour().minute())
                     } else {
-                        Text("ContributionsByHourChart.AllContributions")
+                        Text("HoursChart.AllContributions")
                     }
                 }
                 .font(.callout)
@@ -72,11 +72,11 @@ struct ContributionsByHourChart: View {
                     .font(.system(.title, design: .rounded, weight: .semibold))
             }
 
-            ContributionsByHourChart.chartView(of: statistics.data, calendar: calendar)
+            Self.chartView(of: statistics.data, calendar: calendar)
                 .chartXSelection(value: $selection)
         }
         .padding()
-        .navigationTitle("ContributionsByHourChart.Title")
+        .navigationTitle("HoursChart.Title")
         .onChange(of: rangeType) { _, type in
             let now = Date()
             if type == .all {
@@ -129,7 +129,7 @@ struct ContributionsByHourChart: View {
                     }
                 }
             } label: {
-                Label("ContributionsByHourChart.Range.Selector.Previous", systemImage: "chevron.backward")
+                Label("HoursChart.Range.Selector.Previous", systemImage: "chevron.backward")
                     .labelStyle(.iconOnly)
             }
             
@@ -153,7 +153,7 @@ struct ContributionsByHourChart: View {
                     }
                 }
             } label: {
-                Label("ContributionsByHourChart.Range.Selector.Next", systemImage: "chevron.forward")
+                Label("HoursChart.Range.Selector.Next", systemImage: "chevron.forward")
                     .labelStyle(.iconOnly)
             }
         }
@@ -183,10 +183,10 @@ struct ContributionsByHourChart: View {
 fileprivate struct BriefChartView: View {
     @Environment(\.calendar) private var calendar
     
-    let data: ContributionsByHourChart.BriefData
+    let data: HoursChart.BriefData
     
     var body: some View {
-        ContributionsByHourChart.chartView(of: data, calendar: calendar)
+        HoursChart.chartView(of: data, calendar: calendar)
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
     }
@@ -195,11 +195,11 @@ fileprivate struct BriefChartView: View {
 fileprivate struct Statistics {
     var range: DateRange? = nil
     var contributionsCount: Int = 0
-    var data: ContributionsByHourChart.BriefData = [ ]
+    var data: HoursChart.BriefData = [ ]
 }
 
-extension ContributionsByHourChart: StatisticsChart {
-    static let briefTitleKey: LocalizedStringKey = "ContributionsByHourChart.BriefTitle"
+extension HoursChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "HoursChart.BriefTitle"
     static let briefSystemImage: String = "clock"
     
     static func card(data: BriefData, action: @escaping () -> Void) -> some View {
@@ -209,13 +209,13 @@ extension ContributionsByHourChart: StatisticsChart {
     }
 }
 
-fileprivate extension ContributionsByHourChart {
+fileprivate extension HoursChart {
     @ViewBuilder
     static func chartView(of data: BriefData, calendar: Calendar) -> some View {
         Chart(data, id: \.hour) { item in
             BarMark(
-                x: .value("ContributionsByHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
-                y: .value("ContributionsByHourChart.Chart.YAxis", item.count)
+                x: .value("HoursChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
+                y: .value("HoursChart.Chart.YAxis", item.count)
             )
         }
     }

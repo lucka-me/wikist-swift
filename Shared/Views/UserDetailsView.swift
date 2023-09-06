@@ -69,10 +69,10 @@ struct UserDetailsView: View {
             NavigationStack {
                 Group {
                     switch charType {
-                    case .contributionsByHour:
-                        ContributionsByHourChart(user: user)
-                    case .contributionsByNamespace:
-                        ContributionsByNamespaceChart(user: user)
+                    case .hours:
+                        HoursChart(user: user)
+                    case .namespaces:
+                        NamespacesChart(user: user)
                     case .modificationSize:
                         ModificationSizeChart(user: user)
                     }
@@ -242,12 +242,12 @@ struct UserDetailsView: View {
     private var chartsSection: some View {
         Section {
             LazyVGrid(columns: [ .init(.adaptive(minimum: 140))], alignment: .leading) {
-                ContributionsByHourChart.card(data: statistics.countsByHour) {
-                    presentedChartType = .contributionsByHour
+                HoursChart.card(data: statistics.countsByHour) {
+                    presentedChartType = .hours
                 }
                 if !statistics.countsByNamespace.isEmpty {
-                    ContributionsByNamespaceChart.card(data: statistics.countsByNamespace) {
-                        presentedChartType = .contributionsByNamespace
+                    NamespacesChart.card(data: statistics.countsByNamespace) {
+                        presentedChartType = .namespaces
                     }
                 }
                 ModificationSizeChart.card(data: statistics.modificationsByMonth) {
@@ -300,8 +300,8 @@ struct UserDetailsViewPreviews: PreviewProvider {
 #endif
 
 fileprivate enum StatisticsChartType : Int, Identifiable {
-    case contributionsByHour
-    case contributionsByNamespace
+    case hours
+    case namespaces
     case modificationSize
 
     var id: Int { self.rawValue }
@@ -319,9 +319,9 @@ fileprivate struct Statistics {
     var currentStrike: DateRange? = nil
     var longestStrike: DateRange? = nil
     
-    var countsByHour: ContributionsByHourChart.BriefData = [ ]
+    var countsByHour: HoursChart.BriefData = [ ]
     var modificationsByMonth: ModificationSizeChart.BriefData = [ ]
-    var countsByNamespace: ContributionsByNamespaceChart.BriefData = [ ]
+    var countsByNamespace: NamespacesChart.BriefData = [ ]
 }
 
 fileprivate extension Persistence {
@@ -403,7 +403,7 @@ fileprivate extension Persistence {
             }
             
             if let namespaces {
-                var data: ContributionsByNamespaceChart.BriefData = countsByNamespace
+                var data: NamespacesChart.BriefData = countsByNamespace
                     .sorted { $0.value < $1.value }
                     .compactMap { item in
                         guard var namespace = namespaces[item.key] else { return nil }

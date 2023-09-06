@@ -133,28 +133,17 @@ API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL
 "AppIconSelector.Title" = "更换应用图标";
 
 // Views - StatisticsChart
-"ContributionsByHourChart.AllContributions" = "全部贡献";
-"ContributionsByHourChart.BriefTitle" = "贡献/小时";
-"ContributionsByHourChart.Chart.XAxis" = "小时";
-"ContributionsByHourChart.Chart.YAxis" = "贡献";
-"ContributionsByHourChart.Range.All" = "全部";
-"ContributionsByHourChart.Range.Year" = "年";
-"ContributionsByHourChart.Range.Month" = "月";
-"ContributionsByHourChart.Range.Selector.Next" = "前一部分";
-"ContributionsByHourChart.Range.Selector.Previous" = "后一部分";
-"ContributionsByHourChart.Range.Week" = "周";
-"ContributionsByHourChart.Title" = "每小时贡献数";
-
-"ContributionsByNamespaceChart.BriefChart.Group" = "命名空间";
-"ContributionsByNamespaceChart.BriefChart.YAxis" = "贡献";
-"ContributionsByNamespaceChart.BriefTitle" = "贡献/空间";
-"ContributionsByNamespaceChart.Chart.XAxis" = "贡献";
-"ContributionsByNamespaceChart.Chart.YAxis" = "命名空间";
-"ContributionsByNamespaceChart.Count" = "数量";
-"ContributionsByNamespaceChart.Filter" = "筛选";
-"ContributionsByNamespaceChart.Namespace.Main" = "（主）";
-"ContributionsByNamespaceChart.Percentage" = "百分比";
-"ContributionsByNamespaceChart.Title" = "各命名空间的贡献";
+"HoursChart.AllContributions" = "全部贡献";
+"HoursChart.BriefTitle" = "小时";
+"HoursChart.Chart.XAxis" = "小时";
+"HoursChart.Chart.YAxis" = "贡献";
+"HoursChart.Range.All" = "全部";
+"HoursChart.Range.Year" = "年";
+"HoursChart.Range.Month" = "月";
+"HoursChart.Range.Selector.Next" = "前一部分";
+"HoursChart.Range.Selector.Previous" = "后一部分";
+"HoursChart.Range.Week" = "周";
+"HoursChart.Title" = "每小时贡献数";
 
 "ModificationSizeChart.AllModifications" = "全部更改";
 "ModificationSizeChart.BriefTitle" = "更改";
@@ -167,6 +156,17 @@ API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL
 "ModificationSizeChart.Range.Selector.Previous" = "后一部分";
 "ModificationSizeChart.Range.Year" = "年";
 "ModificationSizeChart.Title" = "更改大小";
+
+"NamespacesChart.BriefChart.Group" = "命名空间";
+"NamespacesChart.BriefChart.YAxis" = "贡献";
+"NamespacesChart.BriefTitle" = "命名空间";
+"NamespacesChart.Chart.XAxis" = "贡献";
+"NamespacesChart.Chart.YAxis" = "命名空间";
+"NamespacesChart.Count" = "数量";
+"NamespacesChart.Filter" = "筛选";
+"NamespacesChart.Namespace.Main" = "（主）";
+"NamespacesChart.Percentage" = "百分比";
+"NamespacesChart.Title" = "各命名空间的贡献";
 
 // Widgets
 "ContributionsMatrixWidget.Description" = "展示用户的贡献矩阵。";

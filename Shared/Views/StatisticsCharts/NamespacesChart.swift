@@ -1,5 +1,5 @@
 //
-//  ContributionsByNamespaceChart.swift
+//  NamespaceChart.swift
 //  Wikist
 //
 //  Created by Lucka on 2/1/2023.
@@ -8,7 +8,7 @@
 import Charts
 import SwiftUI
 
-struct ContributionsByNamespaceChart: View {
+struct NamespacesChart: View {
     struct DataItem {
         var namespace: WikiNamespace
         var count: Int
@@ -43,8 +43,8 @@ struct ContributionsByNamespaceChart: View {
             HStack {
                 Spacer()
                 Picker(selection: $valueType) {
-                    Text("ContributionsByNamespaceChart.Count").tag(ValueType.count)
-                    Text("ContributionsByNamespaceChart.Percentage").tag(ValueType.percentage)
+                    Text("NamespacesChart.Count").tag(ValueType.count)
+                    Text("NamespacesChart.Percentage").tag(ValueType.percentage)
                 } label: {
                     EmptyView()
                 }
@@ -58,8 +58,8 @@ struct ContributionsByNamespaceChart: View {
                         switch valueType {
                         case .count:
                             BarMark(
-                                x: .value("ContributionsByNamespaceChart.Chart.XAxis", item.count),
-                                y: .value("ContributionsByNamespaceChart.Chart.YAxis", item.namespace.name)
+                                x: .value("NamespacesChart.Chart.XAxis", item.count),
+                                y: .value("NamespacesChart.Chart.YAxis", item.namespace.name)
                             )
                             .annotation(position: .trailing, alignment: .trailing) {
                                 Text(item.count, format: .number)
@@ -69,10 +69,10 @@ struct ContributionsByNamespaceChart: View {
                         case .percentage:
                             BarMark(
                                 x: .value(
-                                    "ContributionsByNamespaceChart.Chart.XAxis",
+                                    "NamespaceChart.Chart.XAxis",
                                     Double(item.count) / Double(statistics.contributionsCount)
                                 ),
-                                y: .value("ContributionsByNamespaceChart.Chart.YAxis", item.namespace.name)
+                                y: .value("NamespaceChart.Chart.YAxis", item.namespace.name)
                             )
                             .annotation(position: .trailing, alignment: .trailing) {
                                 Text(
@@ -89,7 +89,7 @@ struct ContributionsByNamespaceChart: View {
             }
         }
         .padding()
-        .navigationTitle("ContributionsByNamespaceChart.Title")
+        .navigationTitle("NamespacesChart.Title")
         .toolbar {
             filterMenu
         }
@@ -132,7 +132,7 @@ struct ContributionsByNamespaceChart: View {
                 }
             }
         } label: {
-            Label("ContributionsByNamespaceChart.Filter", systemImage: "line.3.horizontal.decrease.circle")
+            Label("NamespacesChart.Filter", systemImage: "line.3.horizontal.decrease.circle")
         }
     }
     
@@ -152,18 +152,18 @@ struct ContributionsByNamespaceChart: View {
 
 fileprivate struct Statistics {
     var contributionsCount: Int = 0
-    var data: ContributionsByNamespaceChart.BriefData = [ ]
+    var data: NamespacesChart.BriefData = [ ]
 }
 
-extension ContributionsByNamespaceChart: StatisticsChart {
-    static let briefTitleKey: LocalizedStringKey = "ContributionsByNamespaceChart.BriefTitle"
+extension NamespacesChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "NamespacesChart.BriefTitle"
     static let briefSystemImage: String = "square.stack.3d.up"
     
     static func card(data: BriefData, action: @escaping () -> Void) -> some View {
         StatisticsChartCard(Self.self, action: action) {
             Chart(data, id: \.namespace.id) { item in
-                BarMark(y: .value("ContributionsByNamespaceChart.BriefChart.YAxis", item.count))
-                    .foregroundStyle(by: .value("ContributionsByNamespaceChart.BriefChart.Group", item.namespace.name))
+                BarMark(y: .value("NamespacesChart.BriefChart.YAxis", item.count))
+                    .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
             }
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
@@ -191,7 +191,7 @@ fileprivate extension Persistence {
                 .compactMap { item in
                     guard var namespace = namespaces[item.key] else { return nil }
                     if namespace.name.isEmpty {
-                        namespace.name = .init(localized: "ContributionsByNamespaceChart.Namespace.Main")
+                        namespace.name = .init(localized: "NamespacesChart.Namespace.Main")
                     }
                     return .init(namespace: namespace, count: item.value)
                 }

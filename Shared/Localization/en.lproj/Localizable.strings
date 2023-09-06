@@ -137,28 +137,17 @@ Please notice that due to [App Transport Security policy](https://developer.appl
 "AppIconSelector.Title" = "Change App Icon";
 
 // Views - StatisticsChart
-"ContributionsByHourChart.AllContributions" = "All Contributions";
-"ContributionsByHourChart.BriefTitle" = "Contrib. / Hour";
-"ContributionsByHourChart.Chart.XAxis" = "Hour";
-"ContributionsByHourChart.Chart.YAxis" = "Contributions";
-"ContributionsByHourChart.Range.All" = "All";
-"ContributionsByHourChart.Range.Year" = "Year";
-"ContributionsByHourChart.Range.Month" = "Month";
-"ContributionsByHourChart.Range.Selector.Next" = "Next";
-"ContributionsByHourChart.Range.Selector.Previous" = "Previous";
-"ContributionsByHourChart.Range.Week" = "Week";
-"ContributionsByHourChart.Title" = "Contributions by Hour";
-
-"ContributionsByNamespaceChart.BriefChart.Group" = "Namespace";
-"ContributionsByNamespaceChart.BriefChart.YAxis" = "Contributions";
-"ContributionsByNamespaceChart.BriefTitle" = "Contrib. / NS";
-"ContributionsByNamespaceChart.Chart.XAxis" = "Contributions";
-"ContributionsByNamespaceChart.Chart.YAxis" = "Namespace";
-"ContributionsByNamespaceChart.Count" = "Count";
-"ContributionsByNamespaceChart.Filter" = "Filter";
-"ContributionsByNamespaceChart.Namespace.Main" = "(Main)";
-"ContributionsByNamespaceChart.Percentage" = "Percentage";
-"ContributionsByNamespaceChart.Title" = "Contributions By Namespace";
+"HoursChart.AllContributions" = "All Contributions";
+"HoursChart.BriefTitle" = "Hours";
+"HoursChart.Chart.XAxis" = "Hour";
+"HoursChart.Chart.YAxis" = "Contributions";
+"HoursChart.Range.All" = "All";
+"HoursChart.Range.Year" = "Year";
+"HoursChart.Range.Month" = "Month";
+"HoursChart.Range.Selector.Next" = "Next";
+"HoursChart.Range.Selector.Previous" = "Previous";
+"HoursChart.Range.Week" = "Week";
+"HoursChart.Title" = "Contributions by Hour";
 
 "ModificationSizeChart.AllModifications" = "All Modifications";
 "ModificationSizeChart.BriefTitle" = "Modifications";
@@ -171,6 +160,17 @@ Please notice that due to [App Transport Security policy](https://developer.appl
 "ModificationSizeChart.Range.Selector.Previous" = "Previous";
 "ModificationSizeChart.Range.Year" = "Year";
 "ModificationSizeChart.Title" = "Modifications Size";
+
+"NamespacesChart.BriefChart.Group" = "Namespace";
+"NamespacesChart.BriefChart.YAxis" = "Contributions";
+"NamespacesChart.BriefTitle" = "Namespaces";
+"NamespacesChart.Chart.XAxis" = "Contributions";
+"NamespacesChart.Chart.YAxis" = "Namespace";
+"NamespacesChart.Count" = "Count";
+"NamespacesChart.Filter" = "Filter";
+"NamespacesChart.Namespace.Main" = "(Main)";
+"NamespacesChart.Percentage" = "Percentage";
+"NamespacesChart.Title" = "Contributions By Namespace";
 
 // Widgets
 "ContributionsMatrixWidget.Description" = "Display the contributions matrix of selected user.";
