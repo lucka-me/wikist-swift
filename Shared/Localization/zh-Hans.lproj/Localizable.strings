@@ -167,6 +167,8 @@ API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL
 "NamespacesChart.Namespace.Main" = "（主）";
 "NamespacesChart.Percentage" = "百分比";
 "NamespacesChart.Title" = "各命名空间的贡献";
+"NamespacesChart.Type.Bar" = "条形图";
+"NamespacesChart.Type.Donut" = "圆环图";
 
 // Widgets
 "ContributionsMatrixWidget.Description" = "展示用户的贡献矩阵。";

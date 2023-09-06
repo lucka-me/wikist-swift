@@ -14,6 +14,11 @@ struct NamespacesChart: View {
         var count: Int
     }
     
+    private enum ChartType {
+        case donut
+        case bar
+    }
+    
     private enum ValueType {
         case count
         case percentage
@@ -25,6 +30,7 @@ struct NamespacesChart: View {
     
     @ScaledMetric(relativeTo: .caption) private var chartHeight = 20
     
+    @State private var chartType = ChartType.donut
     @State private var enabledNamespaces: Set<Int32> = [ ]
     @State private var isReady = false
     @State private var statistics = Statistics()
@@ -41,6 +47,12 @@ struct NamespacesChart: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
+                Picker(selection: $chartType) {
+                    Label("NamespacesChart.Type.Donut", systemImage: "chart.pie").tag(ChartType.donut)
+                    Label("NamespacesChart.Type.Bar", systemImage: "chart.bar").tag(ChartType.bar)
+                } label: {
+                    EmptyView()
+                }
                 Spacer()
                 Picker(selection: $valueType) {
                     Text("NamespacesChart.Count").tag(ValueType.count)
@@ -52,40 +64,11 @@ struct NamespacesChart: View {
                 .fixedSize()
             }
             
-            ScrollView(.vertical) {
-                Chart(statistics.data, id: \.namespace.id) { item in
-                    if enabledNamespaces.contains(item.namespace.id) {
-                        switch valueType {
-                        case .count:
-                            BarMark(
-                                x: .value("NamespacesChart.Chart.XAxis", item.count),
-                                y: .value("NamespacesChart.Chart.YAxis", item.namespace.name)
-                            )
-                            .annotation(position: .trailing, alignment: .trailing) {
-                                Text(item.count, format: .number)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                        case .percentage:
-                            BarMark(
-                                x: .value(
-                                    "NamespaceChart.Chart.XAxis",
-                                    Double(item.count) / Double(statistics.contributionsCount)
-                                ),
-                                y: .value("NamespaceChart.Chart.YAxis", item.namespace.name)
-                            )
-                            .annotation(position: .trailing, alignment: .trailing) {
-                                Text(
-                                    Double(item.count) / Double(statistics.contributionsCount),
-                                    format: .percent.precision(.fractionLength(2))
-                                )
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                }
-                .frame(minHeight: chartHeight * 2 * Double(enabledNamespaces.count + 1))
+            switch chartType {
+            case .donut:
+                donutChart
+            case .bar:
+                barChart
             }
         }
         .padding()
@@ -100,6 +83,92 @@ struct NamespacesChart: View {
         }
         .onContributionsUpdated(userID: user.uuid) {
             await updateStatistics()
+        }
+    }
+    
+    @ViewBuilder
+    private var barChart: some View {
+        let enabledTotal = (valueType == .percentage) ? self.enabledTotal : 0
+        ScrollView(.vertical) {
+            Chart(statistics.data, id: \.namespace.id) { item in
+                if enabledNamespaces.contains(item.namespace.id) {
+                    switch valueType {
+                    case .count:
+                        BarMark(
+                            x: .value("NamespacesChart.Chart.XAxis", item.count),
+                            y: .value("NamespacesChart.Chart.YAxis", item.namespace.name)
+                        )
+                        .annotation(position: .overlay, alignment: .trailing) {
+                            Text(item.count, format: .number)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    case .percentage:
+                        let percentage = Double(item.count) / Double(enabledTotal)
+                        BarMark(
+                            x: .value("NamespaceChart.Chart.XAxis", percentage),
+                            y: .value("NamespaceChart.Chart.YAxis", item.namespace.name)
+                        )
+                        .annotation(position: .trailing, alignment: .trailing) {
+                            Text(percentage, format: .percent.precision(.fractionLength(2)))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        }
+                    }
+                }
+            }
+            .frame(minHeight: chartHeight * 2 * Double(enabledNamespaces.count + 1))
+        }
+    }
+    
+    @ViewBuilder
+    private var donutChart: some View {
+        let enabledTotal = self.enabledTotal
+        if enabledTotal > 0 {
+            Chart(statistics.data, id: \.namespace.id) { item in
+                let enabled = enabledNamespaces.contains(item.namespace.id)
+                let percentage = enabled ? (Double(item.count) / Double(enabledTotal)) : 0.0
+                
+                switch valueType {
+                case .count:
+                    SectorMark(
+                        angle: .value("NamespacesChart.Chart.XAxis", enabled ? item.count : 0),
+                        innerRadius: .ratio(0.5),
+                        angularInset: 1.0
+                    )
+                    .cornerRadius(4.0, style: .continuous)
+                    .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                    .annotation(position: .overlay) {
+                        if percentage > 0.05 {
+                            VStack {
+                                Text(item.namespace.name)
+                                Text(item.count, format: .number)
+                            }
+                            .font(.caption)
+                        }
+                    }
+                case .percentage:
+                    SectorMark(
+                        angle: .value("NamespacesChart.Chart.XAxis", percentage),
+                        innerRadius: .ratio(0.5),
+                        angularInset: 1.0
+                    )
+                    .cornerRadius(4.0, style: .continuous)
+                    .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                    .annotation(position: .overlay) {
+                        if percentage > 0.05 {
+                            VStack {
+                                Text(item.namespace.name)
+                                Text(percentage, format: .percent.precision(.fractionLength(2)))
+                            }
+                            .font(.caption)
+                        }
+                    }
+                }
+            }
+            .chartLegend(.hidden)
+        } else {
+            Spacer()
         }
     }
     
@@ -148,6 +217,14 @@ struct NamespacesChart: View {
             self.statistics = statistics
         }
     }
+    
+    private var enabledTotal: Int {
+        statistics.data.reduce(into: 0) { result, item in
+            if (enabledNamespaces.contains(item.namespace.id)) {
+                result += item.count
+            }
+        }
+    }
 }
 
 fileprivate struct Statistics {
@@ -162,12 +239,15 @@ extension NamespacesChart: StatisticsChart {
     static func card(data: BriefData, action: @escaping () -> Void) -> some View {
         StatisticsChartCard(Self.self, action: action) {
             Chart(data, id: \.namespace.id) { item in
-                BarMark(y: .value("NamespacesChart.BriefChart.YAxis", item.count))
-                    .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                SectorMark(
+                    angle: .value("NamespacesChart.BriefChart.YAxis", item.count),
+                    innerRadius: .ratio(0.5),
+                    angularInset: 1.0
+                )
+                .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                .cornerRadius(4.0, style: .continuous)
             }
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
-            .chartLegend(position: .trailing)
+            .chartLegend(.hidden)
         }
     }
 }

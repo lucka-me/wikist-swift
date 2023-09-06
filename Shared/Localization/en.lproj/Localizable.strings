@@ -171,6 +171,8 @@ Please notice that due to [App Transport Security policy](https://developer.appl
 "NamespacesChart.Namespace.Main" = "(Main)";
 "NamespacesChart.Percentage" = "Percentage";
 "NamespacesChart.Title" = "Contributions By Namespace";
+"NamespacesChart.Type.Bar" = "Bar";
+"NamespacesChart.Type.Donut" = "Donut";
 
 // Widgets
 "ContributionsMatrixWidget.Description" = "Display the contributions matrix of selected user.";
