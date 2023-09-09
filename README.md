@@ -2,7 +2,7 @@
 
 ![App Icon](Shared/Assets.xcassets/AppIcon.appiconset/macOS_128.png)
 
-[![Lines of code](https://img.shields.io/tokei/lines/github/lucka-me/wikist-swift)](# "Repository")
+[![Lines of code](https://aschey.tech/tokei/github/lucka-me/wikist-swift)](# "Repository")
 
 Contributions matrix and statistics of Wiki editors.
 
