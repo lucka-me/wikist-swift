@@ -205,13 +205,11 @@ struct UserDetailsView: View {
                 value: statistics.modificationSize,
                 format: .byteCount(style: .binary)
             )
-            if
-                let hour = statistics.mostActiveHour,
-                let time = calendar.date(bySettingHour: hour, minute: 0, second: 0, of: today) {
+            if let hour = statistics.mostActiveDayHour {
                 StatisticsGrid.row(
                     "UserDetailsView.Statistics.Overall.MostActive",
                     systemImage: "sparkles",
-                    value: time,
+                    value: hour,
                     format: .dateTime.hour().minute()
                 )
             }
@@ -315,7 +313,7 @@ fileprivate struct Statistics {
     
     var modificationSize: Int64 = 0
     var createdCount: Int = 0
-    var mostActiveHour: Int? = nil
+    var mostActiveDayHour: Date? = nil
     
     var currentStrike: DateRange? = nil
     var longestStrike: DateRange? = nil
@@ -332,6 +330,7 @@ fileprivate extension Persistence {
         calendar: Calendar,
         namespaces: [ Int32 : WikiNamespace ]?
     ) async -> Statistics? {
+        guard let dayHoursRange = calendar.range(covers: .init(hour: 0), around: today) else { return nil }
         guard let twelveMonthsAgo = calendar.date(byAdding: .month, value: -11, to: today) else {
             return nil
         }
@@ -342,17 +341,16 @@ fileprivate extension Persistence {
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
             var statistics = Statistics(contributionsCount: contributions.count)
-            let lastTwelveMonthsBins = DateBins(
-                unit: .month,
-                range: twelveMonthsAgo ... today,
-                calendar: calendar
-            )
+            let dayHourBins = DateBins(unit: .hour, range: dayHoursRange, calendar: calendar)
+            let lastTwelveMonthsRange = twelveMonthsAgo ... today
+            let lastTwelveMonthsBins = DateBins(unit: .month, range: lastTwelveMonthsRange, calendar: calendar)
+            
+            statistics.countsByDayHour = dayHourBins.map { .init(hour: $0, count: 0) }
             statistics.modificationsByMonth = lastTwelveMonthsBins.map {
                 .init(month: $0, modification: .init(addition: 0, deletion: 0))
             }
 
             var strikes: [ DateRange ] = [ ]
-            var countsByDayHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
             var countsByNamespace: [ Int32 : Int ] = [ : ]
             
             // Decreasing
@@ -367,6 +365,8 @@ fileprivate extension Persistence {
                 let day = calendar.startOfDay(for: timestamp)
                 
                 statistics.countsByDay[day, default: 0] += 1
+                
+                statistics.countsByDayHour[calendar.component(.hour, from: timestamp)].count += 1
                 
                 if strikes.isEmpty {
                     if let interval = calendar.dayInterval(for: timestamp) {
@@ -383,20 +383,15 @@ fileprivate extension Persistence {
                     }
                 }
 
-                countsByDayHour[calendar.component(.hour, from: timestamp), default: 0] += 1
-
-                if contribution.sizeDiff != 0 {
-                    let binIndex = lastTwelveMonthsBins.index(for: timestamp)
-                    if (binIndex >= 0) && (binIndex < statistics.modificationsByMonth.count) {
-                        statistics
-                            .modificationsByMonth[binIndex]
-                            .modification
-                            .merge(contribution.sizeDiff)
-                    }
+                if (contribution.sizeDiff != 0) && (lastTwelveMonthsRange.contains(timestamp)) {
+                    statistics
+                        .modificationsByMonth[lastTwelveMonthsBins.index(for: timestamp)]
+                        .modification
+                        .merge(contribution.sizeDiff)
                 }
             }
             
-            statistics.mostActiveHour = countsByDayHour.max { $0.value < $1.value }?.key
+            statistics.mostActiveDayHour = statistics.countsByDayHour.max { $0.count < $1.count }?.hour.lowerBound
 
             if let latestStrike = strikes.first {
                 if latestStrike.contains(today) {
@@ -404,10 +399,6 @@ fileprivate extension Persistence {
                 }
             }
             statistics.longestStrike = strikes.max { calendar.days(in: $0) < calendar.days(in: $1) }
-
-            statistics.countsByDayHour = countsByDayHour.sorted { $0.key < $1.key }.map { item in
-                .init(hour: calendar.date(bySettingHour: item.key, minute: 0, second: 0, of: today)!, count: item.value)
-            }
             
             if let namespaces {
                 var data: PerNamespaceChart.BriefData = countsByNamespace

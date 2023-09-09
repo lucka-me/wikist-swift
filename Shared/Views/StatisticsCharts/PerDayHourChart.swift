@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PerDayHourChart: View {
     struct DataItem {
-        var hour: Date
+        var hour: ChartBinRange<Date>
         var count: Int
     }
     
@@ -28,7 +28,7 @@ struct PerDayHourChart: View {
     @Environment(\.layoutDirection) private var layoutDirection
     @Environment(\.persistence) private var persistence
     
-    @State private var range: DateRange? = nil
+    @State private var dateInRange = Date()
     @State private var rangeType = RangeType.all
     @State private var selectedDate: Date? = nil
     @State private var selection: DataItem? = nil
@@ -52,15 +52,21 @@ struct PerDayHourChart: View {
             }
             .pickerStyle(.segmented)
             
-            if rangeType != .all {
-                rangeSelector
-                    .frame(maxWidth: .infinity, alignment: .center)
+            switch rangeType {
+            case .all:
+                EmptyView()
+            case .year:
+                rangeSelector(for: .year, format: .dateTime.year())
+            case .month:
+                rangeSelector(for: .month, format: .dateTime.year().month())
+            case .week:
+                rangeSelector(for: .weekOfYear, format: .dateTime.year().week())
             }
             
             VStack(alignment: .leading) {
                 Group {
                     if let selection {
-                        Text(selection.hour, format: .dateTime.hour().minute())
+                        Text(selection.hour.lowerBound, format: .dateTime.hour().minute())
                     } else {
                         Text("PerDayHourChart.AllContributions")
                     }
@@ -73,18 +79,11 @@ struct PerDayHourChart: View {
             }
             
             Chart {
-                ForEach(statistics.data, id: \.hour) { item in
+                ForEach(statistics.data, id: \.hour.lowerBound) { item in
                     Self.chartContent(of: item, calendar: calendar)
                 }
                 if let selection {
-                    RuleMark(
-                        x: .value(
-                            "PerDayHourChart.Chart.XAxis",
-                            selection.hour,
-                            unit: .hour,
-                            calendar: calendar
-                        )
-                    )
+                    RuleMark(x: .value("PerDayHourChart.Chart.XAxis", selection.hour))
                     .foregroundStyle(Color.secondary)
                 }
             }
@@ -94,108 +93,93 @@ struct PerDayHourChart: View {
                     selection = nil
                     return
                 }
-                
-                guard
-                    let hourDate = calendar.date(
-                        bySettingHour: calendar.component(.hour, from: newValue), minute: 0, second: 0, of: newValue
-                    )
-                else {
-                    selection = nil
-                    return
-                }
-                selection = statistics.data.first(where: { $0.hour == hourDate })
+                selection = statistics.data.first { $0.hour.contains(newValue) }
             }
         }
         .padding()
         .navigationTitle("PerDayHourChart.Title")
-        .onChange(of: rangeType) { _, type in
-            let now = Date()
-            if type == .all {
-                range = nil
-            } else if let range, !range.contains(now) {
-                switch rangeType {
-                case .all: break
-                case .year: self.range = calendar.yearInterval(for: range.lowerBound)
-                case .month: self.range = calendar.monthInterval(for: range.lowerBound)
-                case .week: self.range = calendar.weekInterval(for: range.lowerBound)
-                }
-            } else {
-                switch rangeType {
-                case .all: break
-                case .year: range = calendar.yearInterval(for: now)
-                case .month: range = calendar.monthInterval(for: now)
-                case .week: range = calendar.weekInterval(for: now)
-                }
+        .onChange(of: rangeType) { _, newValue in
+            Task {
+                await updateStatistics(for: dateInRange, in: newValue)
             }
         }
-        .onChange(of: range) { _, range in
+        .onChange(of: dateInRange) { _, newValue in
             Task {
-                await updateStatistics(in: range)
+                await updateStatistics(for: newValue, in: rangeType)
             }
         }
         .onContributionsUpdated(userID: user.uuid) {
-            await updateStatistics(in: statistics.range)
+            await updateStatistics(for: dateInRange, in: rangeType)
         }
         .onReceiveCalendarDayChanged { day in
             Task {
-                await updateStatistics(in: statistics.range, today: day)
+                await updateStatistics(for: dateInRange, in: rangeType)
             }
         }
         .task {
-            await updateStatistics(in: nil)
+            await updateStatistics(for: dateInRange, in: rangeType)
         }
     }
     
     @ViewBuilder
-    private var rangeSelector: some View {
+    private func rangeSelector(for component: Calendar.Component, format: Date.FormatStyle) -> some View {
         HStack {
+            let previousDate = calendar.date(byAdding: component, value: -1, to: dateInRange)
             Button {
-                guard let range else { return }
-                withAnimation(.easeInOut) {
-                    switch rangeType {
-                    case .all: break
-                    case .year: self.range = calendar.nextYearInterval(of: range, direction: .backward)
-                    case .month: self.range = calendar.nextMonthInterval(of: range, direction: .backward)
-                    case .week: self.range = calendar.nextWeekInterval(of: range, direction: .backward)
+                if let previousDate {
+                    withAnimation(.easeInOut) {
+                        dateInRange = previousDate
                     }
                 }
             } label: {
                 Label("PerDayHourChart.Range.Selector.Previous", systemImage: "chevron.backward")
                     .labelStyle(.iconOnly)
             }
+            .disabled(previousDate == nil)
             
-            if let range, rangeType != .all {
-                switch rangeType {
-                    case .all: EmptyView()
-                    case .year: Text(range.lowerBound, format: .dateTime.year())
-                    case .month: Text(range.lowerBound, format: .dateTime.year().month())
-                    case .week: Text(range.lowerBound, format: .dateTime.year().week())
+            Text(dateInRange, format: format)
+            
+            let nextDate: Date? = {
+                guard
+                    let value = calendar.date(byAdding: component, value: 1, to: dateInRange),
+                    value <= Date()
+                else {
+                    return nil
                 }
-            }
-            
+                return value
+            }()
             Button {
-                guard let range else { return }
-                withAnimation(.easeInOut) {
-                    switch rangeType {
-                    case .all: break
-                    case .year: self.range = calendar.nextYearInterval(of: range, direction: .forward)
-                    case .month: self.range = calendar.nextMonthInterval(of: range, direction: .forward)
-                    case .week: self.range = calendar.nextWeekInterval(of: range, direction: .forward)
+                if let nextDate {
+                    withAnimation(.easeInOut) {
+                        dateInRange = nextDate
                     }
                 }
             } label: {
                 Label("PerDayHourChart.Range.Selector.Next", systemImage: "chevron.forward")
                     .labelStyle(.iconOnly)
             }
+            .disabled(nextDate == nil)
         }
         .buttonStyle(.bordered)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
     
     @MainActor
-    private func updateStatistics(in range: DateRange?, today: Date = .init()) async {
+    private func updateStatistics(for dateInRange: Date, in rangeType: RangeType) async {
+        let range: ClosedRange<Date>?
+        switch rangeType {
+        case .all:
+            range = nil
+        case .year:
+            range = calendar.range(covers: .init(month: 1, day: 1), around: dateInRange)
+        case .month:
+            range = calendar.range(covers: .init(day: 1), around: dateInRange)
+        case .week:
+            range = calendar.range(covers: .init(weekday: 1), around: dateInRange)
+        }
         guard
             let userID = user.uuid,
-            let statistics = await persistence.makeStatistics(of: userID, in: range, today: today, calendar: calendar)
+            let statistics = await persistence.makeStatistics(of: userID, in: range, calendar: calendar)
         else {
             return
         }
@@ -212,7 +196,7 @@ fileprivate struct BriefChartView: View {
     let data: PerDayHourChart.BriefData
     
     var body: some View {
-        Chart(data, id: \.hour) { item in
+        Chart(data, id: \.hour.lowerBound) { item in
             PerDayHourChart.chartContent(of: item, calendar: calendar)
         }
         .chartXAxis(.hidden)
@@ -221,7 +205,6 @@ fileprivate struct BriefChartView: View {
 }
 
 fileprivate struct Statistics {
-    var range: DateRange? = nil
     var contributionsCount: Int = 0
     var data: PerDayHourChart.BriefData = [ ]
 }
@@ -241,7 +224,7 @@ fileprivate extension PerDayHourChart {
     @ChartContentBuilder
     static func chartContent(of item: DataItem, calendar: Calendar) -> some ChartContent {
         BarMark(
-            x: .value("PerDayHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
+            x: .value("PerDayHourChart.Chart.XAxis", item.hour),
             y: .value("PerDayHourChart.Chart.YAxis", item.count)
         )
     }
@@ -250,10 +233,13 @@ fileprivate extension PerDayHourChart {
 fileprivate extension Persistence {
     func makeStatistics(
         of userID: UUID,
-        in range: DateRange?,
-        today: Date,
+        in range: ClosedRange<Date>?,
         calendar: Calendar
     ) async -> Statistics? {
+        let today = Date()
+        guard let hoursRange = calendar.range(covers: .init(hour: 0), around: today) else { return nil }
+        let bins = DateBins(unit: .hour, range: hoursRange, calendar: calendar)
+        
         let request = Contribution.fetchRequest()
         request.propertiesToFetch = [ #keyPath(Contribution.timestamp) ]
         if let range {
@@ -268,14 +254,13 @@ fileprivate extension Persistence {
         }
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = Statistics(range: range, contributionsCount: contributions.count)
-            var countsByHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
+            var statistics = Statistics(
+                contributionsCount: contributions.count,
+                data: bins.map { .init(hour: $0, count: 0) }
+            )
             for contribution in contributions {
                 guard let timestamp = contribution.timestamp else { continue }
-                countsByHour[calendar.component(.hour, from: timestamp), default: 0] += 1
-            }
-            statistics.data = countsByHour.sorted { $0.key < $1.key }.map { item in
-                .init(hour: calendar.date(bySettingHour: item.key, minute: 0, second: 0, of: today)!, count: item.value)
+                statistics.data[calendar.component(.hour, from: timestamp)].count += 1
             }
             return statistics
         }

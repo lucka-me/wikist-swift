@@ -62,7 +62,6 @@ struct ModificationSizeChart: View {
             
             if rangeType != .lastTwelveMonths {
                 rangeSelector(for: .year, format: .dateTime.year())
-                    .frame(maxWidth: .infinity, alignment: .center)
             }
             
             VStack(alignment: .leading) {
@@ -111,7 +110,7 @@ struct ModificationSizeChart: View {
             .chartForegroundStyleScale(Self.chartForegroundStyles)
             .chartLegend(.hidden)
             .chartXAxis {
-                AxisMarks(format: .dateTime.month())
+                AxisMarks(format: .dateTime.month(), preset: .aligned)
             }
             .chartYAxis {
                 AxisMarks(format: .byteCount(style: .binary))
@@ -122,7 +121,7 @@ struct ModificationSizeChart: View {
                     selection = nil
                     return
                 }
-                selection = statistics.data.first(where: { $0.month.contains(newValue) })
+                selection = statistics.data.first { $0.month.contains(newValue) }
             }
         }
         .padding()
@@ -152,7 +151,7 @@ struct ModificationSizeChart: View {
             Button {
                 if let previousDate {
                     withAnimation(.easeInOut) {
-                        self.dateInRange = previousDate
+                        dateInRange = previousDate
                     }
                 }
             } label: {
@@ -163,19 +162,29 @@ struct ModificationSizeChart: View {
             
             Text(dateInRange, format: format)
             
-            let nextDate = calendar.date(byAdding: component, value: 1, to: dateInRange)
+            let nextDate: Date? = {
+                guard
+                    let value = calendar.date(byAdding: component, value: 1, to: dateInRange),
+                    value <= Date()
+                else {
+                    return nil
+                }
+                return value
+            }()
             Button {
                 if let nextDate {
                     withAnimation(.easeInOut) {
-                        self.dateInRange = nextDate
+                        dateInRange = nextDate
                     }
                 }
             } label: {
                 Label("ModificationSizeChart.Range.Selector.Next", systemImage: "chevron.forward")
                     .labelStyle(.iconOnly)
             }
+            .disabled(nextDate == nil)
         }
         .buttonStyle(.bordered)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
     
     @MainActor
@@ -187,7 +196,11 @@ struct ModificationSizeChart: View {
             guard let start = calendar.date(byAdding: .month, value: -11, to: today) else { return }
             range = start ... today
         case .year:
-            guard let yearRange = calendar.rangeOfYear(around: dateInRange) else { return }
+            guard
+                let yearRange = calendar.range(covers: .init(month: 1, day: 1), around: dateInRange)
+            else {
+                return
+            }
             range = yearRange
         }
         guard
