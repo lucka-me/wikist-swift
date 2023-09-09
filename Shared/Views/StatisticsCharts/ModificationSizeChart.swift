@@ -109,7 +109,15 @@ struct ModificationSizeChart: View {
                     Self.chartContent(of: item, calendar: calendar)
                 }
                 if let selection {
-                    RuleMark(x: .value("ModificationSizeChart.Chart.XAxis", selection.month, unit: .month, calendar: calendar))
+                    RuleMark(
+                        x: .value(
+                            "ModificationSizeChart.Chart.XAxis",
+                            selection.month,
+                            unit: .month,
+                            calendar: calendar
+                        )
+                    )
+                    .foregroundStyle(Color.secondary)
                 }
             }
             .chartForegroundStyleScale(Self.chartForegroundStyles)

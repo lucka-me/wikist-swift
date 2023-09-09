@@ -30,8 +30,8 @@ struct PerDayHourChart: View {
     
     @State private var range: DateRange? = nil
     @State private var rangeType = RangeType.all
-    
-    @State private var selection: Date? = nil
+    @State private var selectedDate: Date? = nil
+    @State private var selection: DataItem? = nil
     @State private var statistics = Statistics()
     
     private let user: User
@@ -60,7 +60,7 @@ struct PerDayHourChart: View {
             VStack(alignment: .leading) {
                 Group {
                     if let selection {
-                        Text(selection, format: .dateTime.hour().minute())
+                        Text(selection.hour, format: .dateTime.hour().minute())
                     } else {
                         Text("PerDayHourChart.AllContributions")
                     }
@@ -68,12 +68,43 @@ struct PerDayHourChart: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 
-                Text(selectedDataItem?.count ?? statistics.contributionsCount, format: .number)
+                Text(selection?.count ?? statistics.contributionsCount, format: .number)
                     .font(.system(.title, design: .rounded, weight: .semibold))
             }
-
-            Self.chartView(of: statistics.data, calendar: calendar)
-                .chartXSelection(value: $selection)
+            
+            Chart {
+                ForEach(statistics.data, id: \.hour) { item in
+                    Self.chartContent(of: item, calendar: calendar)
+                }
+                if let selection {
+                    RuleMark(
+                        x: .value(
+                            "PerDayHourChart.Chart.XAxis",
+                            selection.hour,
+                            unit: .hour,
+                            calendar: calendar
+                        )
+                    )
+                    .foregroundStyle(Color.secondary)
+                }
+            }
+            .chartXSelection(value: $selectedDate)
+            .onChange(of: selectedDate) { _, newValue in
+                guard let newValue else {
+                    selection = nil
+                    return
+                }
+                
+                guard
+                    let hourDate = calendar.date(
+                        bySettingHour: calendar.component(.hour, from: newValue), minute: 0, second: 0, of: newValue
+                    )
+                else {
+                    selection = nil
+                    return
+                }
+                selection = statistics.data.first(where: { $0.hour == hourDate })
+            }
         }
         .padding()
         .navigationTitle("PerDayHourChart.Title")
@@ -160,11 +191,6 @@ struct PerDayHourChart: View {
         .buttonStyle(.bordered)
     }
     
-    private var selectedDataItem: DataItem? {
-        guard let selection else { return nil }
-        return statistics.data.first { $0.hour == selection }
-    }
-    
     @MainActor
     private func updateStatistics(in range: DateRange?, today: Date = .init()) async {
         guard
@@ -186,9 +212,11 @@ fileprivate struct BriefChartView: View {
     let data: PerDayHourChart.BriefData
     
     var body: some View {
-        PerDayHourChart.chartView(of: data, calendar: calendar)
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
+        Chart(data, id: \.hour) { item in
+            PerDayHourChart.chartContent(of: item, calendar: calendar)
+        }
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
     }
 }
 
@@ -210,14 +238,12 @@ extension PerDayHourChart: StatisticsChart {
 }
 
 fileprivate extension PerDayHourChart {
-    @ViewBuilder
-    static func chartView(of data: BriefData, calendar: Calendar) -> some View {
-        Chart(data, id: \.hour) { item in
-            BarMark(
-                x: .value("PerDayHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
-                y: .value("PerDayHourChart.Chart.YAxis", item.count)
-            )
-        }
+    @ChartContentBuilder
+    static func chartContent(of item: DataItem, calendar: Calendar) -> some ChartContent {
+        BarMark(
+            x: .value("PerDayHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
+            y: .value("PerDayHourChart.Chart.YAxis", item.count)
+        )
     }
 }
 
