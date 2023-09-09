@@ -28,7 +28,7 @@ struct ModificationSizeChart: View {
     }
     
     struct DataItem {
-        var date: Date
+        var month: Date
         var modification: Modification
     }
     
@@ -40,7 +40,8 @@ struct ModificationSizeChart: View {
     
     @State private var range: ClosedMonthRange
     @State private var rangeType = RangeType.lastTwelveMonths
-    @State private var selection: Date? = nil
+    @State private var selectedDate: Date? = nil
+    @State private var selection: DataItem? = nil
     @State private var statistics = Statistics()
     
     private let user: User
@@ -72,7 +73,7 @@ struct ModificationSizeChart: View {
             VStack(alignment: .leading) {
                 Group {
                     if let selection {
-                        Text(selection, format: .dateTime.year().month())
+                        Text(selection.month, format: .dateTime.year().month())
                     } else {
                         Text("ModificationSizeChart.AllModifications")
                     }
@@ -80,12 +81,10 @@ struct ModificationSizeChart: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 
-                let currentSelectedItem = selectedDataItem
-                
                 HStack {
                     Label {
                         Text(
-                            currentSelectedItem?.modification.addition ?? statistics.total.addition,
+                            selection?.modification.addition ?? statistics.total.addition,
                             format: .byteCount(style: .binary)
                         )
                     } icon: {
@@ -95,7 +94,7 @@ struct ModificationSizeChart: View {
                     Spacer()
                     Label {
                         Text(
-                            abs(currentSelectedItem?.modification.deletion ?? statistics.total.deletion),
+                            abs(selection?.modification.deletion ?? statistics.total.deletion),
                             format: .byteCount(style: .binary)
                         )
                     } icon: {
@@ -105,12 +104,37 @@ struct ModificationSizeChart: View {
                 }
                 .font(.system(.title, design: .rounded, weight: .semibold))
             }
-            
-            ModificationSizeChart.chartView(of: statistics.data, calendar: calendar)
-                .chartYAxis {
-                    AxisMarks(format: .byteCount(style: .binary))
+            Chart {
+                ForEach(statistics.data, id: \.month) { item in
+                    Self.chartContent(of: item, calendar: calendar)
                 }
-                .chartXSelection(value: $selection)
+                if let selection {
+                    RuleMark(x: .value("ModificationSizeChart.Chart.XAxis", selection.month, unit: .month, calendar: calendar))
+                }
+            }
+            .chartForegroundStyleScale(Self.chartForegroundStyles)
+            .chartLegend(.hidden)
+            .chartXAxis {
+                AxisMarks(format: .dateTime.month())
+            }
+            .chartYAxis {
+                AxisMarks(format: .byteCount(style: .binary))
+            }
+            .chartXSelection(value: $selectedDate)
+            .onChange(of: selectedDate) { _, newValue in
+                guard let newValue else {
+                    selection = nil
+                    return
+                }
+                let components = calendar.dateComponents([ .year, .month ], from: .init())
+                guard
+                    let monthDate = calendar.date(from: components.settingValue(calendar.month(of: newValue)))
+                else {
+                    selection = nil
+                    return
+                }
+                selection = statistics.data.first(where: { $0.month == monthDate })
+            }
         }
         .padding()
         .navigationTitle("ModificationSizeChart.Title")
@@ -177,11 +201,6 @@ struct ModificationSizeChart: View {
         .buttonStyle(.bordered)
     }
     
-    private var selectedDataItem: DataItem? {
-        guard let selection else { return nil }
-        return statistics.data.first { $0.date == selection }
-    }
-    
     @MainActor
     private func updateStatistics(in range: ClosedMonthRange) async {
         guard
@@ -203,9 +222,13 @@ fileprivate struct BriefChartView: View {
     let data: ModificationSizeChart.BriefData
     
     var body: some View {
-        ModificationSizeChart.chartView(of: data, calendar: calendar)
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
+        Chart(data, id: \.month) { item in
+            ModificationSizeChart.chartContent(of: item, calendar: calendar)
+        }
+        .chartForegroundStyleScale(ModificationSizeChart.chartForegroundStyles)
+        .chartLegend(.hidden)
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
     }
 }
 
@@ -228,52 +251,48 @@ extension ModificationSizeChart: StatisticsChart {
 }
 
 fileprivate extension ModificationSizeChart {
-    @ViewBuilder
-    static func chartView(of data: BriefData, calendar: Calendar) -> some View {
-        Chart(data, id: \.date) { item in
-            LineMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion),
-                series: .value("ModificationSizeChart.Chart.Deletion", "Deletion")
-            )
-            .foregroundStyle(.red)
-            .interpolationMethod(.monotone)
-            
-            AreaMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion)
-            )
-            .foregroundStyle(by: .value("ModificationSizeChart.Chart.Deletion", "Deletion"))
-            .interpolationMethod(.monotone)
-            
-            LineMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition),
-                series: .value("ModificationSizeChart.Chart.Addition", "Addition")
-            )
-            .foregroundStyle(.green)
-            .interpolationMethod(.monotone)
-
-            AreaMark(
-                x: .value("ModificationSizeChart.Chart.XAxis", item.date, unit: .month, calendar: calendar),
-                y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition)
-            )
-            .foregroundStyle(by: .value("ModificationSizeChart.Chart.Addition", "Addition"))
-            .interpolationMethod(.monotone)
-        }
-        .chartForegroundStyleScale(
-            [
-                "Addition": .linearGradient(
-                    colors: [ .green.opacity(0.5), .clear ],
-                    startPoint: .top, endPoint: .bottom
-                ),
-                "Deletion": .linearGradient(
-                    colors: [ .red.opacity(0.5), .clear ],
-                    startPoint: .bottom, endPoint: .top
-                )
-            ]
+    static let chartForegroundStyles: KeyValuePairs<String, LinearGradient> = [
+        "+": .linearGradient(
+            colors: [ .green.opacity(0.5), .clear ],
+            startPoint: .top, endPoint: .bottom
+        ),
+        "-": .linearGradient(
+            colors: [ .red.opacity(0.5), .clear ],
+            startPoint: .bottom, endPoint: .top
         )
-        .chartLegend(.hidden)
+    ]
+    
+    @ChartContentBuilder
+    static func chartContent(of item: DataItem, calendar: Calendar) -> some ChartContent {
+        LineMark(
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion),
+            series: .value("ModificationSizeChart.Chart.Deletion", "-")
+        )
+        .foregroundStyle(.red)
+        .interpolationMethod(.monotone)
+        
+        AreaMark(
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion)
+        )
+        .foregroundStyle(by: .value("ModificationSizeChart.Chart.Deletion", "-"))
+        .interpolationMethod(.monotone)
+        
+        LineMark(
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition),
+            series: .value("ModificationSizeChart.Chart.Addition", "+")
+        )
+        .foregroundStyle(.green)
+        .interpolationMethod(.monotone)
+
+        AreaMark(
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition)
+        )
+        .foregroundStyle(by: .value("ModificationSizeChart.Chart.Addition", "+"))
+        .interpolationMethod(.monotone)
     }
 }
 
@@ -310,7 +329,7 @@ fileprivate extension Persistence {
             
             let components = calendar.dateComponents([ .year, .month ], from: .init())
             statistics.data = modificationsByMonth.sorted { $0.key < $1.key }.map { item in
-                    .init(date: calendar.date(from: components.settingValue(item.key))!, modification: item.value)
+                    .init(month: calendar.date(from: components.settingValue(item.key))!, modification: item.value)
             }
             return statistics
         }

@@ -399,7 +399,7 @@ fileprivate extension Persistence {
             }
             let todayComponents = calendar.dateComponents([ .year, .month ], from: today)
             statistics.modificationsByMonth = modificationsByMonth.sorted { $0.key < $1.key }.map { item in
-                .init(date: calendar.date(from: todayComponents.settingValue(item.key))!, modification: item.value)
+                .init(month: calendar.date(from: todayComponents.settingValue(item.key))!, modification: item.value)
             }
             
             if let namespaces {
