@@ -9,7 +9,7 @@ import Charts
 import CoreData
 import SwiftUI
 
-struct HoursChart: View {
+struct PerDayHourChart: View {
     struct DataItem {
         var hour: Date
         var count: Int
@@ -43,10 +43,10 @@ struct HoursChart: View {
     var body: some View {
         VStack(alignment: .leading) {
             Picker(selection: $rangeType.animation(.easeInOut)) {
-                Text("HoursChart.Range.All").tag(RangeType.all)
-                Text("HoursChart.Range.Year").tag(RangeType.year)
-                Text("HoursChart.Range.Month").tag(RangeType.month)
-                Text("HoursChart.Range.Week").tag(RangeType.week)
+                Text("PerDayHourChart.Range.All").tag(RangeType.all)
+                Text("PerDayHourChart.Range.Year").tag(RangeType.year)
+                Text("PerDayHourChart.Range.Month").tag(RangeType.month)
+                Text("PerDayHourChart.Range.Week").tag(RangeType.week)
             } label: {
                 EmptyView()
             }
@@ -62,7 +62,7 @@ struct HoursChart: View {
                     if let selection {
                         Text(selection, format: .dateTime.hour().minute())
                     } else {
-                        Text("HoursChart.AllContributions")
+                        Text("PerDayHourChart.AllContributions")
                     }
                 }
                 .font(.callout)
@@ -76,7 +76,7 @@ struct HoursChart: View {
                 .chartXSelection(value: $selection)
         }
         .padding()
-        .navigationTitle("HoursChart.Title")
+        .navigationTitle("PerDayHourChart.Title")
         .onChange(of: rangeType) { _, type in
             let now = Date()
             if type == .all {
@@ -129,7 +129,7 @@ struct HoursChart: View {
                     }
                 }
             } label: {
-                Label("HoursChart.Range.Selector.Previous", systemImage: "chevron.backward")
+                Label("PerDayHourChart.Range.Selector.Previous", systemImage: "chevron.backward")
                     .labelStyle(.iconOnly)
             }
             
@@ -153,7 +153,7 @@ struct HoursChart: View {
                     }
                 }
             } label: {
-                Label("HoursChart.Range.Selector.Next", systemImage: "chevron.forward")
+                Label("PerDayHourChart.Range.Selector.Next", systemImage: "chevron.forward")
                     .labelStyle(.iconOnly)
             }
         }
@@ -183,10 +183,10 @@ struct HoursChart: View {
 fileprivate struct BriefChartView: View {
     @Environment(\.calendar) private var calendar
     
-    let data: HoursChart.BriefData
+    let data: PerDayHourChart.BriefData
     
     var body: some View {
-        HoursChart.chartView(of: data, calendar: calendar)
+        PerDayHourChart.chartView(of: data, calendar: calendar)
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
     }
@@ -195,11 +195,11 @@ fileprivate struct BriefChartView: View {
 fileprivate struct Statistics {
     var range: DateRange? = nil
     var contributionsCount: Int = 0
-    var data: HoursChart.BriefData = [ ]
+    var data: PerDayHourChart.BriefData = [ ]
 }
 
-extension HoursChart: StatisticsChart {
-    static let briefTitleKey: LocalizedStringKey = "HoursChart.BriefTitle"
+extension PerDayHourChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "PerDayHourChart.BriefTitle"
     static let briefSystemImage: String = "clock"
     
     static func card(data: BriefData, action: @escaping () -> Void) -> some View {
@@ -209,13 +209,13 @@ extension HoursChart: StatisticsChart {
     }
 }
 
-fileprivate extension HoursChart {
+fileprivate extension PerDayHourChart {
     @ViewBuilder
     static func chartView(of data: BriefData, calendar: Calendar) -> some View {
         Chart(data, id: \.hour) { item in
             BarMark(
-                x: .value("HoursChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
-                y: .value("HoursChart.Chart.YAxis", item.count)
+                x: .value("PerDayHourChart.Chart.XAxis", item.hour, unit: .hour, calendar: calendar),
+                y: .value("PerDayHourChart.Chart.YAxis", item.count)
             )
         }
     }

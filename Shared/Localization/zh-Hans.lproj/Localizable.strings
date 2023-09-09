@@ -133,18 +133,6 @@ API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL
 "AppIconSelector.Title" = "更换应用图标";
 
 // Views - StatisticsChart
-"HoursChart.AllContributions" = "全部贡献";
-"HoursChart.BriefTitle" = "小时";
-"HoursChart.Chart.XAxis" = "小时";
-"HoursChart.Chart.YAxis" = "贡献";
-"HoursChart.Range.All" = "全部";
-"HoursChart.Range.Year" = "年";
-"HoursChart.Range.Month" = "月";
-"HoursChart.Range.Selector.Next" = "前一部分";
-"HoursChart.Range.Selector.Previous" = "后一部分";
-"HoursChart.Range.Week" = "周";
-"HoursChart.Title" = "每小时贡献数";
-
 "ModificationSizeChart.AllModifications" = "全部更改";
 "ModificationSizeChart.BriefTitle" = "更改";
 "ModificationSizeChart.Chart.Addition" = "添加";
@@ -157,18 +145,30 @@ API通常以「/api.php」结尾，您也可以输入域名或任何页面的URL
 "ModificationSizeChart.Range.Year" = "年";
 "ModificationSizeChart.Title" = "更改大小";
 
-"NamespacesChart.BriefChart.Group" = "命名空间";
-"NamespacesChart.BriefChart.YAxis" = "贡献";
-"NamespacesChart.BriefTitle" = "命名空间";
-"NamespacesChart.Chart.XAxis" = "贡献";
-"NamespacesChart.Chart.YAxis" = "命名空间";
-"NamespacesChart.Count" = "数量";
-"NamespacesChart.Filter" = "筛选";
-"NamespacesChart.Namespace.Main" = "（主）";
-"NamespacesChart.Percentage" = "百分比";
-"NamespacesChart.Title" = "各命名空间的贡献";
-"NamespacesChart.Type.Bar" = "条形图";
-"NamespacesChart.Type.Donut" = "圆环图";
+"PerDayHourChart.AllContributions" = "全部贡献";
+"PerDayHourChart.BriefTitle" = "小时";
+"PerDayHourChart.Chart.XAxis" = "小时";
+"PerDayHourChart.Chart.YAxis" = "贡献";
+"PerDayHourChart.Range.All" = "全部";
+"PerDayHourChart.Range.Year" = "年";
+"PerDayHourChart.Range.Month" = "月";
+"PerDayHourChart.Range.Selector.Next" = "前一部分";
+"PerDayHourChart.Range.Selector.Previous" = "后一部分";
+"PerDayHourChart.Range.Week" = "周";
+"PerDayHourChart.Title" = "每小时贡献数";
+
+"PerNamespaceChart.BriefChart.Group" = "命名空间";
+"PerNamespaceChart.BriefChart.YAxis" = "贡献";
+"PerNamespaceChart.BriefTitle" = "命名空间";
+"PerNamespaceChart.Chart.XAxis" = "贡献";
+"PerNamespaceChart.Chart.YAxis" = "命名空间";
+"PerNamespaceChart.Count" = "数量";
+"PerNamespaceChart.Filter" = "筛选";
+"PerNamespaceChart.Namespace.Main" = "（主）";
+"PerNamespaceChart.Percentage" = "百分比";
+"PerNamespaceChart.Title" = "各命名空间的贡献";
+"PerNamespaceChart.Type.Bar" = "条形图";
+"PerNamespaceChart.Type.Donut" = "圆环图";
 
 // Widgets
 "ContributionsMatrixWidget.Description" = "展示用户的贡献矩阵。";

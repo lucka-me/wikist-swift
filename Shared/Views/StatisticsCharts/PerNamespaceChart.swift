@@ -8,7 +8,7 @@
 import Charts
 import SwiftUI
 
-struct NamespacesChart: View {
+struct PerNamespaceChart: View {
     struct DataItem {
         var namespace: WikiNamespace
         var count: Int
@@ -48,15 +48,15 @@ struct NamespacesChart: View {
         VStack(alignment: .leading) {
             HStack {
                 Picker(selection: $chartType) {
-                    Label("NamespacesChart.Type.Donut", systemImage: "chart.pie").tag(ChartType.donut)
-                    Label("NamespacesChart.Type.Bar", systemImage: "chart.bar").tag(ChartType.bar)
+                    Label("PerNamespaceChart.Type.Donut", systemImage: "chart.pie").tag(ChartType.donut)
+                    Label("PerNamespaceChart.Type.Bar", systemImage: "chart.bar").tag(ChartType.bar)
                 } label: {
                     EmptyView()
                 }
                 Spacer()
                 Picker(selection: $valueType) {
-                    Text("NamespacesChart.Count").tag(ValueType.count)
-                    Text("NamespacesChart.Percentage").tag(ValueType.percentage)
+                    Text("PerNamespaceChart.Count").tag(ValueType.count)
+                    Text("PerNamespaceChart.Percentage").tag(ValueType.percentage)
                 } label: {
                     EmptyView()
                 }
@@ -72,7 +72,7 @@ struct NamespacesChart: View {
             }
         }
         .padding()
-        .navigationTitle("NamespacesChart.Title")
+        .navigationTitle("PerNamespaceChart.Title")
         .toolbar {
             filterMenu
         }
@@ -95,8 +95,8 @@ struct NamespacesChart: View {
                     switch valueType {
                     case .count:
                         BarMark(
-                            x: .value("NamespacesChart.Chart.XAxis", item.count),
-                            y: .value("NamespacesChart.Chart.YAxis", item.namespace.name)
+                            x: .value("PerNamespaceChart.Chart.XAxis", item.count),
+                            y: .value("PerNamespaceChart.Chart.YAxis", item.namespace.name)
                         )
                         .annotation(position: .trailing, alignment: .trailing) {
                             Text(item.count, format: .number)
@@ -132,12 +132,12 @@ struct NamespacesChart: View {
                 switch valueType {
                 case .count:
                     SectorMark(
-                        angle: .value("NamespacesChart.Chart.XAxis", enabled ? item.count : 0),
+                        angle: .value("PerNamespaceChart.Chart.XAxis", enabled ? item.count : 0),
                         innerRadius: .ratio(0.5),
                         angularInset: 1.0
                     )
                     .cornerRadius(4.0, style: .continuous)
-                    .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                    .foregroundStyle(by: .value("PerNamespaceChart.BriefChart.Group", item.namespace.name))
                     .annotation(position: .overlay) {
                         if percentage > 0.05 {
                             VStack {
@@ -149,12 +149,12 @@ struct NamespacesChart: View {
                     }
                 case .percentage:
                     SectorMark(
-                        angle: .value("NamespacesChart.Chart.XAxis", percentage),
+                        angle: .value("PerNamespaceChart.Chart.XAxis", percentage),
                         innerRadius: .ratio(0.5),
                         angularInset: 1.0
                     )
                     .cornerRadius(4.0, style: .continuous)
-                    .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                    .foregroundStyle(by: .value("PerNamespaceChart.BriefChart.Group", item.namespace.name))
                     .annotation(position: .overlay) {
                         if percentage > 0.05 {
                             VStack {
@@ -201,7 +201,7 @@ struct NamespacesChart: View {
                 }
             }
         } label: {
-            Label("NamespacesChart.Filter", systemImage: "line.3.horizontal.decrease.circle")
+            Label("PerNamespaceChart.Filter", systemImage: "line.3.horizontal.decrease.circle")
         }
     }
     
@@ -229,22 +229,22 @@ struct NamespacesChart: View {
 
 fileprivate struct Statistics {
     var contributionsCount: Int = 0
-    var data: NamespacesChart.BriefData = [ ]
+    var data: PerNamespaceChart.BriefData = [ ]
 }
 
-extension NamespacesChart: StatisticsChart {
-    static let briefTitleKey: LocalizedStringKey = "NamespacesChart.BriefTitle"
+extension PerNamespaceChart: StatisticsChart {
+    static let briefTitleKey: LocalizedStringKey = "PerNamespaceChart.BriefTitle"
     static let briefSystemImage: String = "square.stack.3d.up"
     
     static func card(data: BriefData, action: @escaping () -> Void) -> some View {
         StatisticsChartCard(Self.self, action: action) {
             Chart(data, id: \.namespace.id) { item in
                 SectorMark(
-                    angle: .value("NamespacesChart.BriefChart.YAxis", item.count),
+                    angle: .value("PerNamespaceChart.BriefChart.YAxis", item.count),
                     innerRadius: .ratio(0.5),
                     angularInset: 1.0
                 )
-                .foregroundStyle(by: .value("NamespacesChart.BriefChart.Group", item.namespace.name))
+                .foregroundStyle(by: .value("PerNamespaceChart.BriefChart.Group", item.namespace.name))
                 .cornerRadius(4.0, style: .continuous)
             }
             .chartLegend(.hidden)
@@ -271,7 +271,7 @@ fileprivate extension Persistence {
                 .compactMap { item in
                     guard var namespace = namespaces[item.key] else { return nil }
                     if namespace.name.isEmpty {
-                        namespace.name = .init(localized: "NamespacesChart.Namespace.Main")
+                        namespace.name = .init(localized: "PerNamespaceChart.Namespace.Main")
                     }
                     return .init(namespace: namespace, count: item.value)
                 }
