@@ -135,66 +135,19 @@ extension Calendar {
         guard let previous = date(byAdding: .day, value: -1, to: interval.lowerBound) else { return nil }
         return yearInterval(for: previous)
     }
-}
-
-struct Month : Hashable, Strideable {
-    static func < (lhs: Month, rhs: Month) -> Bool {
-        if lhs.year < rhs.year { return true }
-        if lhs.year > rhs.year { return false }
-        return lhs.month < rhs.month
-    }
     
-    var year: Int
-    var month: Int
-    
-    func distance(to other: Month) -> Int {
-        (other.month - self.month) + 12 * (other.year - self.year)
-    }
-    
-    func advanced(by months: Int) -> Month {
-        var year = self.year
-        var month = self.month + months
-        if month < 1 {
-            year += (month / 12) - 1
-            month = (month % 12) + 12
-        } else if month > 12 {
-            year += (month - 1) / 12
-            month = (month - 1) % 12 + 1
-        }
-        return .init(year: year, month: month)
-    }
-}
-
-typealias ClosedMonthRange = ClosedRange<Month>
-
-extension Calendar {
-    func start(of month: Month) -> Date? {
-        let components = dateComponents([ .year, .month ], from: startOfDay(for: .init()))
-        return date(from: components.settingValue(month))
-    }
-    
-    func month(of date: Date) -> Month {
-        .init(year: component(.year, from: date), month: component(.month, from: date))
-    }
-    
-    func dateRange(from lowerMonth: Month, to upperMonth: Month) -> DateRange? {
-        let now = Date()
-        let components = dateComponents([ .year, .month ], from: now)
+    func rangeOfYear(around date: Date) -> ClosedRange<Date>? {
+        let components = DateComponents(month: 1, day: 1)
         guard
-            let lowerBound = date(from: components.settingValue(lowerMonth)),
-            let upperBound = date(from: components.settingValue(upperMonth.advanced(by: 1)))
+            let start = nextDate(
+                after: date, matching: components, matchingPolicy: .nextTime, direction: .backward
+            ),
+            let end = nextDate(
+                after: date, matching: components, matchingPolicy: .nextTime, direction: .forward
+            )
         else {
             return nil
         }
-        return lowerBound ..< upperBound
-    }
-}
-
-extension DateComponents {
-    func settingValue(_ month: Month) -> Self {
-        var result = self
-        result.setValue(month.year, for: .year)
-        result.setValue(month.month, for: .month)
-        return result
+        return start ... end
     }
 }

@@ -18,7 +18,7 @@ struct ModificationSizeChart: View {
         var addition: Int64
         var deletion: Int64
         
-        @inlinable mutating func add(_ sizeDiff: Int64) {
+        @inlinable mutating func merge(_ sizeDiff: Int64) {
             if sizeDiff > 0 {
                 addition += sizeDiff
             } else {
@@ -28,7 +28,7 @@ struct ModificationSizeChart: View {
     }
     
     struct DataItem {
-        var month: Date
+        var month: ChartBinRange<Date>
         var modification: Modification
     }
     
@@ -38,7 +38,7 @@ struct ModificationSizeChart: View {
     @Environment(\.layoutDirection) private var layoutDirection
     @Environment(\.persistence) private var persistence
     
-    @State private var range: ClosedMonthRange
+    @State private var dateInRange = Date()
     @State private var rangeType = RangeType.lastTwelveMonths
     @State private var selectedDate: Date? = nil
     @State private var selection: DataItem? = nil
@@ -48,11 +48,6 @@ struct ModificationSizeChart: View {
     
     init(user: User) {
         self.user = user
-        
-        let monthNow = Calendar.current.month(of: .init())
-        let monthRange = monthNow.advanced(by: -11) ... monthNow
-        
-        self._range = .init(initialValue: monthRange)
     }
     
     var body: some View {
@@ -66,14 +61,14 @@ struct ModificationSizeChart: View {
             .pickerStyle(.segmented)
             
             if rangeType != .lastTwelveMonths {
-                rangeSelector
+                rangeSelector(for: .year, format: .dateTime.year())
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             
             VStack(alignment: .leading) {
                 Group {
                     if let selection {
-                        Text(selection.month, format: .dateTime.year().month())
+                        Text(selection.month.lowerBound, format: .dateTime.year().month())
                     } else {
                         Text("ModificationSizeChart.AllModifications")
                     }
@@ -105,19 +100,12 @@ struct ModificationSizeChart: View {
                 .font(.system(.title, design: .rounded, weight: .semibold))
             }
             Chart {
-                ForEach(statistics.data, id: \.month) { item in
+                ForEach(statistics.data, id: \.month.lowerBound) { item in
                     Self.chartContent(of: item, calendar: calendar)
                 }
                 if let selection {
-                    RuleMark(
-                        x: .value(
-                            "ModificationSizeChart.Chart.XAxis",
-                            selection.month,
-                            unit: .month,
-                            calendar: calendar
-                        )
-                    )
-                    .foregroundStyle(Color.secondary)
+                    RuleMark(x: .value("ModificationSizeChart.Chart.XAxis", selection.month))
+                        .foregroundStyle(Color.secondary)
                 }
             }
             .chartForegroundStyleScale(Self.chartForegroundStyles)
@@ -134,71 +122,52 @@ struct ModificationSizeChart: View {
                     selection = nil
                     return
                 }
-                let components = calendar.dateComponents([ .year, .month ], from: .init())
-                guard
-                    let monthDate = calendar.date(from: components.settingValue(calendar.month(of: newValue)))
-                else {
-                    selection = nil
-                    return
-                }
-                selection = statistics.data.first(where: { $0.month == monthDate })
+                selection = statistics.data.first(where: { $0.month.contains(newValue) })
             }
         }
         .padding()
         .navigationTitle("ModificationSizeChart.Title")
         .onChange(of: rangeType) { _, newValue in
-            let monthNow = calendar.month(of: .init())
-            switch newValue {
-            case .lastTwelveMonths:
-                range = monthNow.advanced(by: -11) ... monthNow
-            case .year:
-                range = Month(year: monthNow.year, month: 1) ... Month(year: monthNow.year, month: 12)
+            Task {
+                await updateStatistics(for: dateInRange, in: newValue)
             }
         }
-        .onChange(of: range) { _, newValue in
+        .onChange(of: dateInRange) { _, newValue in
             Task {
-                await updateStatistics(in: newValue)
+                await updateStatistics(for: newValue, in: rangeType)
             }
         }
         .onContributionsUpdated(userID: user.uuid) {
-            await updateStatistics(in: range)
+            await updateStatistics(for: dateInRange, in: rangeType)
         }
         .task {
-            await updateStatistics(in: range)
+            await updateStatistics(for: dateInRange, in: rangeType)
         }
     }
     
     @ViewBuilder
-    private var rangeSelector: some View {
+    private func rangeSelector(for component: Calendar.Component, format: Date.FormatStyle) -> some View {
         HStack {
+            let previousDate = calendar.date(byAdding: component, value: -1, to: dateInRange)
             Button {
-                withAnimation(.easeInOut) {
-                    switch rangeType {
-                    case .lastTwelveMonths: break
-                    case .year:
-                        let year = range.lowerBound.year - 1
-                        self.range = .init(year: year, month: 1) ... .init(year: year, month: 12)
+                if let previousDate {
+                    withAnimation(.easeInOut) {
+                        self.dateInRange = previousDate
                     }
                 }
             } label: {
                 Label("ModificationSizeChart.Range.Selector.Previous", systemImage: "chevron.backward")
                     .labelStyle(.iconOnly)
             }
+            .disabled(previousDate == nil)
             
-            if rangeType != .lastTwelveMonths {
-                switch rangeType {
-                case .lastTwelveMonths: EmptyView()
-                case .year: Text(calendar.start(of: range.lowerBound)!, format: .dateTime.year())
-                }
-            }
+            Text(dateInRange, format: format)
             
+            let nextDate = calendar.date(byAdding: component, value: 1, to: dateInRange)
             Button {
-                withAnimation(.easeInOut) {
-                    switch rangeType {
-                    case .lastTwelveMonths: break
-                    case .year:
-                        let year = range.lowerBound.year + 1
-                        self.range = .init(year: year, month: 1) ... .init(year: year, month: 12)
+                if let nextDate {
+                    withAnimation(.easeInOut) {
+                        self.dateInRange = nextDate
                     }
                 }
             } label: {
@@ -210,7 +179,17 @@ struct ModificationSizeChart: View {
     }
     
     @MainActor
-    private func updateStatistics(in range: ClosedMonthRange) async {
+    private func updateStatistics(for dateInRange: Date, in rangeType: RangeType) async {
+        let range: ClosedRange<Date>
+        switch rangeType {
+        case .lastTwelveMonths:
+            let today = Date()
+            guard let start = calendar.date(byAdding: .month, value: -11, to: today) else { return }
+            range = start ... today
+        case .year:
+            guard let yearRange = calendar.rangeOfYear(around: dateInRange) else { return }
+            range = yearRange
+        }
         guard
             let userID = user.uuid,
             let statistics = await persistence.makeStatistics(of: userID, in: range, calendar: calendar)
@@ -230,7 +209,7 @@ fileprivate struct BriefChartView: View {
     let data: ModificationSizeChart.BriefData
     
     var body: some View {
-        Chart(data, id: \.month) { item in
+        Chart(data, id: \.month.lowerBound) { item in
             ModificationSizeChart.chartContent(of: item, calendar: calendar)
         }
         .chartForegroundStyleScale(ModificationSizeChart.chartForegroundStyles)
@@ -241,7 +220,6 @@ fileprivate struct BriefChartView: View {
 }
 
 fileprivate struct Statistics {
-    var range: ClosedMonthRange? = nil
     var total = ModificationSizeChart.Modification(addition: 0, deletion: 0)
     var contributionsCount: Int = 0
     var data: ModificationSizeChart.BriefData = [ ]
@@ -273,7 +251,7 @@ fileprivate extension ModificationSizeChart {
     @ChartContentBuilder
     static func chartContent(of item: DataItem, calendar: Calendar) -> some ChartContent {
         LineMark(
-            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month),
             y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion),
             series: .value("ModificationSizeChart.Chart.Deletion", "-")
         )
@@ -281,14 +259,14 @@ fileprivate extension ModificationSizeChart {
         .interpolationMethod(.monotone)
         
         AreaMark(
-            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month),
             y: .value("ModificationSizeChart.Chart.YAxis", item.modification.deletion)
         )
         .foregroundStyle(by: .value("ModificationSizeChart.Chart.Deletion", "-"))
         .interpolationMethod(.monotone)
         
         LineMark(
-            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month),
             y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition),
             series: .value("ModificationSizeChart.Chart.Addition", "+")
         )
@@ -296,7 +274,7 @@ fileprivate extension ModificationSizeChart {
         .interpolationMethod(.monotone)
 
         AreaMark(
-            x: .value("ModificationSizeChart.Chart.XAxis", item.month, unit: .month, calendar: calendar),
+            x: .value("ModificationSizeChart.Chart.XAxis", item.month),
             y: .value("ModificationSizeChart.Chart.YAxis", item.modification.addition)
         )
         .foregroundStyle(by: .value("ModificationSizeChart.Chart.Addition", "+"))
@@ -307,38 +285,38 @@ fileprivate extension ModificationSizeChart {
 fileprivate extension Persistence {
     func makeStatistics(
         of userID: UUID,
-        in range: ClosedMonthRange,
+        in range: ClosedRange<Date>,
         calendar: Calendar
     ) async -> Statistics? {
-        guard let dateRange = calendar.dateRange(from: range.lowerBound, to: range.upperBound) else { return nil }
+        let bins = DateBins(unit: .month, range: range, calendar: calendar)
+        guard !bins.isEmpty else { return nil }
+        
         let request = Contribution.fetchRequest()
         request.propertiesToFetch = [ #keyPath(Contribution.sizeDiff), #keyPath(Contribution.timestamp) ]
         request.predicate = .init(
             format: "%K == %@ AND %K != 0 AND %K >= %@ AND %K < %@",
             #keyPath(Contribution.userID), userID as NSUUID,
             #keyPath(Contribution.sizeDiff),
-            #keyPath(Contribution.timestamp), dateRange.lowerBound as NSDate,
-            #keyPath(Contribution.timestamp), dateRange.upperBound as NSDate
+            #keyPath(Contribution.timestamp), bins[bins.startIndex].lowerBound as NSDate,
+            #keyPath(Contribution.timestamp), bins[bins.endIndex].upperBound as NSDate
         )
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = Statistics(range: range, contributionsCount: contributions.count)
+
+            var statistics = Statistics(
+                contributionsCount: contributions.count,
+                data: bins.map { .init(month: $0, modification: .init(addition: 0, deletion: 0))}
+            )
             
-            var modificationsByMonth: [ Month : ModificationSizeChart.Modification ] =
-            range.reduce(into: [ : ]) { $0[$1] = .init(addition: 0, deletion: 0) }
             for contribution in contributions {
                 guard let timestamp = contribution.timestamp else { continue }
-                let month = calendar.month(of: timestamp)
-                if range.contains(month) {
-                    modificationsByMonth[month]?.add(contribution.sizeDiff)
-                    statistics.total.add(contribution.sizeDiff)
+                let binIndex = bins.index(for: timestamp)
+                if (binIndex >= 0) && (binIndex < bins.count) {
+                    statistics.data[binIndex].modification.merge(contribution.sizeDiff)
+                    statistics.total.merge(contribution.sizeDiff)
                 }
             }
             
-            let components = calendar.dateComponents([ .year, .month ], from: .init())
-            statistics.data = modificationsByMonth.sorted { $0.key < $1.key }.map { item in
-                    .init(month: calendar.date(from: components.settingValue(item.key))!, modification: item.value)
-            }
             return statistics
         }
     }

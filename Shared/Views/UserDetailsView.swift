@@ -5,6 +5,7 @@
 //  Created by Lucka on 26/11/2022.
 //
 
+import Charts
 import CoreData
 import SwiftUI
 
@@ -242,7 +243,7 @@ struct UserDetailsView: View {
     private var chartsSection: some View {
         Section {
             LazyVGrid(columns: [ .init(.adaptive(minimum: 140))], alignment: .leading) {
-                PerDayHourChart.card(data: statistics.countsByHour) {
+                PerDayHourChart.card(data: statistics.countsByDayHour) {
                     presentedChartType = .perDayHour
                 }
                 if !statistics.countsByNamespace.isEmpty {
@@ -319,7 +320,7 @@ fileprivate struct Statistics {
     var currentStrike: DateRange? = nil
     var longestStrike: DateRange? = nil
     
-    var countsByHour: PerDayHourChart.BriefData = [ ]
+    var countsByDayHour: PerDayHourChart.BriefData = [ ]
     var modificationsByMonth: ModificationSizeChart.BriefData = [ ]
     var countsByNamespace: PerNamespaceChart.BriefData = [ ]
 }
@@ -331,20 +332,27 @@ fileprivate extension Persistence {
         calendar: Calendar,
         namespaces: [ Int32 : WikiNamespace ]?
     ) async -> Statistics? {
+        guard let twelveMonthsAgo = calendar.date(byAdding: .month, value: -11, to: today) else {
+            return nil
+        }
+        
         let request = Contribution.fetchRequest()
         request.sortDescriptors = [ .init(keyPath: \Contribution.timestamp, ascending: false) ]
         request.predicate = .init(format: "%K == %@", #keyPath(Contribution.userID), userID as NSUUID)
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
             var statistics = Statistics(contributionsCount: contributions.count)
-            
-            let monthNow = calendar.month(of: today)
-            let lastTwelveMonths = monthNow.advanced(by: -11) ... monthNow
+            let lastTwelveMonthsBins = DateBins(
+                unit: .month,
+                range: twelveMonthsAgo ... today,
+                calendar: calendar
+            )
+            statistics.modificationsByMonth = lastTwelveMonthsBins.map {
+                .init(month: $0, modification: .init(addition: 0, deletion: 0))
+            }
 
             var strikes: [ DateRange ] = [ ]
-            var countsByHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
-            var modificationsByMonth: [ Month : ModificationSizeChart.Modification ] =
-                lastTwelveMonths.reduce(into: [ : ]) { $0[$1] = .init(addition: 0, deletion: 0) }
+            var countsByDayHour: [ Int : Int ] = (0 ..< 24).reduce(into: [ : ]) { $0[$1] = 0 }
             var countsByNamespace: [ Int32 : Int ] = [ : ]
             
             // Decreasing
@@ -375,17 +383,20 @@ fileprivate extension Persistence {
                     }
                 }
 
-                countsByHour[calendar.component(.hour, from: timestamp), default: 0] += 1
+                countsByDayHour[calendar.component(.hour, from: timestamp), default: 0] += 1
 
                 if contribution.sizeDiff != 0 {
-                    let month = calendar.month(of: timestamp)
-                    if lastTwelveMonths.contains(month) {
-                        modificationsByMonth[month]?.add(contribution.sizeDiff)
+                    let binIndex = lastTwelveMonthsBins.index(for: timestamp)
+                    if (binIndex >= 0) && (binIndex < statistics.modificationsByMonth.count) {
+                        statistics
+                            .modificationsByMonth[binIndex]
+                            .modification
+                            .merge(contribution.sizeDiff)
                     }
                 }
             }
             
-            statistics.mostActiveHour = countsByHour.max { $0.value < $1.value }?.key
+            statistics.mostActiveHour = countsByDayHour.max { $0.value < $1.value }?.key
 
             if let latestStrike = strikes.first {
                 if latestStrike.contains(today) {
@@ -394,12 +405,8 @@ fileprivate extension Persistence {
             }
             statistics.longestStrike = strikes.max { calendar.days(in: $0) < calendar.days(in: $1) }
 
-            statistics.countsByHour = countsByHour.sorted { $0.key < $1.key }.map { item in
+            statistics.countsByDayHour = countsByDayHour.sorted { $0.key < $1.key }.map { item in
                 .init(hour: calendar.date(bySettingHour: item.key, minute: 0, second: 0, of: today)!, count: item.value)
-            }
-            let todayComponents = calendar.dateComponents([ .year, .month ], from: today)
-            statistics.modificationsByMonth = modificationsByMonth.sorted { $0.key < $1.key }.map { item in
-                .init(month: calendar.date(from: todayComponents.settingValue(item.key))!, modification: item.value)
             }
             
             if let namespaces {
