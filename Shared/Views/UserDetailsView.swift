@@ -160,15 +160,10 @@ struct UserDetailsView: View {
                     }
                 }
                 .onTapGesture {
-#if os(iOS)
-                    let feedback = UIImpactFeedbackGenerator(style: .light)
-                    feedback.prepare()
-                    feedback.impactOccurred()
-#endif
-                    withAnimation(.spring()) {
-                        isShowingRegistration.toggle()
-                    }
+                    isShowingRegistration.toggle()
                 }
+                .animation(.spring(), value: isShowingRegistration)
+                .sensoryFeedback(.impact, trigger: isShowingRegistration)
             }
             SimpleChip("UserDetailsView.Highlights.Contributions", systemImage: "pencil.circle") {
                 Text(statistics.contributionsCount, format: .number)
