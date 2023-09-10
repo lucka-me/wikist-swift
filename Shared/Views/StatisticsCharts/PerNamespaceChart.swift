@@ -28,7 +28,7 @@ struct PerNamespaceChart: View {
     
     @Environment(\.persistence) private var persistence
     
-    @ScaledMetric(relativeTo: .caption) private var chartHeight = 20
+    @ScaledMetric(relativeTo: .caption) private var chartBarMarkHeight = 50
     
     @State private var chartType = ChartType.donut
     @State private var enabledNamespaces: Set<Int32> = [ ]
@@ -89,7 +89,7 @@ struct PerNamespaceChart: View {
     @ViewBuilder
     private var barChart: some View {
         let enabledTotal = (valueType == .percentage) ? self.enabledTotal : 0
-        ScrollView(.vertical) {
+        GeometryReader { proxy in
             Chart(statistics.data, id: \.namespace.id) { item in
                 if enabledNamespaces.contains(item.namespace.id) {
                     switch valueType {
@@ -111,13 +111,14 @@ struct PerNamespaceChart: View {
                         )
                         .annotation(position: .trailing, alignment: .trailing) {
                             Text(percentage, format: .percent.precision(.fractionLength(2)))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
                     }
                 }
             }
-            .frame(minHeight: chartHeight * 2 * Double(enabledNamespaces.count + 1))
+            .chartScrollableAxes(.vertical)
+            .chartYVisibleDomain(length: Int(proxy.size.height / chartBarMarkHeight))
         }
     }
     
