@@ -95,6 +95,7 @@ struct PerDayHourChart: View {
                 }
                 selection = statistics.data.first { $0.hour.contains(newValue) }
             }
+            .sensoryFeedback(.selection, trigger: selection) { $1 != nil }
         }
         .padding()
         .navigationTitle("PerDayHourChart.Title")
@@ -217,6 +218,12 @@ extension PerDayHourChart: StatisticsChart {
         StatisticsChartCard(Self.self, action: action) {
             BriefChartView(data: data)
         }
+    }
+}
+
+extension PerDayHourChart.DataItem: Equatable {
+    static func == (lhs: PerDayHourChart.DataItem, rhs: PerDayHourChart.DataItem) -> Bool {
+        lhs.hour.lowerBound == rhs.hour.lowerBound && lhs.hour.upperBound == rhs.hour.upperBound
     }
 }
 

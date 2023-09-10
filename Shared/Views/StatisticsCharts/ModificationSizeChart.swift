@@ -123,6 +123,8 @@ struct ModificationSizeChart: View {
                 }
                 selection = statistics.data.first { $0.month.contains(newValue) }
             }
+            .sensoryFeedback(.selection, trigger: selection) { $1 != nil }
+            
         }
         .padding()
         .navigationTitle("ModificationSizeChart.Title")
@@ -246,6 +248,12 @@ extension ModificationSizeChart: StatisticsChart {
         StatisticsChartCard(Self.self, action: action) {
             BriefChartView(data: data)
         }
+    }
+}
+
+extension ModificationSizeChart.DataItem: Equatable {
+    static func == (lhs: ModificationSizeChart.DataItem, rhs: ModificationSizeChart.DataItem) -> Bool {
+        lhs.month.lowerBound == rhs.month.lowerBound && lhs.month.upperBound == rhs.month.upperBound
     }
 }
 
