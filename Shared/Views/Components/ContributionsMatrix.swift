@@ -5,9 +5,14 @@
 //  Created by Lucka on 10/7/2022.
 //
 
+import Charts
 import SwiftUI
 
 struct ContributionsMatrix: View {
+    private struct Week {
+        var range: ChartBinRange<Date>
+        var weekdays: [ ChartBinRange<Date> ]
+    }
     
     static let regularSpacing: CGFloat = 4
     static let compactSpacing: CGFloat = 3
@@ -30,22 +35,12 @@ struct ContributionsMatrix: View {
             let spacing = spacing(in: proxy.size)
             let cornerRadius = cornerRadius(in: proxy.size)
             let weeks = weeks(in: proxy.size, spacing: spacing)
-            Grid(horizontalSpacing: spacing, verticalSpacing: spacing) {
-                ForEach(1 ..< 8) { weekday in
-                    GridRow {
-                        ForEach(weeks, id: \.self) { week in
-                            if isFuture(before: week, at: weekday) {
-                                Color.clear
-                            } else if let day = day(before: week, at: weekday) {
-                                ContributionsCell(countOf(day), in: day)
-                                    .aspectRatio(1, contentMode: .fit)
-                                    .mask { RoundedRectangle(cornerRadius: cornerRadius, style: .continuous) }
-                            } else {
-                                Color.red
-                                    .aspectRatio(1, contentMode: .fit)
-                                    .mask { RoundedRectangle(cornerRadius: cornerRadius, style: .continuous) }
-                            }
-                        }
+            LazyHGrid(rows: .init(repeating: .init(spacing: spacing), count: 7), spacing: spacing) {
+                ForEach(weeks, id: \.range.lowerBound) { week in
+                    ForEach(week.weekdays, id: \.lowerBound) { day in
+                        ContributionsCell(countOf(day.lowerBound), in: day.lowerBound)
+                            .aspectRatio(1, contentMode: .fit)
+                            .mask { RoundedRectangle(cornerRadius: cornerRadius, style: .continuous) }
                     }
                 }
             }
@@ -64,19 +59,6 @@ struct ContributionsMatrix: View {
         }
     }
     
-    private func day(before weeks: Int, at weekday: Int) -> Date? {
-        calendar.startOfDay(
-            forNext: -7 * weeks - calendar.component(.weekday, from: today) + weekday,
-            of: today
-        )
-    }
-    
-    private func isFuture(before weeks: Int, at weekday: Int) -> Bool {
-        if weeks > 0 { return false }
-        if weeks == 0 { return weekday > calendar.component(.weekday, from: today) }
-        return true
-    }
-    
     private func spacing(in size: CGSize) -> CGFloat {
         if size.height >= Self.minimalRegularHeight {
             return Self.regularSpacing
@@ -85,11 +67,15 @@ struct ContributionsMatrix: View {
         }
     }
     
-    private func weeks(in size: CGSize, spacing: CGFloat) -> [ Int ] {
+    private func weeks(in size: CGSize, spacing: CGFloat) -> [ Week ]  {
         let width = size.width + spacing
         let height = size.height + spacing
         let colums = Int(axisToFit == .horizontal ? ceil(width / height * 7) : floor(width / height * 7))
-        return .init(0 ..< colums).reversed()
+        let start = calendar.startOfDay(forNext: (1 - colums) * 7, of: today) ?? today
+        return DateBins(unit: .weekOfYear, range: start ... today).map { week in
+            let weekdayBins = DateBins(unit: .day, range: week.lowerBound ... min(week.upperBound, today))
+            return .init(range: week, weekdays: weekdayBins.map { $0 })
+        }
     }
 }
 

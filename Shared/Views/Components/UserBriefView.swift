@@ -5,6 +5,7 @@
 //  Created by Lucka on 21/11/2022.
 //
 
+import Charts
 import CoreData
 import SwiftUI
 
@@ -90,7 +91,8 @@ fileprivate extension Persistence {
         of userID: UUID,
         calendar: Calendar
     ) async -> UserBriefView.Statistics? {
-        guard let startOfFiveDaysAgo = calendar.startOfDay(forNext: -5, of: .init()) else { return nil }
+        let today = Date()
+        guard let startOfFiveDaysAgo = calendar.startOfDay(forNext: -4, of: today) else { return nil }
         let request = Contribution.fetchRequest()
         request.predicate = .init(
             format: "%K == %@ AND %K >= %@",
@@ -100,15 +102,16 @@ fileprivate extension Persistence {
         return await container.performBackgroundTask { context in
             guard let contributions = try? context.fetch(request) else { return nil }
             var statistics = UserBriefView.Statistics(contributionsCount: contributions.count)
-            let today = Date()
-            var countsByDay: [ Date : Int ] = (-4 ... 0).reduce(into: [ : ]) {
-                $0[calendar.startOfDay(forNext: $1, of: today)!] = 0
-            }
+            
+            let bins = DateBins(unit: .day, range: startOfFiveDaysAgo ... today)
+            statistics.countsByDay = bins.map { ($0.lowerBound, 0) }
             for contribution in contributions {
                 guard let timestamp = contribution.timestamp else { continue }
-                countsByDay[calendar.startOfDay(for: timestamp)]? += 1
+                let binIndex = bins.index(for: timestamp)
+                if (binIndex >= 0) && (binIndex < bins.count) {
+                    statistics.countsByDay[binIndex].1 += 1
+                }
             }
-            statistics.countsByDay = countsByDay.sorted { $0.key < $1.key }
             return statistics
         }
     }
