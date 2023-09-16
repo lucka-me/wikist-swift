@@ -10,6 +10,7 @@ import CoreData
 class PersistentContainer: NSPersistentCloudKitContainer {
     
     static let refreshContextName = "refresh"
+    static let statisticsContextName = "statistics"
     static let updateContextName = "update"
     static let viewContextName = "view"
 
@@ -24,6 +25,14 @@ class PersistentContainer: NSPersistentCloudKitContainer {
     var refreshContext: NSManagedObjectContext {
         let context = newBackgroundContext()
         context.name = Self.refreshContextName
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.undoManager = nil
+        return context
+    }
+    
+    var statisticsContext: NSManagedObjectContext {
+        let context = newBackgroundContext()
+        context.name = Self.statisticsContextName
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         context.undoManager = nil
         return context

@@ -64,13 +64,12 @@ struct UserBriefView: View {
         .onContributionsUpdated(userID: user.uuid, perform: updateStatistics)
     }
     
+    @MainActor
     private func updateStatistics() async {
         guard let userID = user.uuid else { return }
         guard let statistics = await persistence.makeStatistics(of: userID, calendar: calendar) else { return }
-        await MainActor.run {
-            withAnimation {
-                self.statistics = statistics
-            }
+        withAnimation {
+            self.statistics = statistics
         }
     }
 }
@@ -92,27 +91,26 @@ fileprivate extension Persistence {
         calendar: Calendar
     ) async -> UserBriefView.Statistics? {
         let today = Date()
-        guard let startOfFiveDaysAgo = calendar.startOfDay(forNext: -4, of: today) else { return nil }
+        guard let startOfFourDaysAgo = calendar.startOfDay(forNext: -4, of: today) else { return nil }
         let request = Contribution.fetchRequest()
+        request.propertiesToFetch = [ #keyPath(Contribution.timestamp) ]
         request.predicate = .init(
             format: "%K == %@ AND %K >= %@",
             #keyPath(Contribution.userID), userID as NSUUID,
-            #keyPath(Contribution.timestamp), startOfFiveDaysAgo as NSDate
+            #keyPath(Contribution.timestamp), startOfFourDaysAgo as NSDate
         )
-        return await container.performBackgroundTask { context in
-            guard let contributions = try? context.fetch(request) else { return nil }
-            var statistics = UserBriefView.Statistics(contributionsCount: contributions.count)
-            
-            let bins = DateBins(unit: .day, range: startOfFiveDaysAgo ... today)
-            statistics.countsByDay = bins.map { ($0.lowerBound, 0) }
-            for contribution in contributions {
-                guard let timestamp = contribution.timestamp else { continue }
-                let binIndex = bins.index(for: timestamp)
-                if (binIndex >= 0) && (binIndex < bins.count) {
-                    statistics.countsByDay[binIndex].1 += 1
-                }
+        let context = container.statisticsContext
+        guard let contributions = try? context.fetch(request) else { return nil }
+        let bins = DateBins(unit: .day, range: startOfFourDaysAgo ... today)
+        var statistics = UserBriefView.Statistics(contributionsCount: contributions.count)
+        statistics.countsByDay = bins.map { ($0.lowerBound, 0) }
+        for contribution in contributions {
+            guard let timestamp = contribution.timestamp else { continue }
+            let binIndex = bins.index(for: timestamp)
+            if (binIndex >= 0) && (binIndex < bins.count) {
+                statistics.countsByDay[binIndex].1 += 1
             }
-            return statistics
         }
+        return statistics
     }
 }
